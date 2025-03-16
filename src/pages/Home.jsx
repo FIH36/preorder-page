@@ -112,7 +112,7 @@ const Container = styled.div`
 const Section2 = styled.div`
   width: 100%;
   max-width: 1440px;
-  padding: 0 60px;
+  padding: 0 1rem;
   display: flex;
   position: relative;
 `;
@@ -121,4 +121,8 @@ const Video = styled.video`
   width: 100%;
   border-radius: 1.5rem;
   height: auto;
+
+  @media (max-width: 1024px) {
+    border-radius: 0.5rem;
+  }
 `;

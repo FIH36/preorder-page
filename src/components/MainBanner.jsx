@@ -45,7 +45,7 @@ const BannerContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  padding: 2rem;
+  padding: 1rem;
   //padding-top: 180px;
 `;
 
@@ -79,6 +79,13 @@ const BannerInfo = styled.div`
     margin-bottom: 40px;
     letter-spacing: 0.9px;
     line-height: 1.3;
+  }
+
+  @media (max-width: 1024px) {
+    margin-bottom: 2rem;
+    h1 {
+      font-size: 2rem;
+    }
   }
 `;
 

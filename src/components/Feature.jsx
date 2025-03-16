@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 export default function Feature() {
   return (
     <ContentSection>
-      {/*<h2>Product Features</h2>*/}
       <FeatureGrid>
         <FeatureSection>
           <FeatureBox>
@@ -56,8 +55,11 @@ export default function Feature() {
 const ContentSection = styled.div`
   max-width: 1440px;
   margin: 0 auto;
-  padding: 6rem 60px;
+  padding: 6rem 6rem;
   text-align: center;
+  @media (max-width: 1024px) {
+    padding: 6rem 1rem;
+  }
 `;
 
 const FeatureGrid = styled.div`
@@ -73,6 +75,11 @@ const FeatureSection = styled.div`
   height: 720px;
   display: flex;
   gap: 1.5rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 const FeatureBox = styled.div`
@@ -97,5 +104,16 @@ const FeatureBox = styled.div`
     margin-top: 0.5rem;
     letter-spacing: 0.9px;
     line-height: 1.3;
+  }
+
+  /* ✅ 태블릿 이하에서 FeatureBox가 100% 너비 차지 */
+  @media (max-width: 1024px) {
+    width: 100%;
+    height: 380px;
+    padding: 2.5rem;
+
+    h3 {
+      font-size: 1.5rem;
+    }
   }
 `;

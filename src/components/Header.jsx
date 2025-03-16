@@ -29,7 +29,7 @@ const HeaderContainer = styled.header`
   height: 72px;
   display: flex;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 `;
 
 const Logo = styled.img`

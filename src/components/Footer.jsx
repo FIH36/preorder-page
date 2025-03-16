@@ -27,7 +27,8 @@ export default function Footer() {
         </>
         <>
           <PolicyLinks>
-            <a href="#">이용약관</a> <a href="#">개인정보처리방침</a>
+            <div style={{ marginRight: "1rem" }}>이용약관</div>{" "}
+            <div>개인정보처리방침</div>
           </PolicyLinks>
         </>
       </FooterWrapper>
@@ -35,7 +36,6 @@ export default function Footer() {
   );
 }
 
-/* ✅ Emotion 스타일 */
 const FooterWrapper = styled.footer`
   width: 100%;
   max-width: 1440px;
@@ -45,15 +45,19 @@ const FooterWrapper = styled.footer`
   justify-content: space-between;
   text-align: left;
   opacity: 50%;
+  @media (max-width: 1024px) {
+    padding: 3rem;
+    flex-direction: column;
+  }
 `;
 
-/* ✅ 내부 요소들이 균등한 크기를 가짐 */
 const CompanyInfo = styled.div`
   text-align: left;
   display: flex;
   flex-direction: column;
   font-size: 14px;
   font-weight: 800;
+  margin-bottom: 1rem;
 `;
 
 const CustomerService = styled.div`
@@ -67,6 +71,8 @@ const PolicyLinks = styled.div`
   text-align: left;
   font-size: 14px;
   font-weight: 300;
+  display: flex;
+  flex-direction: row;
 
   a {
     color: white;
