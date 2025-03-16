@@ -6,8 +6,7 @@ export default function InteractiveBoxesSection() {
   const [hoverIndex, setHoverIndex] = useState(null);
 
   return (
-    <SectionWrapper>
-      <Section5>
+      <Section5 style={{ backgroundColor: "#f0f0f0" }}>
         <LeftBox isHovered={hoverIndex !== null} />
         <RightBoxes isHovered={hoverIndex !== null}>
           {features.map((feature, index) => (
@@ -23,11 +22,10 @@ export default function InteractiveBoxesSection() {
           ))}
         </RightBoxes>
       </Section5>
-    </SectionWrapper>
   );
+
 }
 
-/* ✅ 특장점 데이터 */
 const features = [
   { text: "재료를 보면 레시피가 떠오른다." },
   { text: "번역 뿐 아니라 요리 설명에 음식 추천까지 한 번에" },
@@ -35,21 +33,11 @@ const features = [
   { text: "손끝으로 콕! 원하는 정보를 바로 질문하세요" },
 ];
 
-/* ✅ Emotion 스타일 */
-const SectionWrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 6rem 2rem;
-`;
-
 const Section5 = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   transition: all 0.3s ease-in-out;
-  width: 100%;
-  max-width: 1200px;
 `;
 
 /* ✅ 왼쪽 회색 박스 (Hover 시 사라짐) */
@@ -79,7 +67,7 @@ const HoverBox = styled.div`
   background: #f9f9f9;
   transition: width 0.3s ease-in-out;
   width: ${({ isHovered, totalBoxes }) =>
-    isHovered ? "100%" : `calc((100% - 50%) / ${totalBoxes - 1})`};
+    isHovered ? "100%" : `calc((100% - 60%) / ${totalBoxes - 1})`};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 
-export default function SpecificationsSection() {
+export default function Specifications() {
   return (
     <SectionWrapper>
-      <Title>SPECIFICATIONS</Title>
+      <Title>Specifications</Title>
       <SpecTable>
         <thead>
           <tr>
@@ -25,7 +25,6 @@ export default function SpecificationsSection() {
   );
 }
 
-/* ✅ 스펙 데이터 */
 const specs = [
   { category: "Weight", detail: "40g" },
   { category: "CPU", detail: "1×A75 2.0GHz + 3×A55 @ 1.8GHz" },
@@ -48,48 +47,54 @@ const specs = [
   { category: "Battery Life - Photo/Video", detail: "≥ 30 minutes" },
 ];
 
-/* ✅ Emotion 스타일 */
 const SectionWrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
+  //width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 6rem 2rem;
   text-align: center;
+  border-radius: 12px;
 `;
 
 const Title = styled.h2`
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 2rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
 `;
 
 const SpecTable = styled.table`
   width: 100%;
   border-collapse: collapse;
+  //background: #171719;
+  color: white;
+  //border-radius: 12px;
+  overflow: hidden;
 `;
 
 const TableHeader = styled.th`
-  background: #ddd;
+  background: rgba(255, 255, 255, 0.05);
   padding: 1rem;
-  font-size: 1.2rem;
-  font-weight: bold;
+  //font-size: 1.2rem;
+  //font-weight: bold;
   text-align: left;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const TableRow = styled.tr`
-  &:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
+  text-align: left;
 `;
 
 const TableCategory = styled.td`
-  font-weight: bold;
+  //font-weight: bold;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const TableDetail = styled.td`
   padding: 1rem;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.8;
 `;
