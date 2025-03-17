@@ -97,12 +97,12 @@ const FeatureBox = styled.div`
   color: white;
 
   h3 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
     color: white;
     text-align: center;
     margin-top: 0.5rem;
-    letter-spacing: 0.9px;
+    letter-spacing: 0.8px;
     line-height: 1.3;
   }
 
