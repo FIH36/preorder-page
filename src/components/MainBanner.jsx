@@ -109,8 +109,11 @@ export default function MainBanner() {
           <BannerInfo>
             <SubText>AInoon Becomes a Part of Everyday Life</SubText>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <h1>Transform Sight Into Insight</h1>
-              <h1 style={{ color: "#ff5f00" }}>.</h1>
+              <h1>
+                Transform Sight
+                <br />
+                Into Insight
+              </h1>
             </div>
             <BuyButton onClick={handleOpenModal}>Buy now</BuyButton>
           </BannerInfo>
@@ -130,6 +133,7 @@ export default function MainBanner() {
 
 // ✅ 스타일 코드 (기존과 동일)
 const BannerWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -137,65 +141,72 @@ const BannerWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 1) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%),
     url("/bg.jpg") center/cover no-repeat;
 `;
 
 const BannerContainer = styled.div`
   width: 100%;
-  max-width: 1440px;
-  text-align: center;
+  max-width: 1200px;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 1rem;
+  justify-content: center;
+  padding: 5rem 1.5rem 5rem 1.5rem;
+  margin-bottom: 72px;
 `;
 
 const BannerImage = styled.div`
+  position: absolute;
+  right: 4%;
+  bottom: -20%;
   width: 100%;
   max-width: 1200px;
   height: auto;
+
   aspect-ratio: 16 / 9;
-  background-image: url("/glasses_01.png");
+  background-image: url("/Main_Glasses.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 `;
 
 const BannerInfo = styled.div`
+  z-index: 10;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  text-align: left;
 
   h1 {
     font-size: 4rem;
+    line-height: 5rem;
     font-weight: bold;
     color: white;
-    text-align: center;
-    margin-bottom: 40px;
+    text-align: left;
+    margin-bottom: 4rem;
   }
 `;
 
 const SubText = styled.div`
   color: white;
-  font-size: 16px;
-  margin-bottom: 1rem;
-  opacity: 80%;
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  opacity: 70%;
 `;
 
 const BuyButton = styled.div`
   color: white;
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 1.25rem;
+  font-weight: 600;
   border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 48px;
+  padding: 0.75rem 3rem;
   border-radius: 100rem;
   cursor: pointer;
 

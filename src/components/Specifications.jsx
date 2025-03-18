@@ -1,10 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import { motion } from "framer-motion";
 
 export default function Specifications() {
   return (
     <SectionWrapper>
       <Title>Specifications</Title>
+
+      {/* ✅ 이미지 영역 */}
+      <ImageWrapper>
+        <BaseImage src="/Specification_Glasses.png" alt="Glasses Spec" />
+        <OverlayImage
+          src="/Specification_Glasses_text.png"
+          alt="Glasses Text"
+          {...fadeInUp}
+        />
+      </ImageWrapper>
+
+      {/* ✅ 중앙 정렬된 테이블 */}
       <SpecTable>
         <thead>
           <tr>
@@ -25,6 +38,15 @@ export default function Specifications() {
   );
 }
 
+// ✅ 애니메이션 설정 (Fade-in-Up)
+const fadeInUp = {
+  initial: { opacity: 0, y: 50 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 1, delay: 0.5, ease: "easeOut" },
+  viewport: { once: false },
+};
+
+// ✅ 데이터 목록
 const specs = [
   { category: "Weight", detail: "40g" },
   { category: "CPU", detail: "1×A75 2.0GHz + 3×A55 @ 1.8GHz" },
@@ -47,17 +69,18 @@ const specs = [
   { category: "Battery Life - Photo/Video", detail: "≥ 30 minutes" },
 ];
 
+// ✅ 스타일 설정
 const SectionWrapper = styled.div`
-  //width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 6rem 2rem;
   text-align: center;
   border-radius: 12px;
+  background-color: black;
 `;
 
 const Title = styled.h2`
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: bold;
   color: white;
   text-align: center;
@@ -65,20 +88,41 @@ const Title = styled.h2`
   letter-spacing: 1px;
 `;
 
+// ✅ 이미지 두 개 겹치기 위한 컨테이너
+const ImageWrapper = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* ✅ 테이블과 같은 크기로 조정 */
+  margin: 0 auto 3rem;
+`;
+
+const BaseImage = styled.img`
+  width: 100%;
+  display: block;
+`;
+
+const OverlayImage = styled(motion.img)`
+  position: absolute;
+  width: 100%;
+  display: block;
+`;
+
+// ✅ 테이블 스타일
 const SpecTable = styled.table`
   width: 100%;
+  max-width: 800px; /* ✅ 중앙 정렬 및 크기 조정 */
+  margin: 0 auto;
   border-collapse: collapse;
-  //background: #171719;
   color: white;
-  //border-radius: 12px;
   overflow: hidden;
 `;
 
 const TableHeader = styled.th`
   background: rgba(255, 255, 255, 0.05);
   padding: 1rem;
-  //font-size: 1.2rem;
-  //font-weight: bold;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
@@ -88,7 +132,6 @@ const TableRow = styled.tr`
 `;
 
 const TableCategory = styled.td`
-  //font-weight: bold;
   padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;

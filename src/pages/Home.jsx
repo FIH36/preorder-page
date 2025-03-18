@@ -54,6 +54,7 @@ export default function Home() {
 
       {/*<motion.div {...fadeInUp}>*/}
       <Section2>
+        <h3>AInoon Becomes a Part of Everyday Life</h3>
         <Video controls>
           <source src="/Intro.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -106,20 +107,26 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: black;
+  background-color: white;
 `;
 
 const Section2 = styled.div`
   width: 100%;
-  max-width: 1440px;
-  padding: 0 1rem;
+  max-width: 1200px;
+  padding: 8rem 0;
   display: flex;
-  position: relative;
+  flex-direction: column;
+  align-items: center;
+  h3 {
+    font-size: 3.25rem;
+    padding-bottom: 3rem;
+    letter-spacing: 0.05rem;
+  }
 `;
 
 const Video = styled.video`
   width: 100%;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   height: auto;
 
   @media (max-width: 1024px) {
