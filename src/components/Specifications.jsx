@@ -5,35 +5,37 @@ import { motion } from "framer-motion";
 export default function Specifications() {
   return (
     <SectionWrapper>
-      <Title>Specifications</Title>
+      <SectionContainer>
+        <Title>Specifications</Title>
 
-      {/* ✅ 이미지 영역 */}
-      <ImageWrapper>
-        <BaseImage src="/Specification_Glasses.png" alt="Glasses Spec" />
-        <OverlayImage
-          src="/Specification_Glasses_text.png"
-          alt="Glasses Text"
-          {...fadeInUp}
-        />
-      </ImageWrapper>
+        {/* ✅ 이미지 영역 */}
+        <ImageWrapper>
+          <BaseImage src="/Specification_Glasses.png" alt="Glasses Spec" />
+          <OverlayImage
+            src="/Specification_Glasses_text.png"
+            alt="Glasses Text"
+            {...fadeInUp}
+          />
+        </ImageWrapper>
 
-      {/* ✅ 중앙 정렬된 테이블 */}
-      <SpecTable>
-        <thead>
-          <tr>
-            <TableHeader>Category</TableHeader>
-            <TableHeader>Details</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {specs.map((spec, index) => (
-            <TableRow key={index}>
-              <TableCategory>{spec.category}</TableCategory>
-              <TableDetail>{spec.detail}</TableDetail>
-            </TableRow>
-          ))}
-        </tbody>
-      </SpecTable>
+        {/* ✅ 중앙 정렬된 테이블 */}
+        <SpecTable>
+          <thead>
+            <tr>
+              <TableHeader>Category</TableHeader>
+              <TableHeader>Details</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {specs.map((spec, index) => (
+              <TableRow key={index}>
+                <TableCategory>{spec.category}</TableCategory>
+                <TableDetail>{spec.detail}</TableDetail>
+              </TableRow>
+            ))}
+          </tbody>
+        </SpecTable>
+      </SectionContainer>
     </SectionWrapper>
   );
 }
@@ -71,12 +73,14 @@ const specs = [
 
 // ✅ 스타일 설정
 const SectionWrapper = styled.div`
+  background-color: black;
+`;
+
+const SectionContainer = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
   padding: 6rem 2rem;
   text-align: center;
-  border-radius: 12px;
-  background-color: black;
+  margin: 0 auto;
 `;
 
 const Title = styled.h2`
@@ -85,7 +89,6 @@ const Title = styled.h2`
   color: white;
   text-align: center;
   margin-bottom: 40px;
-  letter-spacing: 1px;
 `;
 
 // ✅ 이미지 두 개 겹치기 위한 컨테이너
@@ -95,13 +98,18 @@ const ImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  align-self: center;
+  text-align: center;
   max-width: 1200px; /* ✅ 테이블과 같은 크기로 조정 */
-  margin: 0 auto 3rem;
+  margin: 3rem auto;
 `;
 
 const BaseImage = styled.img`
   width: 100%;
   display: block;
+  margin: 0 auto;
+  align-self: center;
+  text-align: center;
 `;
 
 const OverlayImage = styled(motion.img)`

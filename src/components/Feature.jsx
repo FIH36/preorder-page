@@ -102,11 +102,9 @@ const FeatureBox = styled.div`
     color: white;
     text-align: center;
     margin-top: 0.5rem;
-    letter-spacing: 0.8px;
     line-height: 1.3;
   }
 
-  /* ✅ 태블릿 이하에서 FeatureBox가 100% 너비 차지 */
   @media (max-width: 1024px) {
     width: 100%;
     height: 380px;

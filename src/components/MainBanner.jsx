@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import Header from "../components/Header.jsx";
-import PaymentModal from "../components/PaymentModal.jsx"; // ✅ 팝업 컴포넌트 추가
+import PaymentModal from "../components/PaymentModal.jsx";
+import Header from "./Header.jsx";
 
 export default function MainBanner() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -105,15 +105,20 @@ export default function MainBanner() {
     <>
       <BannerWrapper>
         <Header />
+        <BackgroundVideo autoPlay loop muted playsInline>
+          <source src="/08.mp4" type="video/mp4" />
+        </BackgroundVideo>
         <BannerContainer>
+          <BannerImage />
           <BannerInfo>
-            <SubText>AInoon Becomes a Part of Everyday Life</SubText>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h1>Transform Sight Into Insight</h1>
-            </div>
+            <SubText>
+              <span>더 넓게</span> 보고, <span>더 깊게</span> 이해하다.
+            </SubText>
+            <BannerTitle>
+              <h1>세상을 더 스마트하게 경험하는 방법</h1>
+            </BannerTitle>
             <BuyButton onClick={handleOpenModal}>Buy now</BuyButton>
           </BannerInfo>
-          <BannerImage />
         </BannerContainer>
       </BannerWrapper>
 
@@ -127,85 +132,135 @@ export default function MainBanner() {
   );
 }
 
-// ✅ 스타일 코드 (기존과 동일)
 const BannerWrapper = styled.div`
-  //position: relative;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 980px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   background-color: black;
-  //background:
-  //  linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%),
-  //  url("/bg.jpg") center/cover no-repeat;
+  @media (max-width: 1024px) {
+    height: auto;
+  }
 `;
 
 const BannerContainer = styled.div`
   width: 100%;
-  max-width: 1200px;
+  height: auto;
+  max-width: 1440px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   position: relative;
-  overflow: hidden; /* ✅ 안경 이미지가 컨테이너 밖으로 안 나가게 */
+  @media (max-width: 1024px) {
+    position: inherit;
+  }
+`;
+
+const BackgroundVideo = styled.video`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const BannerImage = styled.div`
-  //position: absolute;
-  width: 110%; /* ✅ 살짝 확대해서 자연스럽게 잘리게 */
-  max-width: 1200px;
+  z-index: 1;
+  position: absolute;
+  width: 120%;
   height: auto;
   aspect-ratio: 16 / 9;
   background-image: url("/Main_Glasses.png");
   background-position: center;
-  background-size: cover; /* ✅ contain → cover로 변경하여 자연스럽게 잘리도록 */
+  background-size: cover;
   background-repeat: no-repeat;
-  margin: 0 auto;
+  opacity: 90%;
+
+  @media (max-width: 1024px) {
+    position: inherit;
+    width: 130%;
+  }
 `;
 
 const BannerInfo = styled.div`
-  z-index: 10;
+  z-index: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   text-align: center;
 
-  h1 {
-    font-size: 4rem;
-    line-height: 5rem;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    margin-bottom: 4rem;
+  @media (max-width: 1024px) {
+    align-items: center;
   }
 `;
 
 const SubText = styled.div`
+  font-size: 3.8rem;
+  font-weight: bold;
+  line-height: 5.5rem;
   color: white;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  font-weight: 300;
   opacity: 70%;
+  text-align: left;
+  word-break: keep-all;
+
+  span {
+    opacity: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 3.25rem;
+  }
+`;
+
+const BannerTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  h1 {
+    font-size: 3.8rem;
+    line-height: 5.5rem;
+    color: white;
+    text-align: left;
+    word-break: keep-all;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    margin-bottom: 2rem;
+    h1 {
+      font-size: 2.5rem;
+      line-height: 3.25rem;
+      text-align: center;
+    }
+  }
 `;
 
 const BuyButton = styled.div`
   color: white;
-  font-size: 1.25rem;
+  font-size: 18px;
   font-weight: 600;
-  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.2);
+  //border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 3rem;
+  padding: 15px 48px;
   border-radius: 100rem;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 1rem;
 
   &:hover {
     color: black;

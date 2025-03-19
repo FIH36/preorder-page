@@ -11,6 +11,7 @@ import Feature from "../components/Feature.jsx";
 import Specifications from "../components/Specifications.jsx";
 
 import Footer from "../components/Footer";
+import Header from "../components/Header.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
@@ -50,14 +51,14 @@ export default function Home() {
       // style={{ backgroundColor: "yellow" }}
       ref={mainRef}
     >
+      <Header />
       <MainBanner />
 
       {/*<motion.div {...fadeInUp}>*/}
       <Section2>
-        <h3>AInoon Becomes a Part of Everyday Life</h3>
+        {/*<h3>AInoon Becomes a Part of Everyday Life</h3>*/}
         <Video controls>
           <source src="/Intro.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
         </Video>
         {/*<PlayButton>▶</PlayButton>*/}
       </Section2>
@@ -112,15 +113,14 @@ const Container = styled.div`
 
 const Section2 = styled.div`
   width: 100%;
-  max-width: 1200px;
-  padding: 8rem 0;
+  max-width: 1440px;
+  padding: 6rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   h3 {
     font-size: 3.25rem;
     padding-bottom: 3rem;
-    letter-spacing: 0.05rem;
   }
 `;
 
