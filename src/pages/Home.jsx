@@ -145,7 +145,7 @@ export default function Home() {
   // 구매하기 페이지로 이동 (하단 버튼용)
   const handleBuyNow = () => {
     // 기본 제품으로 purchase 페이지로 이동
-    navigate("/purchase", { state: { product: products[0] } });
+    navigate("/purchase", { state: { product: products[1] } });
   };
 
   // 특정 제품 구매하기

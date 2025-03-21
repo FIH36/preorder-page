@@ -30,10 +30,10 @@ export default function Purchase() {
 
   // 초기 제품 정보 설정 (Home에서 전달받거나 기본값 사용)
   const defaultProduct = {
-    id: "browline",
-    name: "browline",
+    id: "스퀘어 스타일",
+    name: "스퀘어 스타일",
     color: "Black",
-    price: 193700,
+    price: 260000,
     image: "/Main_Glasses.png",
     quantity: 1,
     type: "single",
