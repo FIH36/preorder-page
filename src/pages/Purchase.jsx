@@ -75,6 +75,11 @@ export default function Purchase() {
     type: initialProduct.type,
   });
 
+  // Purchase.jsx 컴포넌트 내부
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 포트원 SDK 로드 (누락된 부분 추가)
   useEffect(() => {
     const script = document.createElement("script");
