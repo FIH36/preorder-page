@@ -10,7 +10,7 @@ const PaymentModal = ({ isOpen, onClose, onConfirm }) => {
     address1: "",
     address2: "",
     postcode: "",
-    country: "영국",
+    country: "한국",
   });
 
   const handleChange = (e) => {

@@ -6,11 +6,19 @@ export default function Specifications() {
   return (
     <SectionWrapper>
       <SectionContainer>
-        <Title>Specifications</Title>
+        {/*<Title>Specifications</Title>*/}
 
         {/* ✅ 이미지 영역 */}
         <ImageWrapper>
-          <BaseImage src="/Specification_Glasses.png" alt="Glasses Spec" />
+          <BaseImage
+            as={motion.img}
+            src="/Specification_Glasses.png"
+            alt="Glasses Spec"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: false }}
+          />
           <OverlayImage
             src="/Specification_Glasses_text.png"
             alt="Glasses Text"
@@ -78,7 +86,7 @@ const SectionWrapper = styled.div`
 
 const SectionContainer = styled.div`
   max-width: 1200px;
-  padding: 6rem 2rem;
+  padding: 0 2rem;
   text-align: center;
   margin: 0 auto;
 `;
@@ -101,7 +109,7 @@ const ImageWrapper = styled.div`
   align-self: center;
   text-align: center;
   max-width: 1200px; /* ✅ 테이블과 같은 크기로 조정 */
-  margin: 3rem auto;
+  margin-bottom: 4rem;
 `;
 
 const BaseImage = styled.img`

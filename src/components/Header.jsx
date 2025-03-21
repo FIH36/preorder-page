@@ -1,12 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  const handleBuyNowClick = () => {
+    navigate("/purchase"); // '/purchase'는 PurchasePage 컴포넌트의 경로입니다
+  };
+
   return (
     <HeaderContainer>
       <ContentsBox>
         <Logo src="/AInoon-logo.svg" alt="Logo" />
-        <BuyNow>구매하기</BuyNow>
+        <BuyNow onClick={handleBuyNowClick}>구매하기</BuyNow>
       </ContentsBox>
     </HeaderContainer>
   );
@@ -26,7 +33,7 @@ const HeaderContainer = styled.header`
 
 const ContentsBox = styled.div`
   width: 100%;
-  max-width: 1440px;
+  max-width: 1200px;
   display: flex;
   align-items: center;
   justify-content: space-between; /* ✅ 로고와 구매하기 버튼을 양 끝으로 정렬 */
