@@ -163,7 +163,7 @@ export default function MainBanner({ isActive, scrollY }) {
           transition={{ duration: 0.5 }}
         >
           <SubText>
-            <span>더 넓게</span> 보고, <span>더 깊게</span> 이해하다
+            <span>눈으로 보고</span> 찍고, <span>듣고, </span> 즐기다
           </SubText>
         </motion.div>
 
@@ -177,7 +177,7 @@ export default function MainBanner({ isActive, scrollY }) {
           transition={{ duration: 0.5 }}
         >
           <MainText>
-            <h1>세상을 더 스마트하게 경험하는 방법</h1>
+            <h1>"눈앞의 모든 순간이 당신의 콘텐츠가 됩니다"</h1>
           </MainText>
 
           {/*<ButtonContainer>*/}
