@@ -62,6 +62,9 @@ export default function Purchase() {
   // 초기 수량은 선택된 제품의 수량으로 설정
   const [quantity, setQuantity] = useState(initialProduct.quantity);
   const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
+  // 스크립트 로딩 상태 추가
+  const [postcodeScriptLoaded, setPostcodeScriptLoaded] = useState(false);
+  const [impScriptLoaded, setImpScriptLoaded] = useState(false);
 
   // 제품 정보
   const [productInfo, setProductInfo] = useState({
@@ -72,12 +75,20 @@ export default function Purchase() {
     type: initialProduct.type,
   });
 
-  // 포트원 SDK 로드
+  // 포트원 SDK 로드 (누락된 부분 추가)
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.iamport.kr/v1/iamport.js";
     script.async = true;
+    script.onload = () => {
+      setImpScriptLoaded(true);
+      console.log("포트원 SDK 로드 완료");
+    };
+    script.onerror = () => {
+      console.error("포트원 SDK 로드 실패");
+    };
     document.head.appendChild(script);
+
     return () => {
       if (document.head.contains(script)) {
         document.head.removeChild(script);
@@ -85,13 +96,21 @@ export default function Purchase() {
     };
   }, []);
 
-  // 다음 우편번호 검색 API 로드
+  // 다음 우편번호 검색 API 로드 - 콜백 추가
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
       "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.async = true;
+    script.onload = () => {
+      setPostcodeScriptLoaded(true);
+      console.log("우편번호 검색 API 로드 완료");
+    };
+    script.onerror = () => {
+      console.error("우편번호 검색 API 로드 실패");
+    };
     document.head.appendChild(script);
+
     return () => {
       if (document.head.contains(script)) {
         document.head.removeChild(script);
@@ -137,6 +156,15 @@ export default function Purchase() {
       return;
     }
 
+    // SDK 로드 확인
+    if (!window.IMP) {
+      alert(
+        "포트원 SDK가 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.",
+      );
+      console.error("IMP 객체가 없음:", window.IMP);
+      return;
+    }
+
     // 결제 진행 상태 설정
     setIsPaymentInProgress(true);
 
@@ -144,84 +172,170 @@ export default function Purchase() {
     const currentProductPrice = productInfo.price * quantity;
 
     // 결제창 표시 전에 현재 URL을 기억하기 위한 히스토리 포인트 추가
-    // 이렇게 하면 결제창이 뜬 상태에서 뒤로가기를 누르면 다시 현재 페이지로 돌아옴
     window.history.pushState({ page: "payment" }, "", window.location.href);
 
+    // 디바이스 체크
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
+    console.log("디바이스 체크:", isMobile ? "모바일" : "PC");
+
     const paymentData = {
-      pg: "html5_inicis",
-      pay_method: "card",
-      merchant_uid: `order_${new Date().getTime()}`,
-      name: `${productInfo.name} _ ${productInfo.color} x ${quantity}`,
-      amount: currentProductPrice,
+      pg: "html5_inicis", // PG사
+      pay_method: "card", // 결제수단
+      merchant_uid: `order_${new Date().getTime()}`, // 주문번호
+      name: `${productInfo.name} _ ${productInfo.color} x ${quantity}`, // 주문명
+      amount: currentProductPrice, // 결제금액
       buyer_email: formData.email,
       buyer_name: formData.name,
       buyer_tel: formData.phone,
       buyer_addr: `${formData.address || ""} ${formData.detailAddress || ""}`,
       buyer_postcode: formData.postcode || "00000",
-      m_redirect_url: `${window.location.origin}/order-complete`,
-      // 모바일 환경에서 결제 완료 후 돌아올 페이지
-      popup: false, // 팝업이 아닌 iframe 모드로 결제창 띄우기
+      // 모바일 환경에서는 여기서 m_redirect_url 설정하지 않고 requestPayment 함수에서 처리
     };
+
+    console.log("결제 요청 데이터:", paymentData);
+    console.log("IMP 객체 존재 여부:", window.IMP ? "존재함" : "존재하지 않음");
 
     requestPayment(paymentData);
   };
 
+  // 결제 요청 함수 수정
   const requestPayment = (data) => {
-    if (window.IMP) {
-      const { IMP } = window;
-      IMP.init("imp66470748");
+    if (!window.IMP) {
+      setIsPaymentInProgress(false);
+      alert(
+        "포트원 SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.",
+      );
+      return;
+    }
 
-      // 현재 시점의 수량과 가격 정보 다시 계산
-      const currentTotalPrice = productInfo.price * quantity;
+    const { IMP } = window;
+    IMP.init("imp66470748"); // 가맹점 식별코드
 
+    // 모바일 환경 확인
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
+    console.log("모바일 환경:", isMobile);
+
+    // 주문 정보
+    const orderInfo = {
+      product: `${productInfo.name} _ ${productInfo.color}`,
+      quantity: quantity,
+      totalPrice: productInfo.price * quantity,
+      buyerInfo: formData,
+      productImage: productInfo.image,
+    };
+
+    // 모바일 환경에서는 m_redirect_url 설정 필수, 콜백 없음
+    if (isMobile) {
+      // 주문 정보를 로컬 스토리지에 저장
+      try {
+        localStorage.setItem("orderInfo", JSON.stringify(orderInfo));
+      } catch (error) {
+        console.error("로컬 스토리지 저장 실패:", error);
+      }
+
+      // 모바일용 결제 요청 데이터 구성
+      data.m_redirect_url = `${window.location.origin}/order-complete`;
+
+      // 모바일에서는 콜백 없이 결제 요청
+      IMP.request_pay(data);
+    } else {
+      // PC 환경에서는 iframe 방식, 콜백 함수 사용
       IMP.request_pay(data, function (response) {
-        // 결제 진행 상태 해제
         setIsPaymentInProgress(false);
+        console.log("결제 응답:", response);
 
         if (response.success) {
+          // 결제 성공 시 주문 완료 페이지로 이동
           navigate("/order-complete", {
             state: {
               orderId: response.merchant_uid,
               paymentInfo: response,
-              orderInfo: {
-                product: `${productInfo.name} _ ${productInfo.color}`,
-                quantity: quantity,
-                totalPrice: currentTotalPrice,
-                buyerInfo: formData,
-                productImage: productInfo.image,
-              },
+              orderInfo: orderInfo,
             },
           });
         } else {
-          // 결제 취소 또는 실패시 처리
+          // 결제 실패 처리
           if (response.error_msg === "사용자가 결제를 취소하셨습니다") {
-            // 사용자가 취소한 경우 알림 없이 그냥 돌아가기
             console.log("사용자가 결제를 취소했습니다.");
           } else {
-            // 다른 오류의 경우 메시지 표시
             alert(`결제에 실패했습니다: ${response.error_msg}`);
           }
         }
       });
-    } else {
-      setIsPaymentInProgress(false);
-      alert("포트원 SDK가 아직 로드되지 않았습니다.");
     }
   };
 
   const searchPostcode = () => {
-    if (window.daum && window.daum.Postcode) {
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          setFormData((prev) => ({
-            ...prev,
-            postcode: data.zonecode,
-            address: data.address,
-          }));
-        },
-      }).open();
+    if (postcodeScriptLoaded && window.daum && window.daum.Postcode) {
+      console.log("우편번호 검색 시작");
+
+      // PC와 모바일 환경에 따라 다르게 처리
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        );
+
+      if (isMobile) {
+        // 모바일에서는 기본 팝업 사용
+        new window.daum.Postcode({
+          oncomplete: (data) => {
+            console.log("우편번호 검색 완료:", data);
+            setFormData((prev) => ({
+              ...prev,
+              postcode: data.zonecode,
+              address: data.address,
+            }));
+          },
+        }).open();
+      } else {
+        // PC에서는 iframe으로 표시
+        const postcodeWrapper = document.getElementById(
+          "searchPostcodeWrapper",
+        );
+        if (postcodeWrapper) {
+          postcodeWrapper.style.display = "block";
+
+          // iframe을 이용해 우편번호 서비스 실행
+          new window.daum.Postcode({
+            oncomplete: (data) => {
+              console.log("우편번호 검색 완료:", data);
+              setFormData((prev) => ({
+                ...prev,
+                postcode: data.zonecode,
+                address: data.address,
+              }));
+
+              // 검색 완료 후 팝업 닫기
+              postcodeWrapper.style.display = "none";
+
+              // iframe 제거
+              postcodeWrapper.innerHTML = "";
+            },
+            onclose: () => {
+              // 사용자가 닫기 버튼을 눌렀을 때
+              postcodeWrapper.style.display = "none";
+              postcodeWrapper.innerHTML = "";
+            },
+            width: "100%",
+            height: "100%",
+          }).embed(postcodeWrapper);
+        }
+      }
     } else {
-      alert("우편번호 검색 서비스를 불러오는데 실패했습니다.");
+      alert(
+        "우편번호 검색 서비스가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.",
+      );
+      console.error("우편번호 검색 불가:", {
+        postcodeScriptLoaded,
+        daumExists: !!window.daum,
+        postcodeExists: window.daum ? !!window.daum.Postcode : false,
+      });
     }
   };
 
@@ -239,7 +353,6 @@ export default function Purchase() {
     }
     return `${productInfo.name} _ ${productInfo.color}`;
   };
-
   return (
     <PageContainer>
       {/* 상단 고정 헤더 */}
@@ -514,7 +627,14 @@ export default function Purchase() {
                     readOnly
                     required
                   />
-                  <PostcodeButton type="button" onClick={searchPostcode}>
+                  {/*<PostcodeButton type="button" onClick={searchPostcode}>*/}
+                  {/*  우편번호 찾기*/}
+                  {/*</PostcodeButton>*/}
+                  <PostcodeButton
+                    type="button"
+                    onClick={searchPostcode}
+                    disabled={!postcodeScriptLoaded}
+                  >
                     우편번호 찾기
                   </PostcodeButton>
                 </PostcodeContainer>
@@ -545,11 +665,30 @@ export default function Purchase() {
                 />
               </FormGroup>
 
-              <SubmitButton type="submit">결제하기</SubmitButton>
+              <SubmitButton
+                type="submit"
+                disabled={isPaymentInProgress || !impScriptLoaded}
+              >
+                {isPaymentInProgress ? "처리 중..." : "결제하기"}
+              </SubmitButton>
             </CheckoutForm>
           </CheckoutFixedSection>
         </CheckoutFixedWrapper>
       </MainContentWrapper>
+      {/* 우편번호 검색 결과를 표시할 컨테이너 - 여기에 추가 */}
+      <div
+        id="searchPostcodeWrapper"
+        style={{
+          display: "none",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1000,
+          background: "rgba(0, 0, 0, 0.5)",
+        }}
+      ></div>
     </PageContainer>
   );
 }
