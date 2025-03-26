@@ -16,6 +16,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [visibleProducts, setVisibleProducts] = useState([]);
   const productsRef = useRef([]);
+  const [introDone, setIntroDone] = useState(false);
 
   const sections = [
     { id: "banner", component: MainBanner, ref: null },
@@ -153,83 +154,126 @@ export default function Home() {
     navigate("/purchase", { state: { product } });
   };
 
+  const [buyNowText, setBuyNowText] = useState("지금 바로 구매하기");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1000) {
+        setBuyNowText("구매하기");
+      } else {
+        setBuyNowText("지금 바로 구매하기");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setVideoLoaded(true);
+    }, 500); // 0.5초 후에 로딩 완료 (실제 로직에 맞게 조정 가능)
+  }, []);
+
+  useEffect(() => {
+    if (videoLoaded) {
+      const timer = setTimeout(() => setIntroDone(true), 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [videoLoaded]);
+
   return (
-    <Container>
-      {/* 섹션 컨테이너 */}
-      <SectionsContainer>
-        {sections.slice(0, 3).map((Section, index) => (
-          <SectionWrapper
-            key={Section.id}
-            ref={(el) => (sectionsRef.current[index] = el)}
-            id={Section.id}
-          >
-            <Section.component
-              isActive={activeSection === index}
-              scrollY={scrollY}
+    <>
+      {!introDone && (
+        <IntroSection>
+          <LogoWrapper>
+            <img
+              src="/AInoon-logo.svg"
+              alt="logo"
+              style={{ width: "200px", filter: "invert(1)" }}
             />
+          </LogoWrapper>
+        </IntroSection>
+      )}
+      <Container>
+        {/* 섹션 컨테이너 */}
+        <SectionsContainer>
+          {sections.slice(0, 3).map((Section, index) => (
+            <SectionWrapper
+              key={Section.id}
+              ref={(el) => (sectionsRef.current[index] = el)}
+              id={Section.id}
+            >
+              <Section.component
+                isActive={activeSection === index}
+                scrollY={scrollY}
+              />
+            </SectionWrapper>
+          ))}
+
+          {/* 제품 선택 섹션 */}
+          <SectionWrapper
+            ref={(el) => (sectionsRef.current[3] = el)}
+            id="products"
+          >
+            <ContentSection>
+              <SectionTitle>
+                <GradientText>AInoon 구매하기</GradientText>
+                <Subtitle>
+                  스타일과 성능을 모두 갖춘 AInoon, 지금 사전예약하세요
+                </Subtitle>
+              </SectionTitle>
+
+              <FeatureGrid>
+                <FeatureSection>
+                  {products.map((product, index) => (
+                    <FeatureBox
+                      key={product.id}
+                      className="product-card"
+                      as={motion.div}
+                      variants={productCardVariants}
+                      initial="hidden"
+                      animate={
+                        visibleProducts.includes(index) ? "visible" : "hidden"
+                      }
+                      whileHover="hover"
+                      data-index={index}
+                    >
+                      <ProductImageContainer>
+                        <ProductImage src={product.image} alt={product.name} />
+                      </ProductImageContainer>
+                      <FeatureSubtitle>{product.subtitle}</FeatureSubtitle>
+                      <FeatureTitle>
+                        {product.name} {product.color}
+                      </FeatureTitle>
+                      <PriceTag>{product.price.toLocaleString()}원</PriceTag>
+                      <PreOrderButton onClick={() => handleBuyProduct(product)}>
+                        {product.type === "bundle"
+                          ? "스퀘어 스타일 사전 예약하기"
+                          : "하금테 스타일 사전 예약하기"}
+                      </PreOrderButton>
+                    </FeatureBox>
+                  ))}
+                </FeatureSection>
+              </FeatureGrid>
+            </ContentSection>
           </SectionWrapper>
-        ))}
+        </SectionsContainer>
 
-        {/* 제품 선택 섹션 */}
-        <SectionWrapper
-          ref={(el) => (sectionsRef.current[3] = el)}
-          id="products"
-        >
-          <ContentSection>
-            <SectionTitle>
-              <GradientText>AInoon 구매하기</GradientText>
-              <Subtitle>
-                스타일과 성능을 모두 갖춘 AInoon, 지금 사전예약하세요
-              </Subtitle>
-            </SectionTitle>
+        {/* 푸터 */}
+        <Footer />
 
-            <FeatureGrid>
-              <FeatureSection>
-                {products.map((product, index) => (
-                  <FeatureBox
-                    key={product.id}
-                    className="product-card"
-                    as={motion.div}
-                    variants={productCardVariants}
-                    initial="hidden"
-                    animate={
-                      visibleProducts.includes(index) ? "visible" : "hidden"
-                    }
-                    whileHover="hover"
-                    data-index={index}
-                  >
-                    <ProductImageContainer>
-                      <ProductImage src={product.image} alt={product.name} />
-                    </ProductImageContainer>
-                    <FeatureSubtitle>{product.subtitle}</FeatureSubtitle>
-                    <FeatureTitle>
-                      {product.name} {product.color}
-                    </FeatureTitle>
-                    <PriceTag>{product.price.toLocaleString()}원</PriceTag>
-                    <PreOrderButton onClick={() => handleBuyProduct(product)}>
-                      {product.type === "bundle"
-                        ? "스퀘어 스타일 사전 예약하기"
-                        : "하금테 스타일 사전 예약하기"}
-                    </PreOrderButton>
-                  </FeatureBox>
-                ))}
-              </FeatureSection>
-            </FeatureGrid>
-          </ContentSection>
-        </SectionWrapper>
-      </SectionsContainer>
-
-      {/* 푸터 */}
-      <Footer />
-
-      {/* 하단 고정 구매하기 배너 */}
-      <BuyNowBannerContainer>
-        <BuyNowBanner>
-          <ProductName>AInoon, 지금 바로 구매하기</ProductName>
-          <BuyNowButton onClick={handleBuyNow}>Buy Now</BuyNowButton>
-        </BuyNowBanner>
-      </BuyNowBannerContainer>
-    </Container>
+        {/* 하단 고정 구매하기 배너 */}
+        <BuyNowBannerContainer>
+          <ProductName>AInoon 4월 한달 15% 할인</ProductName>
+          <BuyNowButton onClick={handleBuyNow}>{buyNowText}</BuyNowButton>
+        </BuyNowBannerContainer>
+      </Container>
+    </>
   );
 }
 
@@ -239,7 +283,41 @@ const Container = styled.div`
   background-color: black;
   color: white;
   overflow-x: hidden;
-  padding-bottom: 70px; /* 하단 배너 높이만큼 여백 추가 */
+  padding-bottom: 70px;
+`;
+
+const IntroSection = styled.section`
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+`;
+
+const LogoWrapper = styled.div`
+  animation: zoomOut 1.2s ease forwards;
+
+  @keyframes zoomOut {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    30% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.4);
+    }
+  }
+`;
+
+const Logo = styled.img`
+  width: 200px;
+  filter: invert(1);
 `;
 
 const SectionsContainer = styled.div`
@@ -256,98 +334,54 @@ const SectionWrapper = styled.section`
   position: relative;
 `;
 
-const NavigationIndicator = styled.div`
-  position: fixed;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 100;
-`;
-
-const NavDot = styled.div`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: ${(props) =>
-    props.active ? "white" : "rgba(255, 255, 255, 0.3)"};
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  ${(props) =>
-    props.active &&
-    `
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-  `}
-`;
-
-// 하단 고정 구매하기 배너 스타일
 const BuyNowBannerContainer = styled.div`
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
   display: flex;
-  justify-content: center;
-  z-index: 1000;
-`;
-
-const BuyNowBanner = styled.div`
-  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 12px;
-  max-width: 1200px;
-  width: 100%;
+  background-color: white;
+  border-radius: 100px;
+  z-index: 1000;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
 
   @media (max-width: 1024px) {
-    flex-direction: column;
-    padding: 1rem 0;
+    bottom: 0;
+    border-radius: 0;
+    width: 100%;
+    justify-content: space-between;
   }
 `;
 
 const ProductName = styled.div`
   color: black;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
+  margin: 0 1.2rem 0 2rem;
   white-space: nowrap;
   text-align: center;
-
-  @media (max-width: 768px) {
-    white-space: normal;
-    margin-bottom: 8px;
-  }
+  letter-spacing: -1px;
 `;
 
 const BuyNowButton = styled.button`
-  padding: 12px 24px;
-  background-color: white;
-  color: orangered;
-  border: none;
+  padding: 1rem 2rem;
+  background-color: black;
+  color: white;
   border-radius: 100px;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
+  min-height: 53px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 120px;
+  margin: 6px;
+  border: hidden;
 
   &:hover {
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 1024px) {
-    padding: 0 0;
+    background-color: #2580ff;
   }
 `;
 
-// Feature 컴포넌트와 일치하는 스타일
 const ContentSection = styled.div`
   word-break: keep-all;
   max-width: 1440px;
