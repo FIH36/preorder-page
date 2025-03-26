@@ -87,10 +87,10 @@ export default function Purchase() {
     script.async = true;
     script.onload = () => {
       setImpScriptLoaded(true);
-//       console.log("포트원 SDK 로드 완료");
+      //       console.log("포트원 SDK 로드 완료");
     };
     script.onerror = () => {
-//       console.error("포트원 SDK 로드 실패");
+      //       console.error("포트원 SDK 로드 실패");
     };
     document.head.appendChild(script);
 
@@ -109,10 +109,10 @@ export default function Purchase() {
     script.async = true;
     script.onload = () => {
       setPostcodeScriptLoaded(true);
-//       console.log("우편번호 검색 API 로드 완료");
+      //       console.log("우편번호 검색 API 로드 완료");
     };
     script.onerror = () => {
-//       console.error("우편번호 검색 API 로드 실패");
+      //       console.error("우편번호 검색 API 로드 실패");
     };
     document.head.appendChild(script);
 
@@ -153,125 +153,134 @@ export default function Purchase() {
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (!formData.name || !formData.phone || !formData.email) {
-        alert("이름, 연락처, 이메일을 입력해주세요.");
-        return;
-      }
+    if (!formData.name || !formData.phone || !formData.email) {
+      alert("이름, 연락처, 이메일을 입력해주세요.");
+      return;
+    }
 
-      if (!window.IMP) {
-        alert("포트원 SDK가 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.");
-        console.error("IMP 객체가 없음:", window.IMP);
-        return;
-      }
+    if (!window.IMP) {
+      alert(
+        "포트원 SDK가 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.",
+      );
+      console.error("IMP 객체가 없음:", window.IMP);
+      return;
+    }
 
-      setIsPaymentInProgress(true);
+    setIsPaymentInProgress(true);
 
-      const merchantUid = `order_${new Date().getTime()}`;
-      const amount = productInfo.price * quantity; // ✅ 결제금액
+    const merchantUid = `order_${new Date().getTime()}`;
+    const amount = productInfo.price * quantity; // ✅ 결제금액
 
-      const orderInfo = {
-        merchant_uid: merchantUid,
-        product: `${productInfo.name} _ ${productInfo.color}`, // ✅ 상품명 포함
-        quantity,
-        amount, // ✅ 결제금액 포함
-        buyer_name: formData.name,
-        buyer_email: formData.email,
-        buyer_tel: formData.phone,
-        buyer_addr: `${formData.address || ""} ${formData.detailAddress || ""}`,
-        buyer_postcode: formData.postcode || "00000",
-        status: "결제 진행 중",
-      };
+    const orderInfo = {
+      merchant_uid: merchantUid,
+      product: `${productInfo.name} _ ${productInfo.color}`, // ✅ 상품명 포함
+      quantity,
+      amount, // ✅ 결제금액 포함
+      buyer_name: formData.name,
+      buyer_email: formData.email,
+      buyer_tel: formData.phone,
+      buyer_addr: `${formData.address || ""} ${formData.detailAddress || ""}`,
+      buyer_postcode: formData.postcode || "00000",
+      status: "결제 진행 중",
+    };
 
-      try {
-        await saveToGoogleSheet(orderInfo);
-//         console.log("📌 주문 정보가 스프레드시트에 저장됨:", orderInfo);
-      } catch (error) {
-        console.error("❌ 주문 정보 저장 실패:", error);
-      }
+    try {
+      await saveToGoogleSheet(orderInfo);
+      //         console.log("📌 주문 정보가 스프레드시트에 저장됨:", orderInfo);
+    } catch (error) {
+      console.error("❌ 주문 정보 저장 실패:", error);
+    }
 
-      const paymentData = {
-        ...orderInfo, // ✅ 상품명 포함한 orderInfo 사용
-        name: `${productInfo.name} (${productInfo.color}) x ${quantity}`,
-        pg: "html5_inicis",
-        pay_method: "card",
-        m_redirect_url: `${window.location.origin}/order-complete`,
-      };
+    const paymentData = {
+      ...orderInfo, // ✅ 상품명 포함한 orderInfo 사용
+      name: `${productInfo.name} (${productInfo.color}) x ${quantity}`,
+      pg: "html5_inicis",
+      pay_method: "card",
+      m_redirect_url: `${window.location.origin}/order-complete`,
+    };
 
-//       console.log("📌 결제 요청 데이터:", paymentData);
-      requestPayment(paymentData);
+    //       console.log("📌 결제 요청 데이터:", paymentData);
+    requestPayment(paymentData);
   };
 
   /**
    * ✅ 결제 요청 함수에서 상품명 포함
    */
   const requestPayment = (data) => {
-      if (!window.IMP) {
-        setIsPaymentInProgress(false);
-        alert("포트원 SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
-        return;
-      }
+    if (!window.IMP) {
+      setIsPaymentInProgress(false);
+      alert(
+        "포트원 SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.",
+      );
+      return;
+    }
 
-      const { IMP } = window;
-      IMP.init("imp66470748");
+    const { IMP } = window;
+    IMP.init("imp66470748");
 
-//       console.log("📌 결제 진행 중...");
+    IMP.request_pay(data, async (response) => {
+      setIsPaymentInProgress(false);
 
-      IMP.request_pay(data, async (response) => {
-        setIsPaymentInProgress(false);
-//         console.log("📌 결제 응답:", response);
+      if (response.success) {
+        alert("✅ 결제 성공!");
 
-        if (response.success) {
-          alert("✅ 결제 성공!");
-
-          await saveToGoogleSheet({
-            ...data,  // ✅ 성공 시에도 상품명 포함
-            status: "결제 완료",
-          });
-
-          navigate("/order-complete", {
-            state: {
-              orderId: response.merchant_uid,
-              paymentInfo: response,
-            },
-          });
+        // ✅ 모바일에서는 localStorage에 결제 정보 저장
+        if (
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          )
+        ) {
+          localStorage.setItem("orderInfo", JSON.stringify(response));
+          window.location.href = "/order-complete";
         } else {
-          alert(`❌ 결제 실패: ${response.error_msg}`);
-
-          await saveToGoogleSheet({
-            ...data,  // ✅ 실패 시에도 상품명 포함
-            status: "결제 실패",
+          navigate("/order-complete", {
+            state: { orderId: response.merchant_uid, paymentInfo: response },
           });
         }
-      });
+
+        await saveToGoogleSheet({
+          ...data,
+          status: "결제 완료",
+        });
+      } else {
+        alert(`❌ 결제 실패: ${response.error_msg}`);
+
+        await saveToGoogleSheet({
+          ...data,
+          status: "결제 실패",
+        });
+      }
+    });
   };
 
   /**
    * ✅ Google Sheets 저장 함수 (상품명 포함)
    */
   const saveToGoogleSheet = async (data) => {
-      try {
-//         console.log("📌 Google Sheets API 요청 데이터:", data);
-        const response = await fetch(
-          "https://script.google.com/macros/s/AKfycbyCYRF5U6Icq1B2UKUHlDyE-Sfa0glF2MAM3Tmu9LVhhQSNabaJ-bBeD4KibURnodB1rA/exec",
-          {
-            method: "POST",
-            mode: "no-cors", // ✅ CORS 에러 방지
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
+    try {
+      console.log("📌 Google Sheets API 요청 데이터:", data);
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbwxj4EpMkjYAtcrHnLmipje0MTWeWKUB44GgsheXXc19G7Vg72MQk8B2ezqmcbDu0xD3Q/exec",
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+        },
+      );
 
-//         console.log("📌 스프레드시트 저장 성공!");
-      } catch (error) {
-//         console.error("❌ 스프레드시트 저장 오류:", error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      console.log("📌 스프레드시트 저장 성공!", await response.text());
+    } catch (error) {
+      console.error("❌ 스프레드시트 저장 오류:", error);
+    }
   };
-
-
 
   // 우편번호 검색
   const searchPostcode = () => {

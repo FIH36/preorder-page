@@ -39,16 +39,14 @@ export default function OrderComplete() {
     setIsMobile(checkMobile);
 
     // 주문 정보 가져오기 (location.state 또는 localStorage)
-    if (location.state?.orderInfo) {
-      // PC에서는 location.state에서 정보를 가져옴
-      setOrderInfo(location.state.orderInfo);
+    if (location.state?.paymentInfo) {
+      setOrderInfo(location.state.paymentInfo);
     } else {
-      // 모바일에서는 localStorage에서 정보를 가져옴
       try {
         const savedOrderInfo = localStorage.getItem("orderInfo");
         if (savedOrderInfo) {
           setOrderInfo(JSON.parse(savedOrderInfo));
-          // 사용 후 삭제
+          // 사용 후 삭제 (안전하게 유지하고 싶으면 주석 처리 가능)
           localStorage.removeItem("orderInfo");
         }
       } catch (error) {
@@ -69,7 +67,7 @@ export default function OrderComplete() {
         <Card>
           <Title>주문 정보를 찾을 수 없습니다</Title>
           <Message>
-            주문 처리 중에 문제가 발생했거나 브라우저가 새로고침되었습니다.
+            주문 처리 중 문제가 발생했거나 브라우저가 새로고침되었습니다.
           </Message>
           <HomeButton onClick={handleGoHome}>홈으로 돌아가기</HomeButton>
         </Card>
@@ -77,7 +75,6 @@ export default function OrderComplete() {
     );
   }
 
-  // 주문 정보가 있는 경우
   return (
     <Container>
       <Card>
@@ -85,12 +82,15 @@ export default function OrderComplete() {
         <Title>주문이 완료되었습니다!</Title>
 
         <OrderDetails>
-          <ProductImage src={orderInfo.productImage} alt="AInoon" />
+          <ProductImage
+            src={orderInfo.productImage || "/default-image.png"}
+            alt="Product"
+          />
           <OrderSummary>
             <ProductName>{orderInfo.product}</ProductName>
             <OrderQuantity>수량: {orderInfo.quantity}개</OrderQuantity>
             <OrderPrice>
-              총 결제 금액: {orderInfo.totalPrice.toLocaleString()}원
+              총 결제 금액: {orderInfo.amount.toLocaleString()}원
             </OrderPrice>
           </OrderSummary>
         </OrderDetails>
@@ -99,21 +99,20 @@ export default function OrderComplete() {
           <InfoTitle>배송 정보</InfoTitle>
           <InfoItem>
             <Label>이름:</Label>
-            <Value>{orderInfo.buyerInfo.name}</Value>
+            <Value>{orderInfo.buyer_name}</Value>
           </InfoItem>
           <InfoItem>
             <Label>연락처:</Label>
-            <Value>{orderInfo.buyerInfo.phone}</Value>
+            <Value>{orderInfo.buyer_tel}</Value>
           </InfoItem>
           <InfoItem>
             <Label>이메일:</Label>
-            <Value>{orderInfo.buyerInfo.email}</Value>
+            <Value>{orderInfo.buyer_email}</Value>
           </InfoItem>
           <InfoItem>
             <Label>주소:</Label>
             <Value>
-              ({orderInfo.buyerInfo.postcode}) {orderInfo.buyerInfo.address}{" "}
-              {orderInfo.buyerInfo.detailAddress}
+              ({orderInfo.buyer_postcode}) {orderInfo.buyer_addr}
             </Value>
           </InfoItem>
         </DeliveryInfo>
@@ -251,21 +250,12 @@ const InfoTitle = styled.h3`
 const InfoItem = styled.div`
   display: flex;
   margin-bottom: 8px;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-  }
 `;
 
 const Label = styled.span`
   width: 80px;
   font-size: 14px;
   color: ${theme.text.secondary};
-
-  @media (max-width: 480px) {
-    width: 100%;
-    margin-bottom: 3px;
-  }
 `;
 
 const Value = styled.span`
@@ -315,10 +305,7 @@ const HomeButton = styled.button`
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
-
   &:hover {
     background-color: ${theme.accent.hover};
   }
