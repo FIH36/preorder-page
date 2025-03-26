@@ -1053,7 +1053,7 @@ const InfoItem = styled.p`
 `;
 
 const BizInfoLink = styled.a`
-  color: #99ccff;
+  color: white;
   text-decoration: none;
 
   &:hover {
