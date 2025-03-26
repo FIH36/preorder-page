@@ -205,9 +205,6 @@ export default function Purchase() {
     requestPayment(paymentData);
   };
 
-  /**
-   * ✅ 결제 요청 함수에서 상품명 포함
-   */
   const requestPayment = (data) => {
     if (!window.IMP) {
       setIsPaymentInProgress(false);
@@ -226,14 +223,14 @@ export default function Purchase() {
       if (response.success) {
         alert("✅ 결제 성공!");
 
-        // ✅ 모바일에서는 localStorage에 결제 정보 저장
+        // ✅ 모바일에서는 localStorage에 결제 정보 저장 후 리다이렉트
         if (
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             navigator.userAgent,
           )
         ) {
           localStorage.setItem("orderInfo", JSON.stringify(response));
-          window.location.href = "/order-complete";
+          window.location.href = "/order-complete"; // ✅ 결제 성공 후 이동
         } else {
           navigate("/order-complete", {
             state: { orderId: response.merchant_uid, paymentInfo: response },
@@ -251,32 +248,41 @@ export default function Purchase() {
           ...data,
           status: "결제 실패",
         });
+
+        // ✅ 결제 취소 시 리다이렉트 처리
+        if (response.error_msg.includes("사용자가 결제를 취소하였습니다")) {
+          if (
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+              navigator.userAgent,
+            )
+          ) {
+            window.location.href = "/purchase"; // ✅ 모바일에서 결제 취소 후 구매 페이지로 이동
+          } else {
+            navigate("/purchase"); // ✅ PC에서도 동일한 페이지로 이동
+          }
+        }
       }
     });
   };
 
-  /**
-   * ✅ Google Sheets 저장 함수 (상품명 포함)
-   */
   const saveToGoogleSheet = async (data) => {
     try {
       console.log("📌 Google Sheets API 요청 데이터:", data);
+
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbwxj4EpMkjYAtcrHnLmipje0MTWeWKUB44GgsheXXc19G7Vg72MQk8B2ezqmcbDu0xD3Q/exec",
+        "https://script.google.com/macros/s/AKfycbxisMfgI18DtxWDl1zkxy0ehcPjMV1vkZ6rdJ-TUHVpZlILXcheCQXYe0H4BMlwgAyJ2Q/exec",
         {
           method: "POST",
-          body: JSON.stringify(data),
+          mode: "cors", // ✅ no-cors → cors 변경
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", // ✅ text/plain → application/json 변경
           },
+          body: JSON.stringify(data),
         },
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      console.log("📌 스프레드시트 저장 성공!", await response.text());
+      const result = await response.json();
+      console.log("📌 스프레드시트 저장 성공!", result);
     } catch (error) {
       console.error("❌ 스프레드시트 저장 오류:", error);
     }
