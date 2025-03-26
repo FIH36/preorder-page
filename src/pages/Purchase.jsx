@@ -198,7 +198,7 @@ export default function Purchase() {
       name: `${productInfo.name} (${productInfo.color}) x ${quantity}`,
       pg: "html5_inicis",
       pay_method: "card",
-      m_redirect_url: `${window.location.origin}/order-complete`,
+      m_redirect_url: `${window.location.origin}/order-result`,
     };
 
     //       console.log("📌 결제 요청 데이터:", paymentData);
