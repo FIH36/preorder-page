@@ -122,10 +122,10 @@ function App() {
                   </div>
                   <div css={styles.rightArea}>
                     {[
-                      { img: "gif01.gif", label: "반려동물의 사랑스러운 순간" },
-                      { img: "gif02.gif", label: "아기의 첫 걸음" },
-                      { img: "gif03.gif", label: "행복한 찰나" },
-                      { img: "gif04.gif", label: "주차 위치를 사진 한 장으로" },
+                      { img: "", label: "반려동물의 사랑스러운 순간" },
+                      { img: "", label: "아기의 첫 걸음" },
+                      { img: "", label: "행복한 찰나" },
+                      { img: "", label: "주차 위치를 사진 한 장으로" },
                     ].map((item, i) => (
                       <div key={i}>
                         <img src={item.img} alt={item.label} />

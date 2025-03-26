@@ -34,7 +34,7 @@ export default function Purchase() {
     name: "스퀘어 스타일",
     color: "Black",
     price: 260000,
-    image: "/Main_Glasses.png",
+    image: "/Black_Clear01.png",
     quantity: 1,
     type: "single",
   };
