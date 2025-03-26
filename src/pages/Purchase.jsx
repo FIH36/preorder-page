@@ -87,10 +87,10 @@ export default function Purchase() {
     script.async = true;
     script.onload = () => {
       setImpScriptLoaded(true);
-      console.log("포트원 SDK 로드 완료");
+//       console.log("포트원 SDK 로드 완료");
     };
     script.onerror = () => {
-      console.error("포트원 SDK 로드 실패");
+//       console.error("포트원 SDK 로드 실패");
     };
     document.head.appendChild(script);
 
@@ -109,10 +109,10 @@ export default function Purchase() {
     script.async = true;
     script.onload = () => {
       setPostcodeScriptLoaded(true);
-      console.log("우편번호 검색 API 로드 완료");
+//       console.log("우편번호 검색 API 로드 완료");
     };
     script.onerror = () => {
-      console.error("우편번호 검색 API 로드 실패");
+//       console.error("우편번호 검색 API 로드 실패");
     };
     document.head.appendChild(script);
 
@@ -146,193 +146,136 @@ export default function Purchase() {
     };
   }, [isPaymentInProgress]);
 
+  const handleGoBack = () => navigate(-1);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleGoBack = () => navigate(-1);
+  const handleSubmit = async (e) => {
+      e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.phone || !formData.email) {
-      alert("이름, 연락처, 이메일을 입력해주세요.");
-      return;
-    }
-
-    // SDK 로드 확인
-    if (!window.IMP) {
-      alert(
-        "포트원 SDK가 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.",
-      );
-      console.error("IMP 객체가 없음:", window.IMP);
-      return;
-    }
-
-    // 결제 진행 상태 설정
-    setIsPaymentInProgress(true);
-
-    // 결제 시점의 수량과 총액을 정확하게 반영
-    const currentProductPrice = productInfo.price * quantity;
-
-    // 결제창 표시 전에 현재 URL을 기억하기 위한 히스토리 포인트 추가
-    window.history.pushState({ page: "payment" }, "", window.location.href);
-
-    // 디바이스 체크
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
-    console.log("디바이스 체크:", isMobile ? "모바일" : "PC");
-
-    const paymentData = {
-      pg: "html5_inicis", // PG사
-      pay_method: "card", // 결제수단
-      merchant_uid: `order_${new Date().getTime()}`, // 주문번호
-      name: `${productInfo.name} _ ${productInfo.color} x ${quantity}`, // 주문명
-      amount: currentProductPrice, // 결제금액
-      buyer_email: formData.email,
-      buyer_name: formData.name,
-      buyer_tel: formData.phone,
-      buyer_addr: `${formData.address || ""} ${formData.detailAddress || ""}`,
-      buyer_postcode: formData.postcode || "00000",
-      // 모바일 환경에서는 여기서 m_redirect_url 설정하지 않고 requestPayment 함수에서 처리
-    };
-
-    console.log("결제 요청 데이터:", paymentData);
-    console.log("IMP 객체 존재 여부:", window.IMP ? "존재함" : "존재하지 않음");
-
-    requestPayment(paymentData);
-  };
-
-  // 결제 요청 함수 수정
-  const requestPayment = (data) => {
-    if (!window.IMP) {
-      setIsPaymentInProgress(false);
-      alert(
-        "포트원 SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.",
-      );
-      return;
-    }
-
-    const { IMP } = window;
-    IMP.init("imp66470748"); // 가맹점 식별코드
-
-    // 모바일 환경 확인
-    const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      );
-    console.log("모바일 환경:", isMobile);
-
-    // 주문 정보
-    const orderInfo = {
-      product: `${productInfo.name} _ ${productInfo.color}`,
-      quantity: quantity,
-      totalPrice: productInfo.price * quantity,
-      buyerInfo: formData,
-      productImage: productInfo.image,
-    };
-
-    // 모바일 환경에서는 m_redirect_url 설정 필수, 콜백 없음
-    if (isMobile) {
-      // 주문 정보를 로컬 스토리지에 저장
-      try {
-        localStorage.setItem("orderInfo", JSON.stringify(orderInfo));
-      } catch (error) {
-        console.error("로컬 스토리지 저장 실패:", error);
+      if (!formData.name || !formData.phone || !formData.email) {
+        alert("이름, 연락처, 이메일을 입력해주세요.");
+        return;
       }
 
-      // 모바일용 결제 요청 데이터 구성
-      data.m_redirect_url = `${window.location.origin}/order-complete`;
+      if (!window.IMP) {
+        alert("포트원 SDK가 로드되지 않았습니다. 페이지를 새로고침 후 다시 시도해주세요.");
+        console.error("IMP 객체가 없음:", window.IMP);
+        return;
+      }
 
-      // 모바일에서는 콜백 없이 결제 요청
-      IMP.request_pay(data);
-    } else {
-      // PC 환경에서는 iframe 방식, 콜백 함수 사용
-      IMP.request_pay(data, function (response) {
+      setIsPaymentInProgress(true);
+
+      const merchantUid = `order_${new Date().getTime()}`;
+      const amount = productInfo.price * quantity; // ✅ 결제금액
+
+      const orderInfo = {
+        merchant_uid: merchantUid,
+        product: `${productInfo.name} _ ${productInfo.color}`, // ✅ 상품명 포함
+        quantity,
+        amount, // ✅ 결제금액 포함
+        buyer_name: formData.name,
+        buyer_email: formData.email,
+        buyer_tel: formData.phone,
+        buyer_addr: `${formData.address || ""} ${formData.detailAddress || ""}`,
+        buyer_postcode: formData.postcode || "00000",
+        status: "결제 진행 중",
+      };
+
+      try {
+        await saveToGoogleSheet(orderInfo);
+//         console.log("📌 주문 정보가 스프레드시트에 저장됨:", orderInfo);
+      } catch (error) {
+        console.error("❌ 주문 정보 저장 실패:", error);
+      }
+
+      const paymentData = {
+        ...orderInfo, // ✅ 상품명 포함한 orderInfo 사용
+        name: `${productInfo.name} (${productInfo.color}) x ${quantity}`,
+        pg: "html5_inicis",
+        pay_method: "card",
+        m_redirect_url: `${window.location.origin}/order-complete`,
+      };
+
+//       console.log("📌 결제 요청 데이터:", paymentData);
+      requestPayment(paymentData);
+  };
+
+  /**
+   * ✅ 결제 요청 함수에서 상품명 포함
+   */
+  const requestPayment = (data) => {
+      if (!window.IMP) {
         setIsPaymentInProgress(false);
-        console.log("결제 응답:", response);
+        alert("포트원 SDK가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
+      const { IMP } = window;
+      IMP.init("imp66470748");
+
+//       console.log("📌 결제 진행 중...");
+
+      IMP.request_pay(data, async (response) => {
+        setIsPaymentInProgress(false);
+//         console.log("📌 결제 응답:", response);
 
         if (response.success) {
-          // 결제 성공 시 주문 완료 페이지로 이동
+          alert("✅ 결제 성공!");
+
+          await saveToGoogleSheet({
+            ...data,  // ✅ 성공 시에도 상품명 포함
+            status: "결제 완료",
+          });
+
           navigate("/order-complete", {
             state: {
               orderId: response.merchant_uid,
               paymentInfo: response,
-              orderInfo: orderInfo,
             },
           });
         } else {
-          // 결제 실패 처리
-          if (response.error_msg === "사용자가 결제를 취소하셨습니다") {
-            console.log("사용자가 결제를 취소했습니다.");
-          } else {
-            alert(`결제에 실패했습니다: ${response.error_msg}`);
-          }
+          alert(`❌ 결제 실패: ${response.error_msg}`);
+
+          await saveToGoogleSheet({
+            ...data,  // ✅ 실패 시에도 상품명 포함
+            status: "결제 실패",
+          });
         }
       });
-    }
   };
 
-  const searchPostcode = () => {
-    if (postcodeScriptLoaded && window.daum && window.daum.Postcode) {
-      console.log("우편번호 검색 시작");
-
-      // PC와 모바일 환경에 따라 다르게 처리
-      const isMobile =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent,
-        );
-
-      if (isMobile) {
-        // 모바일에서는 기본 팝업 사용
-        new window.daum.Postcode({
-          oncomplete: (data) => {
-            console.log("우편번호 검색 완료:", data);
-            setFormData((prev) => ({
-              ...prev,
-              postcode: data.zonecode,
-              address: data.address,
-            }));
+  /**
+   * ✅ Google Sheets 저장 함수 (상품명 포함)
+   */
+  const saveToGoogleSheet = async (data) => {
+      try {
+//         console.log("📌 Google Sheets API 요청 데이터:", data);
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbyCYRF5U6Icq1B2UKUHlDyE-Sfa0glF2MAM3Tmu9LVhhQSNabaJ-bBeD4KibURnodB1rA/exec",
+          {
+            method: "POST",
+            mode: "no-cors", // ✅ CORS 에러 방지
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
           },
-        }).open();
-      } else {
-        // PC에서는 iframe으로 표시
-        const postcodeWrapper = document.getElementById(
-          "searchPostcodeWrapper",
         );
-        if (postcodeWrapper) {
-          postcodeWrapper.style.display = "block";
 
-          // iframe을 이용해 우편번호 서비스 실행
-          new window.daum.Postcode({
-            oncomplete: (data) => {
-              console.log("우편번호 검색 완료:", data);
-              setFormData((prev) => ({
-                ...prev,
-                postcode: data.zonecode,
-                address: data.address,
-              }));
-
-              // 검색 완료 후 팝업 닫기
-              postcodeWrapper.style.display = "none";
-
-              // iframe 제거
-              postcodeWrapper.innerHTML = "";
-            },
-            onclose: () => {
-              // 사용자가 닫기 버튼을 눌렀을 때
-              postcodeWrapper.style.display = "none";
-              postcodeWrapper.innerHTML = "";
-            },
-            width: "100%",
-            height: "100%",
-          }).embed(postcodeWrapper);
-        }
+//         console.log("📌 스프레드시트 저장 성공!");
+      } catch (error) {
+//         console.error("❌ 스프레드시트 저장 오류:", error);
       }
-    } else {
+  };
+
+
+
+  // 우편번호 검색
+  const searchPostcode = () => {
+    if (!postcodeScriptLoaded || !window.daum || !window.daum.Postcode) {
       alert(
         "우편번호 검색 서비스가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.",
       );
@@ -341,7 +284,18 @@ export default function Purchase() {
         daumExists: !!window.daum,
         postcodeExists: window.daum ? !!window.daum.Postcode : false,
       });
+      return;
     }
+
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        setFormData((prev) => ({
+          ...prev,
+          postcode: data.zonecode,
+          address: data.address,
+        }));
+      },
+    }).open();
   };
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
@@ -358,6 +312,7 @@ export default function Purchase() {
     }
     return `${productInfo.name} _ ${productInfo.color}`;
   };
+
   return (
     <PageContainer>
       {/* 상단 고정 헤더 */}
@@ -375,13 +330,13 @@ export default function Purchase() {
           <ProductScrollSection>
             <ProductImage src={productInfo.image} alt="AInoon" />
             <ProductTitle>{getProductTitle()}</ProductTitle>
-            {/*<QuantitySelector>*/}
-            {/*  <QuantityControls>*/}
-            {/*    <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>*/}
-            {/*    <QuantityDisplay>{quantity}</QuantityDisplay>*/}
-            {/*    <QuantityButton onClick={increaseQuantity}>+</QuantityButton>*/}
-            {/*  </QuantityControls>*/}
-            {/*</QuantitySelector>*/}
+            <QuantitySelector>
+              <QuantityControls>
+                <QuantityButton onClick={decreaseQuantity}>-</QuantityButton>
+                <QuantityDisplay>{quantity}</QuantityDisplay>
+                <QuantityButton onClick={increaseQuantity}>+</QuantityButton>
+              </QuantityControls>
+            </QuantitySelector>
 
             <PriceSummary>
               <PriceRow>
@@ -759,19 +714,6 @@ const ProductScrollWrapper = styled.div`
   overflow: hidden;
 `;
 
-const ProductTitle = styled.h2`
-  font-size: 28px;
-  font-weight: 600;
-  text-align: center;
-  color: ${theme.text.primary};
-`;
-
-const ProductImage = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-`;
-
 const SectionTitle = styled.h3`
   margin: 0 0 15px 0;
   font-size: 18px;
@@ -795,67 +737,6 @@ const CheckoutFixedSection = styled.div`
   @media (max-width: 768px) {
     position: static;
   }
-`;
-
-const QuantitySelector = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const QuantityControls = styled.div`
-  display: flex;
-  background-color: white;
-  align-items: center;
-  border: 1px solid ${theme.border.medium};
-  border-radius: 100px;
-  overflow: hidden;
-`;
-
-const QuantityButton = styled.button`
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: ${theme.text.primary};
-
-  &:hover {
-    background-color: ${theme.border.light};
-  }
-`;
-
-const QuantityDisplay = styled.span`
-  width: 40px;
-  text-align: center;
-  color: ${theme.text.primary};
-`;
-
-const PriceSummary = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-`;
-
-const PriceRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const PriceValue = styled.span`
-  font-weight: 700;
-  font-size: 24px;
-  color: orangered;
-`;
-
-const TaxNotice = styled.p`
-  font-size: 12px;
-  color: ${theme.text.muted};
-  margin: 5px 0 0 0;
 `;
 
 const CheckoutForm = styled.form`
@@ -952,7 +833,6 @@ const SubmitButton = styled.button`
     transform: translateY(0);
   }
 `;
-
 const RefundPolicySection = styled.div`
   margin: 40px 0;
   background-color: ${theme.background.light};
@@ -1066,4 +946,78 @@ const ProductScrollSection = styled.div`
     overflow-y: visible;
     margin-bottom: 30px;
   }
+`;
+
+const ProductTitle = styled.h2`
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  color: ${theme.text.primary};
+`;
+
+const ProductImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+`;
+
+const QuantitySelector = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const QuantityControls = styled.div`
+  display: flex;
+  background-color: white;
+  align-items: center;
+  border: 1px solid ${theme.border.medium};
+  border-radius: 100px;
+  overflow: hidden;
+`;
+
+const QuantityButton = styled.button`
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: ${theme.text.primary};
+
+  &:hover {
+    background-color: ${theme.border.light};
+  }
+`;
+
+const QuantityDisplay = styled.span`
+  width: 40px;
+  text-align: center;
+  color: ${theme.text.primary};
+`;
+
+const PriceSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
+const PriceRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PriceValue = styled.span`
+  font-weight: 700;
+  font-size: 24px;
+  color: orangered;
+`;
+
+const TaxNotice = styled.p`
+  font-size: 12px;
+  color: ${theme.text.muted};
+  margin: 5px 0 0 0;
 `;

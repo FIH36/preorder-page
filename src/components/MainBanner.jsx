@@ -55,7 +55,7 @@ export default function MainBanner({ isActive, scrollY }) {
     }
 
     const IMP = window.IMP;
-    IMP.init("imp05377622");
+    IMP.init("imp66470748");
     const merchantUid = `order_${new Date().getTime()}`;
     const amount = 10000;
 
