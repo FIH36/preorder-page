@@ -2,7 +2,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll } from "framer-motion";
-import PaymentModal from "./PaymentModal.jsx";
 
 export default function MainBanner({ isActive, scrollY }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,15 +37,6 @@ export default function MainBanner({ isActive, scrollY }) {
     script.async = true;
     document.body.appendChild(script);
   }, []);
-
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
-  const handleConfirm = (formData) => {
-    setUserData(formData);
-    handleCloseModal();
-    processPayment(formData);
-  };
 
   const processPayment = (formData) => {
     if (!window.IMP) {
@@ -132,7 +122,7 @@ export default function MainBanner({ isActive, scrollY }) {
         />
       </Header>
 
-      <VideoSection style={{ opacity: currentStep === 3 ? 0 : 1 }}>
+      <VideoSection>
         <BackgroundVideo autoPlay loop muted playsInline>
           <source src="/Main.mp4" type="video/mp4" />
         </BackgroundVideo>
@@ -151,13 +141,6 @@ export default function MainBanner({ isActive, scrollY }) {
           <MainText>눈앞의 모든 순간이 당신의 콘텐츠가 됩니다</MainText>
         </motion.div>
       </ContentContainer>
-
-      {/* 결제 모달 */}
-      <PaymentModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirm}
-      />
     </BannerWrapper>
   );
 }
@@ -171,34 +154,29 @@ const BannerWrapper = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: black;
+  //background-color: black;
 `;
 const Header = styled.div`
+  z-index: 5;
+  position: absolute;
+  top: 0;
   width: 100%;
   height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  z-index: 5;
-  position: absolute;
-  top: 0;
 `;
 
 const VideoSection = styled.div`
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  transition: opacity 0.5s ease-in-out;
 `;
 
 const BackgroundVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

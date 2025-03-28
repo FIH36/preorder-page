@@ -7,6 +7,7 @@ import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
 import Specification from "../components/Specifications.jsx";
+import BrandIntroSection from "../components/BrandIntroSection.jsx";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function Home() {
     { id: "banner", component: MainBanner, ref: null },
     { id: "feature", component: Feature, ref: null },
     { id: "Specification", component: Specification, ref: null },
-    { id: "products", component: null, ref: null }, // 새로운 제품 선택 섹션
+    { id: "products", component: null, ref: null },
   ];
 
   // 제품 데이터
@@ -200,22 +201,29 @@ export default function Home() {
         </IntroSection>
       )}
       <Container>
-        {/* 섹션 컨테이너 */}
         <SectionsContainer>
-          {sections.slice(0, 3).map((Section, index) => (
-            <SectionWrapper
-              key={Section.id}
-              ref={(el) => (sectionsRef.current[index] = el)}
-              id={Section.id}
-            >
-              <Section.component
-                isActive={activeSection === index}
-                scrollY={scrollY}
-              />
-            </SectionWrapper>
-          ))}
+          {/*{sections.slice(0, 3).map((Section, index) => (*/}
+          {/*  <SectionWrapper*/}
+          {/*    key={Section.id}*/}
+          {/*    ref={(el) => (sectionsRef.current[index] = el)}*/}
+          {/*    id={Section.id}*/}
+          {/*  >*/}
+          {/*    <Section.component*/}
+          {/*      isActive={activeSection === index}*/}
+          {/*      scrollY={scrollY}*/}
+          {/*    />*/}
+          {/*  </SectionWrapper>*/}
+          {/*))}*/}
+          <MainBanner />
+          <VideoSection>
+            <BackgroundVideo autoPlay loop muted playsInline>
+              <source src="/Intro.mp4" type="video/mp4" />
+            </BackgroundVideo>
+          </VideoSection>
+          <BrandIntroSection />
+          <Feature />
+          <Specification />
 
-          {/* 제품 선택 섹션 */}
           <SectionWrapper
             ref={(el) => (sectionsRef.current[3] = el)}
             id="products"
@@ -283,7 +291,6 @@ const Container = styled.div`
   background-color: black;
   color: white;
   overflow-x: hidden;
-  padding-bottom: 70px;
 `;
 
 const IntroSection = styled.section`
@@ -332,6 +339,20 @@ const SectionWrapper = styled.section`
   align-items: center;
   justify-content: center;
   position: relative;
+`;
+
+const VideoSection = styled.div`
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+`;
+
+const BackgroundVideo = styled.video`
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
 `;
 
 const BuyNowBannerContainer = styled.div`
