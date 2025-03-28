@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
+import { motion } from "framer-motion"; // framer-motion 추가 (필요시 설치)
 // swiper 라이브러리 관련 import
 // 설치 필요: npm install swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,6 +16,12 @@ const BrandIntroSection = () => {
   );
   const videoRefs = useRef({});
 
+  // 텍스트 애니메이션을 위한 상태 추가
+  const [titleVisible, setTitleVisible] = useState(false);
+  const [subtitleVisible, setSubtitleVisible] = useState(false);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -22,6 +29,49 @@ const BrandIntroSection = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 스크롤 애니메이션을 위한 Intersection Observer 설정
+  useEffect(() => {
+    const titleObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTitleVisible(true);
+            titleObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    const subtitleObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // 제목이 나타난 후 약간의 지연 시간을 두고 부제목 표시
+            setTimeout(() => {
+              setSubtitleVisible(true);
+            }, 300);
+            subtitleObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    if (titleRef.current) {
+      titleObserver.observe(titleRef.current);
+    }
+
+    if (subtitleRef.current) {
+      subtitleObserver.observe(subtitleRef.current);
+    }
+
+    return () => {
+      if (titleRef.current) titleObserver.disconnect();
+      if (subtitleRef.current) subtitleObserver.disconnect();
+    };
   }, []);
 
   // 비디오 재생 관리
@@ -50,17 +100,57 @@ const BrandIntroSection = () => {
     }
   };
 
+  // 애니메이션 변수
+  const titleVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.1, 0.25, 1.0],
+      },
+    },
+  };
+
+  const subtitleVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.1, 0.25, 1.0],
+      },
+    },
+  };
+
   return (
     <SectionWrapper>
       <HeroText>AInoon Becomes a Part of Everyday Life</HeroText>
       <ContentWrapper>
         <TitleBlock>
-          <MainTitle>
-            탭-탭!<span> 찰칵보다 </span>빠른 터치!
-          </MainTitle>
-          <Subtitle>
-            찰나를 저장하는 마법의 터치, 내 눈앞의 순간을 영원히 기억하자
-          </Subtitle>
+          <motion.div
+            ref={titleRef}
+            variants={titleVariants}
+            initial="hidden"
+            animate={titleVisible ? "visible" : "hidden"}
+          >
+            <MainTitle>
+              탭-탭!<span> 찰칵보다 </span>빠른 터치!
+            </MainTitle>
+          </motion.div>
+
+          <motion.div
+            ref={subtitleRef}
+            variants={subtitleVariants}
+            initial="hidden"
+            animate={subtitleVisible ? "visible" : "hidden"}
+          >
+            <Subtitle>
+              찰나를 저장하는 마법의 터치, 내 눈앞의 순간을 영원히 기억하자
+            </Subtitle>
+          </motion.div>
         </TitleBlock>
 
         <CarouselContainer>
@@ -210,18 +300,15 @@ const CarouselContainer = styled.div`
   @media (max-width: 768px) {
     padding: 1.5rem 0;
 
-    /* 모바일에서 swiper 컨테이너 스타일 조정 */
     .swiper {
       overflow: visible;
       padding: 1.5rem 0;
     }
 
-    /* 활성 슬라이드의 z-index 높이기 */
     .swiper-slide-active {
       z-index: 10;
     }
 
-    /* 비활성 슬라이드 투명도 약간 낮추기 */
     .swiper-slide:not(.swiper-slide-active) {
       opacity: 0.8;
     }

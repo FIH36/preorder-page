@@ -147,7 +147,7 @@ export default function Home() {
           <MainBanner />
 
           <VideoSection>
-            <BackgroundVideo autoPlay loop muted playsInline>
+            <BackgroundVideo autoPlay loop muted playsInline controls>
               <source src="/Intro.mp4" type="video/mp4" />
             </BackgroundVideo>
           </VideoSection>
