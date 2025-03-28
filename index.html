@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +10,14 @@
     <meta name="naver-site-verification" content="14a544cae1a63a1cb911f07f1b6b3af72cd30fec" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AINOON</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCH49ZCCWT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PCH49ZCCWT');
+    </script>
   </head>
 
   <body>
@@ -18,6 +25,43 @@
     <script type="module" src="/src/main.jsx"></script>
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+    <!-- public/index.html에 붙이기 (또는 React에서 부트 시) -->
+    <script>
+      (function(){
+        var w = window;
+        if (w.ChannelIO) {
+          return w.console.error("ChannelIO script included twice.");
+        }
+        var ch = function(){ ch.c(arguments); };
+        ch.q = [];
+        ch.c = function(args){ ch.q.push(args); };
+        w.ChannelIO = ch;
+
+        function l(){
+          if (w.ChannelIOInitialized) return;
+          w.ChannelIOInitialized = true;
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://cdn.channel.io/plugin/ch-plugin-web.js";
+          var x = document.getElementsByTagName("script")[0];
+          if (x.parentNode) {
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+
+        if (document.readyState === "complete") {
+          l();
+        } else {
+          w.addEventListener("DOMContentLoaded", l);
+          w.addEventListener("load", l);
+        }
+      })();
+
+      ChannelIO('boot', {
+        "pluginKey": "3a356305-70f9-4af4-a5c3-fef49d14629f"
+      });
+    </script>
 
   </body>
 </html>

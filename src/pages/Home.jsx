@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
@@ -9,109 +8,98 @@ import Footer from "../components/Footer.jsx";
 import Specification from "../components/Specifications.jsx";
 import BrandIntroSection from "../components/BrandIntroSection.jsx";
 
+// 제품 데이터
+const PRODUCTS = [
+  {
+    id: "하금테_스타일",
+    name: "하금테 스타일",
+    color: "Black",
+    price: 240000,
+    image: "/black_01.png",
+    subtitle: "세련된 감각을 담아 스마트함을 더한 하금테 프레임",
+  },
+  {
+    id: "스퀘어_스타일",
+    name: "스퀘어 스타일",
+    color: "Black",
+    price: 260000,
+    image: "/Black_Clear01.png",
+    subtitle: "클래식한 무드를 담아 신뢰감을 주는 블랙 프레임",
+  },
+];
+
+const STORE_URLS = {
+  blackFrame:
+    "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/56/display/1/",
+};
+
+const productCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.25, 0.1, 0.25, 1.0],
+    },
+  },
+  hover: {
+    y: -10,
+    boxShadow:
+      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    backgroundColor: "#1e1e21",
+    transition: { duration: 0.3 },
+  },
+};
+
 export default function Home() {
-  const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
-  const sectionsRef = useRef([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [visibleProducts, setVisibleProducts] = useState([]);
-  const productsRef = useRef([]);
   const [introDone, setIntroDone] = useState(false);
+  const [buyNowText, setBuyNowText] = useState("지금 바로 구매하기");
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
-  const sections = [
-    { id: "banner", component: MainBanner, ref: null },
-    { id: "feature", component: Feature, ref: null },
-    { id: "Specification", component: Specification, ref: null },
-    { id: "products", component: null, ref: null },
-  ];
-
-  // 제품 데이터
-  const products = [
-    {
-      id: "하금테 스타일",
-      name: "하금테 스타일",
-      color: "Black",
-      price: 240000,
-      image: "/black_01.png", // 기존 이미지 경로 사용
-      quantity: 1,
-      type: "single",
-      subtitle: "세련된 감각을 담아 스마트함을 더한 하금테 프레임",
-    },
-    {
-      id: "스퀘어 스타일",
-      name: "스퀘어 스타일",
-      color: "Black",
-      price: 260000,
-      image: "/Black_Clear01.png", // 기존 이미지 경로 사용
-      quantity: 1,
-      type: "bundle",
-      subtitle: "클래식한 무드를 담아 신뢰감을 주는 블랙 프레임",
-    },
-  ];
-
-  // 애니메이션 변수
-  const productCardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 30,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.1, 0.25, 1.0],
-      },
-    },
-    hover: {
-      y: -10,
-      boxShadow:
-        "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      backgroundColor: "#1e1e21",
-      transition: { duration: 0.3 },
-    },
-  };
-
-  // 스크롤 이벤트 핸들러
+  // 반응형 텍스트 처리
   useEffect(() => {
-    const handleScroll = () => {
-      const position = window.scrollY;
-      setScrollY(position);
-
-      // 현재 활성 섹션 찾기
-      let active = 0;
-      sectionsRef.current.forEach((section, index) => {
-        if (section && position >= section.offsetTop - window.innerHeight / 2) {
-          active = index;
-        }
-      });
-
-      setActiveSection(active);
+    const handleResize = () => {
+      setBuyNowText(
+        window.innerWidth <= 1000 ? "구매하기" : "지금 바로 구매하기",
+      );
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // 인트로 로딩 처리
+  useEffect(() => {
+    setTimeout(() => {
+      setVideoLoaded(true);
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    if (videoLoaded) {
+      const timer = setTimeout(() => setIntroDone(true), 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [videoLoaded]);
 
   // 제품 카드 인터섹션 옵저버
   useEffect(() => {
-    // refs 배열 초기화
-    productsRef.current = Array(products.length)
-      .fill()
-      .map((_, i) => productsRef.current[i] || { current: null });
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // 제품의 데이터 인덱스 가져오기
             const productIndex = parseInt(entry.target.dataset.index);
             if (!visibleProducts.includes(productIndex)) {
-              // 약간의 지연 시간을 두고 배열에 추가
               setTimeout(() => {
                 setVisibleProducts((prev) => [...prev, productIndex]);
-              }, productIndex * 200); // 각 제품마다 200ms 지연
+              }, productIndex * 200);
             }
           }
         });
@@ -119,7 +107,6 @@ export default function Home() {
       { threshold: 0.2 },
     );
 
-    // 모든 제품 참조에 관찰자 추가
     const productElements = document.querySelectorAll(".product-card");
     productElements.forEach((el, index) => {
       el.dataset.index = index;
@@ -133,59 +120,14 @@ export default function Home() {
     };
   }, [visibleProducts]);
 
-  // 섹션으로 스크롤
-  const scrollToSection = (index) => {
-    const section = sectionsRef.current[index];
-    if (section) {
-      window.scrollTo({
-        top: section.offsetTop,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // 구매하기 페이지로 이동 (하단 버튼용)
+  // 구매 버튼
   const handleBuyNow = () => {
-    // 기본 제품으로 purchase 페이지로 이동
-    navigate("/purchase", { state: { product: products[1] } });
+    window.open(STORE_URLS.blackFrame, "_blank");
   };
 
-  // 특정 제품 구매하기
-  const handleBuyProduct = (product) => {
-    navigate("/purchase", { state: { product } });
+  const handleBuyProduct = (productId) => {
+    window.open(STORE_URLS.blackFrame, "_blank");
   };
-
-  const [buyNowText, setBuyNowText] = useState("지금 바로 구매하기");
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 1000) {
-        setBuyNowText("구매하기");
-      } else {
-        setBuyNowText("지금 바로 구매하기");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // 초기 로드 시 체크
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const [videoLoaded, setVideoLoaded] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setVideoLoaded(true);
-    }, 500); // 0.5초 후에 로딩 완료 (실제 로직에 맞게 조정 가능)
-  }, []);
-
-  useEffect(() => {
-    if (videoLoaded) {
-      const timer = setTimeout(() => setIntroDone(true), 1800);
-      return () => clearTimeout(timer);
-    }
-  }, [videoLoaded]);
 
   return (
     <>
@@ -202,32 +144,19 @@ export default function Home() {
       )}
       <Container>
         <SectionsContainer>
-          {/*{sections.slice(0, 3).map((Section, index) => (*/}
-          {/*  <SectionWrapper*/}
-          {/*    key={Section.id}*/}
-          {/*    ref={(el) => (sectionsRef.current[index] = el)}*/}
-          {/*    id={Section.id}*/}
-          {/*  >*/}
-          {/*    <Section.component*/}
-          {/*      isActive={activeSection === index}*/}
-          {/*      scrollY={scrollY}*/}
-          {/*    />*/}
-          {/*  </SectionWrapper>*/}
-          {/*))}*/}
           <MainBanner />
+
           <VideoSection>
             <BackgroundVideo autoPlay loop muted playsInline>
               <source src="/Intro.mp4" type="video/mp4" />
             </BackgroundVideo>
           </VideoSection>
+
           <BrandIntroSection />
           <Feature />
           <Specification />
 
-          <SectionWrapper
-            ref={(el) => (sectionsRef.current[3] = el)}
-            id="products"
-          >
+          <SectionWrapper id="products">
             <ContentSection>
               <SectionTitle>
                 <GradientText>AInoon 구매하기</GradientText>
@@ -238,7 +167,7 @@ export default function Home() {
 
               <FeatureGrid>
                 <FeatureSection>
-                  {products.map((product, index) => (
+                  {PRODUCTS.map((product, index) => (
                     <FeatureBox
                       key={product.id}
                       className="product-card"
@@ -259,8 +188,8 @@ export default function Home() {
                         {product.name} {product.color}
                       </FeatureTitle>
                       <PriceTag>{product.price.toLocaleString()}원</PriceTag>
-                      <PreOrderButton onClick={() => handleBuyProduct(product)}>
-                        {product.type === "bundle"
+                      <PreOrderButton onClick={handleBuyProduct}>
+                        {product.name === "스퀘어 스타일"
                           ? "스퀘어 스타일 사전 예약하기"
                           : "하금테 스타일 사전 예약하기"}
                       </PreOrderButton>
@@ -320,11 +249,6 @@ const LogoWrapper = styled.div`
       transform: scale(1.4);
     }
   }
-`;
-
-const Logo = styled.img`
-  width: 200px;
-  filter: invert(1);
 `;
 
 const SectionsContainer = styled.div`
@@ -454,7 +378,7 @@ const FeatureSection = styled.div`
   width: 100%;
   display: flex;
   gap: 2rem;
-  height: 580px; /* 제품 카드 높이 조정 */
+  height: 580px;
 
   @media (max-width: 1024px) {
     flex-direction: column;

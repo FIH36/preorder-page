@@ -1,263 +1,140 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
+// swiper 라이브러리 관련 import
+// 설치 필요: npm install swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const BrandIntroSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0,
+  );
+  const videoRefs = useRef({});
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 비디오 재생 관리
+  useEffect(() => {
+    // 모든 비디오 일시 정지
+    Object.values(videoRefs.current).forEach((video) => {
+      if (video) video.pause();
+    });
+
+    // 활성 비디오만 재생
+    const activeVideo = videoRefs.current[activeIndex];
+    if (activeVideo) {
+      activeVideo.currentTime = 0;
+      activeVideo.play().catch((e) => console.log("비디오 자동재생 실패:", e));
+    }
+  }, [activeIndex]);
+
+  const isMobile = windowWidth <= 768;
+
+  // 동적으로 슬라이드 너비 계산
+  const getSlideWidth = () => {
+    if (isMobile) {
+      return { width: "80vw" };
+    } else {
+      return { width: "720px" };
+    }
+  };
+
   return (
     <SectionWrapper>
       <HeroText>AInoon Becomes a Part of Everyday Life</HeroText>
-
       <ContentWrapper>
         <TitleBlock>
           <MainTitle>
-            안경처럼 <span>가볍게,</span> 스마트폰보다 <span>빠르게</span>
+            탭-탭!<span> 찰칵보다 </span>빠른 터치!
           </MainTitle>
           <Subtitle>
-            한 번의 탭으로 빠르게 촬영하여, 순간을 놓치지 않고 오래 기억하세요!
+            찰나를 저장하는 마법의 터치, 내 눈앞의 순간을 영원히 기억하자
           </Subtitle>
         </TitleBlock>
 
-        <CardRow>
-          <Card>
-            <CardImage />
-            <CardContent>
-              <CardTitle>반려동물의 사랑스러운 순간</CardTitle>
-              <CardDescription>놓칠 틈 없이 빠르게 기록하세요</CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardImage />
-            <CardContent>
-              <CardTitle>아기 첫 걸음</CardTitle>
-              <CardDescription>
-                순간이 아닌 영원한 기억으로 남겨주세요
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardImage />
-            <CardContent>
-              <CardTitle>행복한</CardTitle>
-              <CardDescription>
-                기억이 아닌 기록으로 오래오래 간직하세요
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardImage />
-            <CardContent>
-              <CardTitle>기억할 필요 없이</CardTitle>
-              <CardDescription>
-                사진 한장으로 주차 위치를 찾으세요
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </CardRow>
+        <CarouselContainer>
+          <StyledSwiper
+            modules={[Pagination, Navigation, Autoplay]}
+            spaceBetween={isMobile ? 32 : 64}
+            slidesPerView={"auto"}
+            centeredSlides={true}
+            loop={true}
+            autoplay={{
+              delay: 4000,
+              disableOnInteraction: false,
+            }}
+            onSlideChange={(swiper) => {
+              setActiveIndex(swiper.realIndex);
+            }}
+            initialSlide={0}
+            watchSlidesProgress={true}
+          >
+            {cardData.map((card, index) => (
+              <StyledSwiperSlide key={index} style={getSlideWidth()}>
+                {({ isActive }) => (
+                  <Card isActive={isActive}>
+                    <VideoWrapper>
+                      <Video
+                        ref={(el) => (videoRefs.current[index] = el)}
+                        src={card.video}
+                        muted
+                        loop
+                        playsInline
+                      />
+                    </VideoWrapper>
+                    <CardContent>
+                      <CardTitle>{card.title}</CardTitle>
+                      <CardDescription>{card.description}</CardDescription>
+                    </CardContent>
+                  </Card>
+                )}
+              </StyledSwiperSlide>
+            ))}
+          </StyledSwiper>
+        </CarouselContainer>
       </ContentWrapper>
-      {/*<div*/}
-      {/*  style={{*/}
-      {/*    backgroundColor: "#EFF0F3",*/}
-      {/*    display: "flex",*/}
-      {/*    flexDirection: "column",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      color: "white",*/}
-      {/*      fontSize: "120px",*/}
-      {/*      fontWeight: "bold",*/}
-      {/*      padding: "4.5rem",*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    AInoon Becomes a Part of Everyday Life*/}
-      {/*  </div>*/}
-      {/*  <div style={{ padding: "4.5rem 0 9rem 0" }}>*/}
-      {/*    <div style={{ marginBottom: "100px" }}>*/}
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          color: "black",*/}
-      {/*          fontSize: "3.25rem",*/}
-      {/*          fontWeight: "700",*/}
-      {/*          textAlign: "center",*/}
-      {/*          marginBottom: "1rem",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        안경처럼 <span style={{ color: "#909294" }}>가볍게,</span>*/}
-      {/*        스마트폰보다 <span style={{ color: "#909294" }}>빠르게</span>*/}
-      {/*      </div>*/}
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          color: "#909294",*/}
-      {/*          fontSize: "1.5rem",*/}
-      {/*          textAlign: "center",*/}
-      {/*          fontWeight: "400",*/}
-      {/*          letterSpacing: "-0.5px",*/}
-      {/*          opacity: "0.8",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        한 번의 탭으로 빠르게 촬영하여, 순간을 놓치지 않고 오래*/}
-      {/*        기억하세요!*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*    <div*/}
-      {/*      style={{*/}
-      {/*        display: "flex",*/}
-      {/*        flexDirection: "row",*/}
-      {/*        gap: "1.5rem",*/}
-      {/*      }}*/}
-      {/*    >*/}
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          backgroundColor: "white",*/}
-      {/*          color: "black",*/}
-      {/*          borderRadius: "1.5rem",*/}
-      {/*          overflow: "hidden",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            backgroundColor: "gray",*/}
-      {/*            width: "520px",*/}
-      {/*            height: "293px",*/}
-      {/*          }}*/}
-      {/*        />*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            padding: "2rem",*/}
-      {/*            fontSize: "1.25rem",*/}
-      {/*            letterSpacing: "-0.5px",*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <div*/}
-      {/*            style={{*/}
-      {/*              marginBottom: "0.5rem",*/}
-      {/*              fontWeight: "600",*/}
-      {/*              color: "#2580FF",*/}
-      {/*            }}*/}
-      {/*          >*/}
-      {/*            반려동물의 사랑스러운 순간*/}
-      {/*          </div>*/}
-      {/*          <div>놓칠 틈 없이 빠르게 기록하세요</div>*/}
-      {/*        </div>*/}
-      {/*      </div>*/}
-
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          backgroundColor: "white",*/}
-      {/*          color: "black",*/}
-      {/*          borderRadius: "1.5rem",*/}
-      {/*          overflow: "hidden",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            backgroundColor: "gray",*/}
-      {/*            width: "520px",*/}
-      {/*            height: "293px",*/}
-      {/*          }}*/}
-      {/*        />*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            padding: "2rem",*/}
-      {/*            fontSize: "1.25rem",*/}
-      {/*            letterSpacing: "-0.5px",*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <div*/}
-      {/*            style={{*/}
-      {/*              marginBottom: "0.5rem",*/}
-      {/*              fontWeight: "600",*/}
-      {/*              color: "#2580FF",*/}
-      {/*            }}*/}
-      {/*          >*/}
-      {/*            아기 첫 걸음*/}
-      {/*          </div>*/}
-      {/*          <div>순간이 아닌 영원한 기억으로 남겨주세요</div>*/}
-      {/*        </div>*/}
-      {/*      </div>*/}
-
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          backgroundColor: "white",*/}
-      {/*          color: "black",*/}
-      {/*          borderRadius: "1.5rem",*/}
-      {/*          overflow: "hidden",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            backgroundColor: "gray",*/}
-      {/*            width: "520px",*/}
-      {/*            height: "293px",*/}
-      {/*          }}*/}
-      {/*        />*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            padding: "2rem",*/}
-      {/*            fontSize: "1.25rem",*/}
-      {/*            letterSpacing: "-0.5px",*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <div*/}
-      {/*            style={{*/}
-      {/*              marginBottom: "0.5rem",*/}
-      {/*              fontWeight: "600",*/}
-      {/*              color: "#2580FF",*/}
-      {/*            }}*/}
-      {/*          >*/}
-      {/*            행복한*/}
-      {/*          </div>*/}
-      {/*          <div>기억이 아닌 기록으로 오래오래 간직하세요</div>*/}
-      {/*        </div>*/}
-      {/*      </div>*/}
-
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          backgroundColor: "white",*/}
-      {/*          color: "black",*/}
-      {/*          borderRadius: "1.5rem",*/}
-      {/*          overflow: "hidden",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            backgroundColor: "gray",*/}
-      {/*            width: "520px",*/}
-      {/*            height: "293px",*/}
-      {/*          }}*/}
-      {/*        />*/}
-      {/*        <div*/}
-      {/*          style={{*/}
-      {/*            padding: "2rem",*/}
-      {/*            fontSize: "1.25rem",*/}
-      {/*            letterSpacing: "-0.5px",*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <div*/}
-      {/*            style={{*/}
-      {/*              marginBottom: "0.5rem",*/}
-      {/*              fontWeight: "600",*/}
-      {/*              color: "#2580FF",*/}
-      {/*            }}*/}
-      {/*          >*/}
-      {/*            기억할 필요 없이*/}
-      {/*          </div>*/}
-      {/*          <div>사진 한장으로 주차 위치를 찾으세요</div>*/}
-      {/*        </div>*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </SectionWrapper>
   );
 };
 
+const cardData = [
+  {
+    video: "/01_dog.mp4",
+    title: "사랑스러운 순간",
+    description: "반려동물의 사랑스러운 순간, 놓칠 틈 없이 빠르게 기록하세요",
+  },
+  {
+    video: "/01_baby.mp4",
+    title: "감동의 순간",
+    description: "아기 첫 걸음, 순간이 아닌 영원한 기억으로 남겨주세요",
+  },
+  {
+    video: "/01_family.mp4",
+    title: "행복한 순간",
+    description:
+      "행복한 찰나, 기억이 아닌 기록으로 가족, 친구들과 오래오래 간직하세요",
+  },
+  {
+    video: "/01_parking.mp4",
+    title: "기억이 필요한 순간",
+    description: "기억할 필요 없이 탭 한번으로 주차 위치를 저장하세요",
+  },
+];
+
 const SectionWrapper = styled.div`
   background-color: #eff0f3;
-  overflow: hidden;
+  padding: 1rem;
 `;
 
 const HeroText = styled.div`
@@ -266,17 +143,33 @@ const HeroText = styled.div`
   font-weight: bold;
   padding: 4.5rem;
   white-space: nowrap;
-  width: 140vw; // ← 넓게 보여지도록
-  transform: translateX(-20vw); // ← 좌우로 살짝 밀기
+  width: 140vw;
+  transform: translateX(-20vw);
+
+  @media (max-width: 768px) {
+    font-size: 48px;
+    padding: 2rem 1rem;
+    width: 100vw;
+    white-space: nowrap;
+    transform: translateX(-10vw);
+  }
 `;
 
 const ContentWrapper = styled.div`
   padding: 4.5rem 0 9rem 0;
+
+  @media (max-width: 768px) {
+    padding: 2rem 0 4rem 0;
+  }
 `;
 
 const TitleBlock = styled.div`
   margin-bottom: 100px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const MainTitle = styled.div`
@@ -284,9 +177,14 @@ const MainTitle = styled.div`
   font-size: 3.25rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  word-break: keep-all;
 
   span {
     color: #909294;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
   }
 `;
 
@@ -296,50 +194,123 @@ const Subtitle = styled.div`
   font-weight: 400;
   letter-spacing: -0.5px;
   opacity: 0.8;
+  word-break: keep-all;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 `;
 
-const CardRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  overflow-x: auto;
-  padding: 0 20vw;
-  scroll-snap-type: x mandatory;
+const CarouselContainer = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  padding: 3rem 0;
 
-  &::-webkit-scrollbar {
-    display: none;
+  @media (max-width: 768px) {
+    padding: 1.5rem 0;
+
+    /* 모바일에서 swiper 컨테이너 스타일 조정 */
+    .swiper {
+      overflow: visible;
+      padding: 1.5rem 0;
+    }
+
+    /* 활성 슬라이드의 z-index 높이기 */
+    .swiper-slide-active {
+      z-index: 10;
+    }
+
+    /* 비활성 슬라이드 투명도 약간 낮추기 */
+    .swiper-slide:not(.swiper-slide-active) {
+      opacity: 0.8;
+    }
+  }
+`;
+
+// Swiper 스타일링
+const StyledSwiper = styled(Swiper)`
+  width: 100%;
+  overflow: visible;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    /* 모바일에서 확대 효과가 잘 보이도록 여백 확보 */
+    .swiper-wrapper {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+`;
+
+// StyledSwiperSlide에서 width 속성을 제거하고 인라인 스타일로 처리
+const StyledSwiperSlide = styled(SwiperSlide)`
+  overflow: visible;
+  transition: transform 0.3s ease;
+
+  &.swiper-slide-active {
+    z-index: 10;
   }
 `;
 
 const Card = styled.div`
-  flex: 0 0 auto;
-  background-color: white;
-  color: black;
   border-radius: 1.5rem;
   overflow: hidden;
-  width: 520px;
-  height: auto;
-  scroll-snap-align: start;
+  background: white;
+  //box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease-in-out;
+  transform: ${(props) => (props.isActive ? "scale(1.08)" : "scale(1)")};
+  transform-origin: center center;
+  height: 100%;
 `;
 
-const CardImage = styled.div`
-  background-color: gray;
+const VideoWrapper = styled.div`
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  overflow: hidden;
+`;
+
+const Video = styled.video`
   width: 100%;
-  height: 293px;
+  height: 400px;
+  object-fit: cover;
+  background-color: gray;
+
+  @media (max-width: 768px) {
+    height: 200px;
+  }
 `;
 
 const CardContent = styled.div`
   padding: 2rem;
   font-size: 1.25rem;
   letter-spacing: -0.5px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    font-size: 1rem;
+  }
 `;
 
 const CardTitle = styled.div`
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #2580ff;
+  word-break: keep-all;
 `;
 
-const CardDescription = styled.div``;
+const CardDescription = styled.div`
+  color: black;
+  line-height: 130%;
+  font-weight: 400;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+`;
 
 export default BrandIntroSection;
