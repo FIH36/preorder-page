@@ -368,12 +368,13 @@ export default function Purchase() {
               <PolicySection>
                 <PolicySubtitle>사전예약 및 배송 안내</PolicySubtitle>
                 <PolicyText>
-                  AInoon AI 글래스는 2025년 4월부터 사전예약을 받고 있으며,
-                  2025년 7월부터 순차적으로 배송될 예정입니다.
+                  AInoon AI 글래스는 2025년 4월부터 사전예약을 받고 있으며, 결제
+                  후 2개월 이내 순차적으로 배송될 예정입니다.
                 </PolicyText>
                 <PolicyList>
                   <PolicyItem>
-                    <Highlight>배송 일정:</Highlight> 2025년 7월부터 순차 배송
+                    <Highlight>배송 일정:</Highlight> 결제일로 부터 2개월 이내
+                    순차 배송
                   </PolicyItem>
                   <PolicyItem>
                     <Highlight>배송 방법:</Highlight> 택배 (국내 및 해외 배송
@@ -396,8 +397,8 @@ export default function Purchase() {
                     주문 번호를 보내드립니다
                   </PolicyItem>
                   <PolicyItem>
-                    <Highlight>배송 현황:</Highlight> 2025년 7월부터 순차 배송이
-                    시작되면 배송 상태를 확인할 수 있습니다
+                    <Highlight>배송 현황:</Highlight> 결제일로 부터 2개월 이내
+                    순차 배송이 시작되며, 배송 상태를 확인할 수 있습니다
                   </PolicyItem>
                   <PolicyItem>
                     <Highlight>송장 번호:</Highlight> 배송이 시작되면 송장
