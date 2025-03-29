@@ -116,17 +116,19 @@ export default function MainBanner({ isActive, scrollY }) {
           src="/AInoon-logo.svg"
           alt="Logo"
           style={{
-            height: "1rem",
-            filter: "invert(1)",
+            height: "1.25rem",
           }}
         />
       </Header>
 
-      <VideoSection>
-        <BackgroundVideo autoPlay loop muted playsInline>
-          <source src="/Main.mp4" type="video/mp4" />
-        </BackgroundVideo>
-      </VideoSection>
+      {/*<VideoSection>*/}
+      {/*  <BackgroundVideo autoPlay loop muted playsInline>*/}
+      {/*    <source src="/Main.mp4" type="video/mp4" />*/}
+      {/*  </BackgroundVideo>*/}
+      {/*</VideoSection>*/}
+      <ImageSection>
+        <BackgroundImage src="/Background.png" alt="Background" />
+      </ImageSection>
 
       <ContentContainer>
         <motion.div
@@ -154,17 +156,17 @@ const BannerWrapper = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  //background-color: black;
 `;
 const Header = styled.div`
   z-index: 5;
-  position: absolute;
+  //position: absolute;
   top: 0;
   width: 100%;
   height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 `;
 
 const VideoSection = styled.div`
@@ -183,10 +185,23 @@ const BackgroundVideo = styled.video`
   opacity: 0.9;
 `;
 
+const ImageSection = styled.div`
+  //position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+`;
+
+const BackgroundImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
 const ContentContainer = styled.div`
   position: absolute;
   z-index: 3;
-  top: 14%;
+  top: 144px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -199,14 +214,14 @@ const ContentContainer = styled.div`
 `;
 
 const SubText = styled.h3`
-  font-size: 3rem;
-  font-weight: 600;
-  color: white;
+  font-size: 42px;
+  font-weight: 700;
+  color: black;
   text-align: center;
   word-break: keep-all;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   opacity: 50%;
-  letter-spacing: -1.4px;
+  letter-spacing: -1px;
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -218,12 +233,12 @@ const SubText = styled.h3`
 `;
 
 const MainText = styled.h1`
-  font-size: 3rem;
-  font-weight: 600;
-  color: white;
+  font-size: 42px;
+  font-weight: 700;
+  color: black;
   text-align: center;
   word-break: keep-all;
-  letter-spacing: -1.2px;
+  letter-spacing: -1px;
   line-height: 130%;
 
   @media (max-width: 480px) {

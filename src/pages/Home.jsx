@@ -6,7 +6,9 @@ import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
 import Specification from "../components/Specifications.jsx";
-import BrandIntroSection from "../components/BrandIntroSection.jsx";
+import BrandIntro from "../components/BrandIntro.jsx";
+import UsageIdea from "../components/UsageIdea.jsx";
+import Performance from "../components/Performance.jsx";
 
 // 제품 데이터
 const PRODUCTS = [
@@ -142,6 +144,7 @@ export default function Home() {
           </LogoWrapper>
         </IntroSection>
       )}
+
       <Container>
         <SectionsContainer>
           <MainBanner />
@@ -152,8 +155,30 @@ export default function Home() {
             </BackgroundVideo>
           </VideoSection>
 
-          <BrandIntroSection />
+          <BrandIntro />
+
           <Feature />
+
+          <UsageIdea />
+          <UsageVideoSection>
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls
+              style={{
+                maxWidth: "1200px",
+                height: "auto",
+                borderRadius: "2rem",
+              }}
+            >
+              <source src="/UsageVideo.mp4" type="video/mp4" />
+            </video>
+          </UsageVideoSection>
+
+          <Performance />
+
           <Specification />
 
           <SectionWrapper id="products">
@@ -214,6 +239,30 @@ export default function Home() {
   );
 }
 
+const cardData = [
+  {
+    video: "/01_dog.mp4",
+    title: "사랑스러운 순간",
+    description: "반려동물의 사랑스러운 순간, 놓칠 틈 없이 빠르게 기록하세요",
+  },
+  {
+    video: "/01_baby.mp4",
+    title: "감동의 순간",
+    description: "아기 첫 걸음, 순간이 아닌 영원한 기억으로 남겨주세요",
+  },
+  {
+    video: "/01_family.mp4",
+    title: "행복한 순간",
+    description:
+      "행복한 찰나, 기억이 아닌 기록으로 가족, 친구들과 오래오래 간직하세요",
+  },
+  {
+    video: "/01_parking.mp4",
+    title: "기억이 필요한 순간",
+    description: "기억할 필요 없이 탭 한번으로 주차 위치를 저장하세요",
+  },
+];
+
 const Container = styled.div`
   width: 100%;
   position: relative;
@@ -272,6 +321,16 @@ const VideoSection = styled.div`
   position: relative;
 `;
 
+const UsageVideoSection = styled.div`
+  background-color: white;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 9rem 0;
+`;
+
 const BackgroundVideo = styled.video`
   width: 100%;
   height: 100vh;
@@ -310,8 +369,8 @@ const ProductName = styled.div`
 `;
 
 const BuyNowButton = styled.button`
-  padding: 1rem 2rem;
-  background-color: black;
+  padding: 14px 1.5rem;
+  background: linear-gradient(46deg, #2580ff 0%, #6e5cff 50%, #b5a1ff 100%);
   color: white;
   border-radius: 100px;
   font-size: 18px;
