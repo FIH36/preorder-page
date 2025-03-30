@@ -209,7 +209,7 @@ const SectionWrapper = styled.div`
   flex-direction: row;
   color: black;
   min-height: 100vh;
-  padding: 0;
+  padding: 7rem 0;
   margin: 0 auto;
   background-color: white;
   overflow: hidden;
@@ -280,10 +280,10 @@ const Image = styled.img`
 `;
 
 const RightSection = styled.div`
-  width: 45%;
+  width: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 
   @media (max-width: 1200px) {
     width: 100%;

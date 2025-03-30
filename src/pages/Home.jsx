@@ -1,11 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
-import Specification from "../components/Specifications.jsx";
 import BrandIntro from "../components/BrandIntro.jsx";
 import UsageIdea from "../components/UsageIdea.jsx";
 import Performance from "../components/Performance.jsx";
@@ -13,6 +11,7 @@ import LensFeature from "../components/LensFeature.jsx";
 import SpecImage from "../components/SpecImage.jsx";
 import AppFeature from "../components/AppFeature.jsx";
 import PrivacyFeature from "../components/PrivacyFeature.jsx";
+import PreOrder from "../components/PreOrder.jsx";
 
 // 제품 데이터
 const PRODUCTS = [
@@ -152,90 +151,30 @@ export default function Home() {
       <Container>
         <SectionsContainer>
           <MainBanner />
-
-          <VideoSection>
-            <BackgroundVideo autoPlay loop muted playsInline controls>
-              <source src="/Intro.mp4" type="video/mp4" />
-            </BackgroundVideo>
-          </VideoSection>
-
+          {/*<VideoSection>*/}
+          {/*  <BackgroundVideo autoPlay loop muted playsInline controls>*/}
+          {/*    <source src="/Intro.mp4" type="video/mp4" />*/}
+          {/*  </BackgroundVideo>*/}
+          {/*</VideoSection>*/}
           <BrandIntro />
-
-          <Feature />
-
-          <UsageIdea />
           <UsageVideoSection>
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls
-              style={{
-                maxWidth: "1200px",
-                height: "auto",
-                borderRadius: "2rem",
-              }}
-            >
+            <UsageVideo autoPlay loop muted playsInline controls>
               <source src="/UsageVideo.mp4" type="video/mp4" />
-            </video>
+            </UsageVideo>
           </UsageVideoSection>
+          <UsageIdea />
           <Performance />
           <SpecImage />
+          <Feature />
           <LensFeature />
           <AppFeature />
           <PrivacyFeature />
-          <Specification />
-
-          <SectionWrapper id="products">
-            <ContentSection>
-              <SectionTitle>
-                <GradientText>AInoon 구매하기</GradientText>
-                <Subtitle>
-                  스타일과 성능을 모두 갖춘 AInoon, 지금 사전예약하세요
-                </Subtitle>
-              </SectionTitle>
-
-              <FeatureGrid>
-                <FeatureSection>
-                  {PRODUCTS.map((product, index) => (
-                    <FeatureBox
-                      key={product.id}
-                      className="product-card"
-                      as={motion.div}
-                      variants={productCardVariants}
-                      initial="hidden"
-                      animate={
-                        visibleProducts.includes(index) ? "visible" : "hidden"
-                      }
-                      whileHover="hover"
-                      data-index={index}
-                    >
-                      <ProductImageContainer>
-                        <ProductImage src={product.image} alt={product.name} />
-                      </ProductImageContainer>
-                      <FeatureSubtitle>{product.subtitle}</FeatureSubtitle>
-                      <FeatureTitle>
-                        {product.name} {product.color}
-                      </FeatureTitle>
-                      <PriceTag>{product.price.toLocaleString()}원</PriceTag>
-                      <PreOrderButton onClick={handleBuyProduct}>
-                        {product.name === "스퀘어 스타일"
-                          ? "스퀘어 스타일 사전 예약하기"
-                          : "하금테 스타일 사전 예약하기"}
-                      </PreOrderButton>
-                    </FeatureBox>
-                  ))}
-                </FeatureSection>
-              </FeatureGrid>
-            </ContentSection>
-          </SectionWrapper>
+          {/*<Specification />*/}
+          <PreOrder />
         </SectionsContainer>
 
-        {/* 푸터 */}
         <Footer />
 
-        {/* 하단 고정 구매하기 배너 */}
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
           <BuyNowButton onClick={handleBuyNow}>{buyNowText}</BuyNowButton>
@@ -325,6 +264,24 @@ const VideoSection = styled.div`
   height: 100vh;
   overflow: hidden;
   position: relative;
+
+  @media (max-width: 768px) {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+`;
+
+const BackgroundVideo = styled.video`
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+
+  @media (max-width: 768px) {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
 `;
 
 const UsageVideoSection = styled.div`
@@ -334,14 +291,23 @@ const UsageVideoSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 9rem 0;
+  //padding: 9rem 0;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
-const BackgroundVideo = styled.video`
+const UsageVideo = styled.video`
   width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  display: block;
+  //max-width: 1200px;
+  height: auto;
+  //border-radius: 2rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    border-radius: 0;
+  }
 `;
 
 const BuyNowBannerContainer = styled.div`

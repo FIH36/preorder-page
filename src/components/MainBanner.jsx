@@ -117,18 +117,19 @@ export default function MainBanner({ isActive, scrollY }) {
           alt="Logo"
           style={{
             height: "1.25rem",
+            filter: "invert(1)",
           }}
         />
       </Header>
 
-      {/*<VideoSection>*/}
-      {/*  <BackgroundVideo autoPlay loop muted playsInline>*/}
-      {/*    <source src="/Main.mp4" type="video/mp4" />*/}
-      {/*  </BackgroundVideo>*/}
-      {/*</VideoSection>*/}
-      <ImageSection>
-        <BackgroundImage src="/Background.png" alt="Background" />
-      </ImageSection>
+      <VideoSection>
+        <BackgroundVideo autoPlay loop muted playsInline>
+          <source src="/Main.mp4" type="video/mp4" />
+        </BackgroundVideo>
+      </VideoSection>
+      {/*<ImageSection>*/}
+      {/*  <BackgroundImage src="/Background.png" alt="Background" />*/}
+      {/*</ImageSection>*/}
 
       <ContentContainer>
         <motion.div
@@ -150,7 +151,7 @@ export default function MainBanner({ isActive, scrollY }) {
 const BannerWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 98vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,7 +166,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  //background-color: white;
 `;
 
 const VideoSection = styled.div`
@@ -203,7 +204,7 @@ const BackgroundImage = styled.img`
 const ContentContainer = styled.div`
   position: absolute;
   z-index: 3;
-  top: 120px; /* 헤더(72px) + 여백(88px) */
+  top: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -218,7 +219,7 @@ const ContentContainer = styled.div`
 const SubText = styled.h3`
   font-size: 42px;
   font-weight: 700;
-  color: black;
+  color: white;
   text-align: center;
   word-break: keep-all;
   margin-bottom: 0.5rem;
@@ -237,7 +238,7 @@ const SubText = styled.h3`
 const MainText = styled.h1`
   font-size: 42px;
   font-weight: 700;
-  color: black;
+  color: white;
   text-align: center;
   word-break: keep-all;
   letter-spacing: -1px;

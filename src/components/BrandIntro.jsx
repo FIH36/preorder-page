@@ -223,7 +223,7 @@ const cardData = [
 ];
 
 const SectionWrapper = styled.div`
-  background-color: #eff0f3;
+  background: #eff0f3;
   padding: 1rem;
 `;
 

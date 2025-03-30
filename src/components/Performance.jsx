@@ -56,7 +56,6 @@ const Container = styled.div`
   gap: 6.25rem;
 
   @media (max-width: 768px) {
-    padding: 6rem 1rem;
     gap: 4rem;
   }
 `;

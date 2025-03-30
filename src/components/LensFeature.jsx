@@ -61,15 +61,14 @@ export default function LensFeature() {
 
 const SectionWrapper = styled.div`
   width: 100%;
-  padding: 0 5vw 9rem;
-  background: #0c0c0c;
+  padding: 9rem 0;
+  background: linear-gradient(to bottom, #000000, #0c0c0c);
   display: flex;
   justify-content: center;
 `;
 
 const SectionContent = styled.div`
-  width: 100%;
-  max-width: 90rem;
+  max-width: 1200px;
   display: flex;
   gap: clamp(2rem, 6vw, 6.25rem);
   align-items: center;
@@ -84,19 +83,19 @@ const FeatureTextBlock = styled.div`
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(2rem, 4vw, 4.5rem);
+  gap: clamp(1rem, 4vw, 2rem);
 `;
 
 const Title = styled.h2`
   color: white;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.4;
 `;
 
 const Description = styled.p`
   max-width: 50rem;
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 400;
   line-height: 1.6;
   color: #909294;

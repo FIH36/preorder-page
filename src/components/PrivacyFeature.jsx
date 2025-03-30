@@ -15,13 +15,15 @@ export default function PrivacyFeature() {
       <BackgroundImage src="PrivacyFeature_02.png" alt="bg" />
       <OverlayDark />
       <OverlayAccent />
-      <ContentContainer as={motion.div} {...fadeInUp(0)}>
+
+      {/* 타이틀 */}
+      <motion.div {...fadeInUp(0)} style={{ zIndex: 3 }}>
+        <Title>보안은 철저하게, 개인정보는 안전하게</Title>
+      </motion.div>
+
+      {/* 설명 + 이미지 */}
+      <ContentContainer as={motion.div} {...fadeInUp(0.2)}>
         <LeftBlock>
-          <Title>
-            보안은 철저하게,
-            <br />
-            개인정보는 안전하게
-          </Title>
           <TextBlock>
             <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
             <Description>
@@ -35,7 +37,8 @@ export default function PrivacyFeature() {
         <RightImage />
       </ContentContainer>
 
-      <CardRow as={motion.div} {...fadeInUp(0.3)}>
+      {/* 카드 */}
+      <CardRow as={motion.div} {...fadeInUp(0.4)}>
         {cardData.map((card, i) => (
           <InfoCard key={i}>
             <CardTitle>{card.title}</CardTitle>
@@ -47,6 +50,7 @@ export default function PrivacyFeature() {
   );
 }
 
+// 카드 데이터
 const cardData = [
   {
     title: "투명한 촬영으로 신뢰를 높이다",
@@ -66,13 +70,18 @@ const cardData = [
   },
 ];
 
+// 스타일 구성
 const SectionWrapper = styled.section`
   position: relative;
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  padding: 0 5vw 6rem;
+  padding: 9rem 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
 `;
 
 const BackgroundImage = styled.img`
@@ -99,22 +108,29 @@ const OverlayAccent = styled.div`
   z-index: 2;
 `;
 
-const ContentContainer = styled.div`
-  position: relative;
+const Title = styled.h2`
+  color: white;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
   z-index: 3;
+`;
+
+const ContentContainer = styled.div`
+  z-index: 3;
+  flex-direction: row;
+  max-width: 1200px;
   width: 100%;
-  max-width: 90rem;
   margin: 0 auto;
-  padding-top: clamp(6rem, 15vh, 10rem);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: clamp(2rem, 5vw, 6rem);
-  align-items: flex-end;
 
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
   }
 `;
 
@@ -123,13 +139,6 @@ const LeftBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 5vw, 4.5rem);
-`;
-
-const Title = styled.h2`
-  color: white;
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1.4;
 `;
 
 const TextBlock = styled.div`
@@ -145,14 +154,14 @@ const Subtitle = styled.h3`
 `;
 
 const Description = styled.p`
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
 `;
 
 const RightImage = styled.div`
-  width: clamp(20rem, 40vw, 37rem);
+  width: clamp(20rem, 40vw, 32rem);
   aspect-ratio: 16 / 10;
   background: url("PrivacyFeature_01.gif") center center / cover no-repeat;
   border-radius: 1rem;
@@ -166,30 +175,30 @@ const RightImage = styled.div`
 
 const CardRow = styled.div`
   position: relative;
-  max-width: 1440px;
+  max-width: 1200px;
   z-index: 3;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin: clamp(3rem, 6vw, 6rem) auto 0 auto;
-  gap: 1.5rem;
+  margin-top: 0;
+  gap: 1rem;
 
   @media (max-width: 1024px) {
     justify-content: center;
   }
 
   @media (max-width: 640px) {
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 `;
 
 const InfoCard = styled.div`
   width: calc(25% - 1.125rem);
-  background: #1a1a1a;
-  border-radius: 1.5rem;
+  background: #0c0c0c;
+  border-radius: 1.25rem;
   padding: 2rem;
-  border: 1px solid rgba(144, 146, 148, 0.25);
+  border: 1px solid rgba(144, 146, 148, 0.1);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -207,15 +216,16 @@ const InfoCard = styled.div`
 
 const CardTitle = styled.h4`
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
   color: white;
+  line-height: 130%;
 `;
 
 const CardDesc = styled.p`
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: #909294;
-  line-height: 1.5;
+  line-height: 150%;
 
   @media (max-width: 640px) {
     font-size: 1rem;

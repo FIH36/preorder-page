@@ -53,7 +53,6 @@ export default function Security() {
   );
 }
 
-/* ✅ Emotion 스타일 */
 const SectionWrapper = styled.div`
   width: 100%;
   max-width: 1200px;

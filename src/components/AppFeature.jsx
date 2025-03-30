@@ -64,15 +64,14 @@ export default function AppFeature() {
 
 const SectionWrapper = styled.div`
   width: 100%;
-  padding: 0 5vw 9rem;
+  padding: 9rem 0;
   background: #0c0c0c;
   display: flex;
   justify-content: center;
 `;
 
 const SectionContent = styled.div`
-  width: 100%;
-  max-width: 90rem;
+  max-width: 1200px;
   display: flex;
   gap: clamp(2rem, 6vw, 6.25rem);
   align-items: center;
@@ -112,7 +111,7 @@ const FeatureBlock = styled.div`
 
 const Title = styled.h2`
   color: white;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.4;
   text-align: right;
@@ -137,9 +136,9 @@ const FeatureItem = styled.div`
 `;
 
 const ItemTitle = styled.div`
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
-  color: white;
+  color: #aaa;
   text-align: right;
 
   @media (max-width: 768px) {
@@ -148,7 +147,7 @@ const ItemTitle = styled.div`
 `;
 
 const ItemDesc = styled.p`
-  font-size: clamp(0.95rem, 2vw, 1.25rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
