@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import { motion } from "framer-motion"; // framer-motion 추가 (필요시 설치)
-// swiper 라이브러리 관련 import
-// 설치 필요: npm install swiper
+import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -16,7 +14,6 @@ const BrandIntro = () => {
   );
   const videoRefs = useRef({});
 
-  // 텍스트 애니메이션을 위한 상태 추가
   const [titleVisible, setTitleVisible] = useState(false);
   const [subtitleVisible, setSubtitleVisible] = useState(false);
   const titleRef = useRef(null);
@@ -31,7 +28,6 @@ const BrandIntro = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 스크롤 애니메이션을 위한 Intersection Observer 설정
   useEffect(() => {
     const titleObserver = new IntersectionObserver(
       (entries) => {
@@ -74,14 +70,11 @@ const BrandIntro = () => {
     };
   }, []);
 
-  // 비디오 재생 관리
   useEffect(() => {
-    // 모든 비디오 일시 정지
     Object.values(videoRefs.current).forEach((video) => {
       if (video) video.pause();
     });
 
-    // 활성 비디오만 재생
     const activeVideo = videoRefs.current[activeIndex];
     if (activeVideo) {
       activeVideo.currentTime = 0;
@@ -91,7 +84,6 @@ const BrandIntro = () => {
 
   const isMobile = windowWidth <= 768;
 
-  // 동적으로 슬라이드 너비 계산
   const getSlideWidth = () => {
     if (isMobile) {
       return { width: "80vw" };
@@ -100,7 +92,6 @@ const BrandIntro = () => {
     }
   };
 
-  // 애니메이션 변수
   const titleVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -210,7 +201,7 @@ const cardData = [
     description: "아기 첫 걸음, 순간이 아닌 영원한 기억으로 남겨주세요",
   },
   {
-    video: "/01_family.mp4",
+    video: "/01_birthday.mp4",
     title: "행복한 순간",
     description:
       "행복한 찰나, 기억이 아닌 기록으로 가족, 친구들과 오래오래 간직하세요",

@@ -40,31 +40,35 @@ export default function PreOrder() {
 
 const products = [
   {
-    image: "https://placehold.co/300x150/000000/FFFFFF?text=Square+Black",
-    title: "스퀘어 스타일 Black",
-    price: "260,000원",
-    description: "클래식한 무드를 담아 신뢰감을 주는 블랙 프레임",
+    image: "https://placehold.co/300x150/000000/FFFFFF",
+    title: "하금테 Black",
+    price: "270,000원",
+    salePrice: "229,000원",
+    description: "세련된 감각을 담아 스마트함을 더한 하프 프레임",
     link: "https://example.com/product1",
   },
   {
-    image: "https://placehold.co/300x150/222222/FFFFFF?text=Half-rim+Black",
-    title: "하금테 스타일 Black",
-    price: "240,000원",
-    description: "세련된 감각을 담아 스마트함을 더한 하금테 프레임",
+    image: "https://placehold.co/300x150/222222/FFFFFF",
+    title: "하금테 Grey",
+    price: "270,000원",
+    salePrice: "229,000원",
+    description: "고급스럽지만 산뜻한 느낌을 더한 하프 프레임",
     link: "https://example.com/product2",
   },
   {
-    image: "https://placehold.co/300x150/444444/FFFFFF?text=Round+Silver",
-    title: "라운드 스타일 Silver",
-    price: "270,000원",
-    description: "감각적인 디자인과 실버 컬러의 조화",
+    image: "https://placehold.co/300x150/444444/FFFFFF",
+    title: "뿔테 Black",
+    price: "290,000원",
+    salePrice: "246,000원",
+    description: "첨단 감각에 세련된 디자인의 풀 프레임",
     link: "https://example.com/product3",
   },
   {
-    image: "https://placehold.co/300x150/666666/FFFFFF?text=Rectangle+Gold",
-    title: "사각 프레임 Gold",
-    price: "280,000원",
-    description: "고급스러운 무드의 골드 프레임",
+    image: "https://placehold.co/300x150/666666/FFFFFF",
+    title: "뿔테 Grey",
+    price: "290,000원",
+    salePrice: "246,000원",
+    description: "도시적이고 감각적인 디자인의 풀 프레임",
     link: "https://example.com/product4",
   },
 ];
@@ -198,7 +202,7 @@ const Price = styled.div`
 `;
 
 const Description = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 400;
   line-height: 1.4;
   height: 55px;

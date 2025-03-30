@@ -9,23 +9,23 @@ import "swiper/css";
 // 데이터 정의
 const cardData = [
   {
-    video: "/01_dog.mp4",
+    video: "UsageIdea_01.mp4",
     title: "칼로리 계산",
     description:
       "음식 사진을 찍으면, 칼로리를 계산하고 영양 정보를 제공해 드립니다",
   },
   {
-    video: "/01_baby.mp4",
+    video: "UsageIdea_02.mp4",
     title: "여행중 외국어 번역",
     description: "여행 중 메뉴, 표지판 등 실시간으로 외국어를 번역해 드립니다",
   },
   {
-    video: "/01_baby.mp4",
+    video: "UsageIdea_03.mp4",
     title: "회사 업무 지원",
     description: "회의 내용을 자동으로 기록하고 중요 포인트를 요약해 드립니다",
   },
   {
-    video: "/01_baby.mp4",
+    video: "UsageIdea_04.mp4",
     title: "스타일 코디네이터",
     description: "입지 않아도 OK! 손짓 하나로 코디 추천을 받아보세요",
   },
