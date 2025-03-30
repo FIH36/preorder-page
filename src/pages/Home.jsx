@@ -193,9 +193,9 @@ export default function Home() {
           <AppFeature />
           <PrivacyFeature />
           {/*<Specification />*/}
+          <HistoryTimeline />
           <PreOrder />
           {/*<DeliveryInfo />*/}
-          <HistoryTimeline />
         </SectionsContainer>
 
         <img src="/FooterImage.png" alt="착용샷" style={{ width: "100%" }} />

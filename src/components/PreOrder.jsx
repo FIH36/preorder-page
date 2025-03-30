@@ -24,13 +24,23 @@ export default function PreOrder() {
                       style={{
                         fontSize: "1.1rem",
                         fontWeight: "400",
-                        textDecoration: "line-through",
                         lineHeight: "120%",
-                        color: "#2580ff",
+                        color: "#0c0c0c",
                         opacity: 0.8,
+                        display: "flex",
+                        textAlign: "right",
+                        justifySelf: "end",
+                        flexDirection: "row",
                       }}
                     >
-                      {product.salePrice}
+                      <span
+                        style={{ textDecoration: "none", marginRight: "4px" }}
+                      >
+                        정가{" "}
+                      </span>
+                      <div style={{ textDecoration: "line-through" }}>
+                        {product.salePrice}
+                      </div>
                     </div>
                     <div style={{ flexDirection: "row" }}>
                       <span

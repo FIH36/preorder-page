@@ -23,8 +23,8 @@ export default function AppFeature() {
             <FeatureItem>
               <ItemTitle>디바이스 관리</ItemTitle>
               <ItemDesc>
-                음량, AI 대기시간, Multi-LLM 선택 등의 디바이스 설정 변경 및
-                개인 정보 관리
+                AI 대기시간, 언어, 음량 등의 디바이스 설정 변경 및 개인 정보
+                관리
               </ItemDesc>
             </FeatureItem>
             <FeatureItem>

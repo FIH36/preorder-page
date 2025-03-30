@@ -62,7 +62,7 @@ export default History;
 // 스타일 -----------------------------------------
 
 const Wrapper = styled.section`
-  padding: 0 2rem 9rem 2rem;
+  padding: 9rem 2rem 2rem 2rem;
   background-color: #eff0f3;
 `;
 
