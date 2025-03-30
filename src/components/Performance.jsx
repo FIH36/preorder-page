@@ -47,7 +47,7 @@ export default function Performance() {
 const Container = styled.div`
   max-width: 1440px;
   margin: 9rem auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
   background: #0c0c0c;
   display: flex;
   flex-direction: column;

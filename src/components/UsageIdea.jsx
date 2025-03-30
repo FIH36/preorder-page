@@ -216,7 +216,7 @@ const SectionWrapper = styled.div`
 
   @media (max-width: 1200px) {
     flex-direction: column;
-    padding: 0 0 4.5rem 0;
+    padding: 6rem 0 4.5rem 0rem;
   }
 `;
 

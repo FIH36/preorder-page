@@ -61,7 +61,7 @@ export default function LensFeature() {
 
 const SectionWrapper = styled.div`
   width: 100%;
-  padding: 9rem 0;
+  padding: 9rem 2rem;
   background: linear-gradient(to bottom, #000000, #0c0c0c);
   display: flex;
   justify-content: center;

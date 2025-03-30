@@ -76,7 +76,7 @@ const SectionWrapper = styled.section`
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  padding: 9rem 0;
+  padding: 9rem 2rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

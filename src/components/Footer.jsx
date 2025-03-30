@@ -70,14 +70,14 @@ export default function Footer() {
           </FooterSection>
 
           <FooterBottom>
-            <PolicyLinks>
-              <PolicyLink href="#" onClick={openTermsModal}>
-                이용약관
-              </PolicyLink>
-              <PolicyLink href="#" onClick={openPrivacyModal} emphasis>
-                개인정보처리방침
-              </PolicyLink>
-            </PolicyLinks>
+            {/*<PolicyLinks>*/}
+            {/*  <PolicyLink href="#" onClick={openTermsModal}>*/}
+            {/*    이용약관*/}
+            {/*  </PolicyLink>*/}
+            {/*  <PolicyLink href="#" onClick={openPrivacyModal} emphasis>*/}
+            {/*    개인정보처리방침*/}
+            {/*  </PolicyLink>*/}
+            {/*</PolicyLinks>*/}
             <Copyright>© 2025 AInoon. All rights reserved.</Copyright>
           </FooterBottom>
         </FooterWrapper>
@@ -1015,7 +1015,7 @@ const TermsSubListItem = styled.li`
 // Footer 스타일 컴포넌트
 const FooterWrapper = styled.footer`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   color: white;
   padding: 3rem;
   display: flex;
@@ -1062,7 +1062,7 @@ const BizInfoLink = styled.a`
 `;
 
 const FooterBottom = styled.div`
-  margin-top: 1rem;
+  //margin-top: 1rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
