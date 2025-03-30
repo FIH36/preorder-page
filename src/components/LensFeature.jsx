@@ -43,8 +43,8 @@ export default function LensFeature() {
         </FeatureImageCards>
         <FeatureTextBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            도수렌즈와 선글라스 렌즈로 교체할 수 있어 언제, 어디서나 자유롭게
-            사용!
+            도수 및 선글라스 렌즈로 교체할 수 있어 <br />
+            평소에 쓰시는 일반 안경처럼 언제, 어디서나 자유롭게 사용!
           </Title>
           <Description>
             안경 전문점에서 손쉽게 렌즈를 교체할 수 있어, 시력에 맞는 처방
@@ -52,9 +52,6 @@ export default function LensFeature() {
             맞는, 나만의 글래스로 스타일과 편안함을 동시에 누려보세요.잠들기 전
             충전하고, 하루 종일 자유롭게 함께하세요!
           </Description>
-          <SubDescription>
-            * Gen 2 에서는 간편 충전을 지원합니다.
-          </SubDescription>
         </FeatureTextBlock>
       </SectionContent>
     </SectionWrapper>

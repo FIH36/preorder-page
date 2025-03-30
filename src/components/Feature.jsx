@@ -24,7 +24,7 @@ const FEATURE_CONTENTS = [
   },
   {
     icon: <FiBatteryCharging />,
-    subtitle: "4시간 이상 음악 재생, 30분 이상 촬영 가능",
+    subtitle: "4시간 연속 음악 재생, 30분 연속 촬영",
     title: "강력한 배터리와 고속 충전",
   },
   {
@@ -34,7 +34,7 @@ const FEATURE_CONTENTS = [
   },
   {
     icon: <FiVolume2 />,
-    subtitle: "소리 유출 최소화 및 생생한 몰입형 사운드",
+    subtitle: "음악과 통화 시, 외부 소리 동시 청취",
     title: "오픈 이어 스피커",
   },
   {

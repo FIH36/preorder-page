@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 
 const historyData = [
   { date: "2023년 3월", event: "AI 글래스 R&D 진행 시작" },
-  { date: "2024년 12월", event: "제작발표회" },
-  { date: "2025년 3월", event: "예약 판매", highlight: true },
-  { date: "2025년 4월", event: "15% 할인" },
-  { date: "2025년 5월", event: "10% 할인" },
-  { date: "2025년 6월", event: "정상가 판매" },
-  { date: "2025년 6월 말", event: "글로벌 출하시작", highlight: true },
-  { date: "2025년 7월", event: "소비자 예상 수령" },
+  {
+    date: "2024년 12월",
+    event: "제작발표회 (강남 씨스퀘어, 24.12.12)",
+  },
+  { date: "2025년 3월", event: "예약 판매 시작", highlight: true },
+  { date: "2025년 4월", event: "슈퍼 얼리 버드 15% 할인" },
+  { date: "2025년 5월", event: "얼리 버드 10% 할인" },
+  { date: "2025년 6월 말", event: "글로벌 출하시작" },
+  { date: "2025년 7월", event: "소비자 예상 수령", highlight: true },
 ];
 
 // fadeInUp 애니메이션
@@ -149,7 +151,11 @@ const GlowEffect = styled.div`
   position: absolute;
   width: 50px;
   height: 50px;
-  background: radial-gradient(circle, rgba(37, 128, 255, 0.4) 0%, rgba(37, 128, 255, 0) 70%);
+  background: radial-gradient(
+    circle,
+    rgba(37, 128, 255, 0.4) 0%,
+    rgba(37, 128, 255, 0) 70%
+  );
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -185,12 +191,12 @@ const TextBlock = styled.div`
 const Date = styled.div`
   font-weight: 600;
   font-size: 1.1rem;
-  color: ${props => props.highlighted ? '#2580ff' : '#2580ff'};
-  ${props => props.highlighted && 'font-weight: 700;'}
+  color: ${(props) => (props.highlighted ? "#2580ff" : "#2580ff")};
+  ${(props) => props.highlighted && "font-weight: 700;"}
 `;
 
 const Event = styled.div`
   font-size: 1.4rem;
-  color: ${props => props.highlighted ? '#0c0c0c' : '#0c0c0c'};
-  ${props => props.highlighted && 'font-weight: 600;'}
+  color: ${(props) => (props.highlighted ? "#0c0c0c" : "#0c0c0c")};
+  ${(props) => props.highlighted && "font-weight: 600;  "}
 `;

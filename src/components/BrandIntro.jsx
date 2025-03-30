@@ -118,7 +118,7 @@ const BrandIntro = () => {
 
   return (
     <SectionWrapper>
-      <ScrollingHeroText text="AInoon Becomes a Part of Everyday Life" />
+      <ScrollingHeroText text="AInoon Becomes a Part of Everyday Life!" />
       <ContentWrapper>
         <TitleBlock>
           <motion.div
@@ -128,7 +128,7 @@ const BrandIntro = () => {
             animate={titleVisible ? "visible" : "hidden"}
           >
             <MainTitle>
-              탭-탭!<span> 찰칵보다 </span>빠른 터치!
+              <span>안경테를</span> 탭-탭!<span> 찰칵보다 </span>빠른 터치!
             </MainTitle>
           </motion.div>
 
