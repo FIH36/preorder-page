@@ -41,7 +41,7 @@ export default function AppFeature() {
               </ItemDesc>
             </FeatureItem>
           </FeatureList>
-          <div>
+          <ButtonSection>
             <div
               style={{
                 fontSize: "1.1rem",
@@ -76,7 +76,7 @@ export default function AppFeature() {
               <img src="/googleplay_badge.png" alt="Get it on Google Play" />
               {/*</a>*/}
             </DownloadButtons>
-          </div>
+          </ButtonSection>
         </FeatureBlock>
         <div
           style={{
@@ -146,12 +146,11 @@ const VideoBox = styled.div`
 `;
 
 const FeatureBlock = styled.div`
-  flex: 1;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: clamp(3rem, 4vw, 3.25rem);
-  padding-right: 2rem; // 혹시 여백이 너무 붙었다면 추가. 필요 없으면 제거.
 
   @media (max-width: 768px) {
     width: 100%;
@@ -164,12 +163,15 @@ const DownloadButtons = styled.div`
   margin-top: 1.75rem;
 
   img {
-    width: 180px;
+    max-width: 210px;
   }
 
   @media (max-width: 768px) {
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
   }
 `;
 
@@ -191,6 +193,14 @@ const FeatureList = styled.div`
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 3vw, 3.25rem);
+`;
+
+const ButtonSection = styled.div`
+  @media (max-width: 768px) {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const FeatureItem = styled.div`

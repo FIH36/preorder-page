@@ -148,6 +148,9 @@ const LeftBlock = styled.div`
   flex-direction: row;
   align-items: center;
   gap: clamp(2rem, 5vw, 4.5rem);
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const TextBlock = styled.div`
@@ -156,6 +159,7 @@ const TextBlock = styled.div`
   gap: 1.5rem;
   justify-content: center;
   text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const Subtitle = styled.h3`

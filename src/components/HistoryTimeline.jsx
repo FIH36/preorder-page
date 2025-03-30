@@ -139,6 +139,11 @@ const TextBlock = styled.div`
   gap: 0.5rem;
   padding: 0 5rem;
   text-align: ${({ side }) => (side === "left" ? "left" : "right")};
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    text-align: left;
+  }
 `;
 
 const Date = styled.div`

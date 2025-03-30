@@ -43,9 +43,8 @@ export default function LensFeature() {
         </FeatureImageCards>
         <FeatureTextBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            도수렌즈와 선글라스 렌즈로 교체할 수 있어
-            <br />
-            언제, 어디서나 자유롭게 사용!
+            도수렌즈와 선글라스 렌즈로 교체할 수 있어 언제, 어디서나 자유롭게
+            사용!
           </Title>
           <Description>
             안경 전문점에서 손쉽게 렌즈를 교체할 수 있어, 시력에 맞는 처방
@@ -94,6 +93,9 @@ const Title = styled.h2`
   font-weight: 700;
   line-height: 1.4;
   text-align: right;
+  @media (max-width: 768px) {
+    text-align: left;
+  }
 `;
 
 const Description = styled.p`
@@ -102,7 +104,9 @@ const Description = styled.p`
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
-  text-align: right;
+  @media (max-width: 768px) {
+    text-align: left;
+  }
 `;
 
 const SubDescription = styled.p`
@@ -110,7 +114,7 @@ const SubDescription = styled.p`
   font-weight: 400;
   color: #909294;
   opacity: 0.7;
-  text-align: right;
+  text-align: left;
 `;
 
 const FeatureImageCards = styled.div`
