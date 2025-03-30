@@ -35,6 +35,7 @@ const cardData = [
 function UsageIdea() {
   const [activeIndex, setActiveIndex] = useState(0);
   const videoRefs = useRef({});
+  const swiperRef = useRef(null);
 
   // 애니메이션을 위한 상태
   const [titleVisible, setTitleVisible] = useState(false);
@@ -80,6 +81,7 @@ function UsageIdea() {
     };
   }, []);
 
+  // 비디오 재생 관리
   useEffect(() => {
     Object.values(videoRefs.current).forEach((video) => {
       if (video) video.pause();
@@ -130,32 +132,43 @@ function UsageIdea() {
 
       <RightSection>
         <CarouselContainer>
+          {/* 상단 그라데이션 오버레이 */}
+          <GradientOverlayTop />
+
           <StyledSwiper
             direction="vertical"
             modules={[Autoplay]}
-            spaceBetween={80} // 간격 줄임
-            slidesPerView={2.5} // PC에서 카드 3개가 보이도록 2.5로 설정
+            spaceBetween={100}
+            slidesPerView={1.8}
             centeredSlides={true}
             loop={true}
             autoplay={{
               delay: 4000,
               disableOnInteraction: false,
             }}
-            breakpoints={{
-              769: {
-                spaceBetween: 80, // PC에서 카드 간 간격
-                slidesPerView: 2.5, // PC에서 보이는 카드 수
-              },
-              0: {
-                spaceBetween: 20,
-                slidesPerView: 1.2,
-              },
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
             }}
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+            breakpoints={{
+              1200: {
+                slidesPerView: 2.2,
+                spaceBetween: 100,
+              },
+              768: {
+                slidesPerView: 2.0,
+                spaceBetween: 90,
+              },
+              0: {
+                slidesPerView: 1.5,
+                spaceBetween: 30,
+              },
+            }}
           >
             {cardData.map((card, index) => (
               <StyledSwiperSlide key={index}>
-                <Card isActive={index === activeIndex}>
+                <IntegratedCard isActive={index === activeIndex}>
+                  {/* 비디오 부분 */}
                   <VideoWrapper isActive={index === activeIndex}>
                     <Video
                       ref={(el) => (videoRefs.current[index] = el)}
@@ -165,38 +178,19 @@ function UsageIdea() {
                       playsInline
                     />
                   </VideoWrapper>
-                  <CardContent>
-                    <CardTitleMotion
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={
-                        index === activeIndex
-                          ? { opacity: 1, y: 0 }
-                          : { opacity: 0, y: 15 }
-                      }
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    >
-                      <CardTitle>{card.title}</CardTitle>
-                    </CardTitleMotion>
-                    <CardDescMotion
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={
-                        index === activeIndex
-                          ? { opacity: 1, y: 0 }
-                          : { opacity: 0, y: 15 }
-                      }
-                      transition={{
-                        duration: 0.5,
-                        delay: 0.1,
-                        ease: "easeOut",
-                      }}
-                    >
-                      <CardDescription>{card.description}</CardDescription>
-                    </CardDescMotion>
-                  </CardContent>
-                </Card>
+
+                  {/* 텍스트 부분 */}
+                  <CardTextContent isActive={index === activeIndex}>
+                    <CardTitle>{card.title}</CardTitle>
+                    <CardDescription>{card.description}</CardDescription>
+                  </CardTextContent>
+                </IntegratedCard>
               </StyledSwiperSlide>
             ))}
           </StyledSwiper>
+
+          {/* 하단 그라데이션 오버레이 */}
+          <GradientOverlayBottom />
         </CarouselContainer>
       </RightSection>
     </SectionWrapper>
@@ -208,15 +202,18 @@ const SectionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   color: black;
-  min-height: 100vh;
-  padding: 7rem 0;
+  height: 100vh;
+  padding: 7rem 0 5rem 0;
   margin: 0 auto;
   background-color: white;
   overflow: hidden;
 
   @media (max-width: 1200px) {
     flex-direction: column;
-    padding: 6rem 0 4.5rem 0rem;
+    height: auto;
+    min-height: 100vh;
+    padding: 4rem 0 3rem 0;
+    overflow: hidden; /* 모바일에서 전체 섹션 오버플로우 히든 유지 */
   }
 `;
 
@@ -280,10 +277,11 @@ const Image = styled.img`
 `;
 
 const RightSection = styled.div`
-  width: 40%;
+  width: 45%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: 1200px) {
     width: 100%;
@@ -294,152 +292,131 @@ const RightSection = styled.div`
 const CarouselContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  margin: 0 auto;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 220px; /* 더 넓은 그라디언트 영역 */
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &::before {
-    top: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 15%,
-      rgba(255, 255, 255, 0.95) 30%,
-      rgba(255, 255, 255, 0.8) 45%,
-      rgba(255, 255, 255, 0.6) 60%,
-      rgba(255, 255, 255, 0.3) 80%,
-      rgba(255, 255, 255, 0) 100%
-    );
-  }
-
-  &::after {
-    bottom: 0;
-    background: linear-gradient(
-      to top,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 15%,
-      rgba(255, 255, 255, 0.95) 30%,
-      rgba(255, 255, 255, 0.8) 45%,
-      rgba(255, 255, 255, 0.6) 60%,
-      rgba(255, 255, 255, 0.3) 80%,
-      rgba(255, 255, 255, 0) 100%
-    );
-  }
+  height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 캐러셀 컨테이너 오버플로우 히든 유지 */
 
   @media (max-width: 1200px) {
-    height: 90vh;
-
-    &::before,
-    &::after {
-      height: 150px;
-    }
+    height: 700px;
   }
 
   @media (max-width: 768px) {
-    height: 50vh;
-    margin-top: 0;
+    height: 500px;
+  }
+`;
 
-    &::before {
-      height: 0;
-      opacity: 0;
-    }
+// 그라데이션 오버레이 높이 조정
+const GradientOverlayTop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 210px;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 40%,
+    rgba(255, 255, 255, 0.5) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
 
-    &::after {
-      height: 100px;
-      background: linear-gradient(
-        to top,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.95) 0%,
-        rgba(255, 255, 255, 0.85) 20%,
-        rgba(255, 255, 255, 0.7) 40%,
-        rgba(255, 255, 255, 0.4) 60%,
-        rgba(255, 255, 255, 0) 100%
-      );
-    }
+  @media (max-width: 768px) {
+    height: 72px;
+  }
+`;
+
+// 하단 그라데이션 오버레이 조정
+const GradientOverlayBottom = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 210px;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 40%,
+    rgba(255, 255, 255, 0.5) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  @media (max-width: 768px) {
+    height: 72px;
   }
 `;
 
 const StyledSwiper = styled(Swiper)`
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  padding: 0;
+  position: relative;
 
-  @media (max-width: 768px) {
-    padding: 0 0 80px 0;
-    height: 53vh;
+  .swiper-wrapper {
+    align-items: center;
+    transition-timing-function: ease-out;
+  }
+
+  .swiper-slide {
+    transition: all 0.4s ease-out;
+    overflow: visible; /* 개별 슬라이드는 visible 유지 */
+  }
+
+  .swiper-slide-active {
+    z-index: 5;
   }
 `;
 
 const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
   justify-content: center;
-  opacity: 0.3;
-  transform: scale(0.75);
-  transition: all 0.4s ease;
-  height: auto; // ✅ 중요: 강제 높이 제거
+  align-items: center;
+  transition: all 0.4s ease-out;
+  opacity: 0.4;
+  transform: scale(0.85);
+  overflow: visible;
 
   &.swiper-slide-active {
     opacity: 1;
     transform: scale(1);
   }
-
-  @media (max-width: 768px) {
-    opacity: 0.4;
-    transform: scale(0.9);
-  }
 `;
 
-const Card = styled.div`
+// 통합된 카드 컴포넌트
+const IntegratedCard = styled.div`
   background: transparent;
   transition: all 0.4s ease-in-out;
-  width: 520px;
-  max-width: 85%;
+  width: 100%;
+  max-width: 480px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: auto; // ✅ 반드시 auto로
+  align-items: center;
+  overflow: visible;
+  border: none;
 
   @media (max-width: 768px) {
-    max-width: 92%;
-  }
-
-  @media (min-width: 1200px) {
-    width: 480px;
+    max-width: 90%;
   }
 `;
 
 const VideoWrapper = styled.div`
+  width: calc(100% - 1.5rem);
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9; // ✅ 핵심
-  border-radius: 1.5rem;
-  overflow: hidden;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
   background: white;
-  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
   box-shadow: ${(props) =>
     props.isActive
       ? "0 16px 40px rgba(0, 0, 0, 0.16)"
       : "0 4px 12px rgba(0, 0, 0, 0.06)"};
-  border: 1px solid ${(props) => (props.isActive ? "#e8e8e8" : "#f0f0f0")};
-
-  // ✅ aspect-ratio 미지원 브라우저만 fallback
-  @supports not (aspect-ratio: 16 / 9) {
-    &::before {
-      content: "";
-      display: block;
-      padding-top: 56.25%;
-    }
-  }
+  margin: 0 0.75rem; /* 양쪽에 여백 추가 */
 `;
 
 const Video = styled.video`
@@ -453,32 +430,23 @@ const Video = styled.video`
   background-color: #f5f5f5;
 `;
 
-const CardContent = styled.div`
-  margin-top: 1rem;
-  font-size: 1.25rem;
+const CardTextContent = styled.div`
+  width: 100%;
+  padding: 1.5rem 1rem;
   text-align: center;
-  position: relative;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    margin-top: 0.5rem;
-  }
+  background-color: transparent;
+  transition: all 0.3s ease-out;
+  transform: ${(props) =>
+    props.isActive ? "translateY(0)" : "translateY(5px)"};
+  opacity: ${(props) => (props.isActive ? 1 : 0.8)};
 `;
-
-const CardTitleMotion = styled(motion.div)`
-  margin-bottom: 0.5rem;
-`;
-
-const CardDescMotion = styled(motion.div)``;
 
 const CardTitle = styled.div`
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   text-align: center;
   word-break: keep-all;
+  margin-bottom: 0.5rem;
 
   @media (max-width: 768px) {
     font-size: 1.25rem;
@@ -488,7 +456,7 @@ const CardTitle = styled.div`
 const CardDescription = styled.div`
   color: #909294;
   font-weight: 400;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   text-align: center;
   word-break: keep-all;
 
@@ -497,5 +465,4 @@ const CardDescription = styled.div`
   }
 `;
 
-// default 내보내기
 export default UsageIdea;
