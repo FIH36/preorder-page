@@ -256,7 +256,7 @@ const MainTitle = styled.div`
   @media (max-width: 768px) {
     font-size: 1.8rem;
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
   }
 `;
 

@@ -26,11 +26,24 @@ export default function PreOrder() {
                         fontWeight: "400",
                         textDecoration: "line-through",
                         lineHeight: "120%",
+                        color: "#909294",
+                        opacity: "0.5",
                       }}
                     >
                       {product.salePrice}
                     </div>
-                    {product.price}
+                    <div style={{ flexDirection: "row" }}>
+                      <span
+                        style={{
+                          color: "Red",
+                          fontSize: "1.2rem",
+                          letterSpacing: "-1px",
+                        }}
+                      >
+                        15%
+                      </span>{" "}
+                      {product.price}
+                    </div>
                   </Price>
                 </TextGroup>
                 <BuyButton
@@ -124,18 +137,18 @@ const CardRow = styled.div`
   width: 100%;
   max-width: 1440px;
   display: flex;
-  gap: 24px;
-  align-items: flex-start;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 24px;
 
   @media (max-width: 768px) {
     gap: 16px;
+    padding: 0 2rem; // 모바일 좌우 마진 역할
   }
 `;
 
 const Card = styled.div`
-  max-width: 340px;
+  width: calc((100% - 72px) / 4); // 4개 카드 기준 (gap 24px x 3)
   height: 450px;
   background: white;
   border-radius: 24px;
@@ -152,8 +165,12 @@ const Card = styled.div`
     transform: translateY(-4px);
   }
 
+  @media (max-width: 1024px) {
+    width: calc((100% - 48px) / 3); // 3개 카드
+  }
+
   @media (max-width: 768px) {
-    max-width: 100%;
+    width: 100%; // 모바일은 한 줄씩 꽉 차게
     height: auto;
   }
 `;
