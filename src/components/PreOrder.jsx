@@ -26,8 +26,8 @@ export default function PreOrder() {
                         fontWeight: "400",
                         textDecoration: "line-through",
                         lineHeight: "120%",
-                        color: "#909294",
-                        opacity: "0.5",
+                        color: "#2580ff",
+                        opacity: 0.8,
                       }}
                     >
                       {product.salePrice}

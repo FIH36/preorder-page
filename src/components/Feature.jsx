@@ -14,12 +14,12 @@ import {
 const FEATURE_CONTENTS = [
   {
     icon: <FiZap />,
-    subtitle: "언제, 어디서나 꾹- 누르기만 하면",
+    subtitle: "언제, 어디서나 꾹- 누르기만 하면 실행",
     title: "고성능 AI 어시스턴트",
   },
   {
     icon: <FiCamera />,
-    subtitle: "내 시각과 같은 각도에서 촬영이 되는",
+    subtitle: "내 시선과 같은 각도로 촬영",
     title: "16MP 카메라 & 1080P 영상",
   },
   {
@@ -39,12 +39,12 @@ const FEATURE_CONTENTS = [
   },
   {
     icon: <FiEye />,
-    subtitle: "내가 하루 종일 쓰고 생활하는",
+    subtitle: "라이프스타일에 맞춘 렌즈 교체 지원",
     title: "도수안경 및 선글라스 렌즈 교체",
   },
   {
     icon: <FiMic />,
-    subtitle: "깨끗한 음성 인식 & 통화 품질",
+    subtitle: "라이프스타일에 맞춘 렌즈 교체 지원",
     title: "3개 마이크 + 노이즈 감소",
   },
 ];

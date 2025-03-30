@@ -107,9 +107,9 @@ function UsageIdea() {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <MainTitle>
-              <span>언제 어디서나</span> AI와 대화하고,
+              <span>궁금할땐</span> 꾹-! 눌러서
               <br />
-              지금 보이는 장면에 대해<span> 물어보세요!</span>
+              언제, 어디서나<span> 망설이지 말고</span> AI에게 물어보세요!
             </MainTitle>
           </motion.div>
         </MainTitleWrapper>
@@ -141,6 +141,7 @@ function UsageIdea() {
             spaceBetween={100}
             slidesPerView={1.8}
             centeredSlides={true}
+            allowTouchMove={false}
             loop={true}
             autoplay={{
               delay: 4000,

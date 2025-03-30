@@ -23,18 +23,30 @@ export default function PrivacyFeature() {
 
       {/* 설명 + 이미지 */}
       <ContentContainer as={motion.div} {...fadeInUp(0.2)}>
+        <TextBlock>
+          <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
+          <Description>
+            AInoon은 사용자 개인정보 보호를 최우선으로 생각하며, 모든 데이터를
+            익명화 및 암호화하여 안전하게 관리합니다. 개인정보를 신중하게
+            처리하고, 보안 전송 기술을 활용해 정보를 철저히 보호합니다. 또한,
+            사용자는 전용 앱을 통해 자신의 데이터를 직접 저장하거나 삭제할 수
+            있어 더욱 안심할 수 있는 환경을 제공합니다.
+          </Description>
+        </TextBlock>
         <LeftBlock>
-          <TextBlock>
-            <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <Subtitle style={{ textAlign: "left" }}>
+              투명한 촬영으로 신뢰를 높이다
+            </Subtitle>
             <Description>
-              AInoon은 사용자 개인정보 보호를 최우선으로 하여 모든 데이터를
-              익명화 및 암호화로 안전하게 보호합니다. 개인정보 중심 처리와 보안
-              전송 기술로 정보의 비공개를 유지하며, 사용자는 전용 앱을 통해
-              데이터를 직접 저장하거나 삭제할 수 있어 안전한 환경을 제공합니다.
+              사진이나 동영상 촬영 시 LED 표시등이 작동하여 주변인들에게 촬영
+              상황을 알리며, 사용자와 타인의 권리를 동시에 존중합니다.
             </Description>
-          </TextBlock>
+          </div>
+          <RightImage />
         </LeftBlock>
-        <RightImage />
       </ContentContainer>
 
       {/* 카드 */}
@@ -53,20 +65,16 @@ export default function PrivacyFeature() {
 // 카드 데이터
 const cardData = [
   {
-    title: "투명한 촬영으로 신뢰를 높이다",
-    desc: "사진이나 동영상 촬영 시 LED 표시등이 작동하여 주변인들에게 촬영 상황을 알리며, 사용자와 타인의 권리를 동시에 존중합니다.",
-  },
-  {
     title: "프라이버시를 지키는 익명화 기술",
     desc: "모든 데이터는 AI 상호작용 전에 철저히 익명화되며, 이 데이터는 어떤 경우에도 AI 모델 학습에 활용되지 않습니다.",
   },
   {
     title: "내 손 안에서 완벽한 데이터 관리",
-    desc: "스마트폰을 통해 언제든 데이터를 확인·수정·삭제할 수 있으며, 모든 데이터는 각 국가의 개인정보보호정책에 따라 관리됩니다.",
+    desc: "스마트폰 앱을 통해 언제든 데이터를 관리할 수 있으며, 모든 데이터는 각 국가의 개인정보보호정책에 따라 관리됩니다.",
   },
   {
     title: "데이터 판매 제로, 철저한 보안 원칙",
-    desc: "수집된 모든 데이터는 제3자에게 판매되지 않으며, LED 표시등 작동을 통해 사용자의 촬영 권리와 타인의 프라이버시를 동시에 존중합니다.",
+    desc: "수집된 모든 데이터는 어떠한 경우라도  제3자에게 판매되지 않으니 안심하세요.",
   },
 ];
 
@@ -119,7 +127,7 @@ const Title = styled.h2`
 
 const ContentContainer = styled.div`
   z-index: 3;
-  flex-direction: row;
+  flex-direction: column;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -135,9 +143,10 @@ const ContentContainer = styled.div`
 `;
 
 const LeftBlock = styled.div`
-  max-width: 44rem;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: clamp(2rem, 5vw, 4.5rem);
 `;
 
@@ -145,6 +154,8 @@ const TextBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  justify-content: center;
+  text-align: center;
 `;
 
 const Subtitle = styled.h3`
@@ -194,7 +205,7 @@ const CardRow = styled.div`
 `;
 
 const InfoCard = styled.div`
-  width: calc(25% - 1.125rem);
+  width: calc(33% - 1.125rem);
   background: #0c0c0c;
   border-radius: 1.25rem;
   padding: 2rem;
@@ -202,7 +213,7 @@ const InfoCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  min-height: 18rem;
+  min-height: 12rem;
 
   @media (max-width: 1024px) {
     width: calc(50% - 0.75rem);

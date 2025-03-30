@@ -43,16 +43,19 @@ export default function LensFeature() {
         </FeatureImageCards>
         <FeatureTextBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            시력도, 스타일도 나에게 맞게!
+            도수렌즈와 선글라스 렌즈로 교체할 수 있어
             <br />
-            렌즈 교체로 더 자유롭게!
+            언제, 어디서나 자유롭게 사용!
           </Title>
           <Description>
             안경 전문점에서 손쉽게 렌즈를 교체할 수 있어, 시력에 맞는 처방
-            렌즈는 물론 선글라스 렌즈로도 활용할 수 있습니다. 언제나 내 눈에 꼭
-            맞는, 나만의 글래스로 스타일과 편안함을 동시에 누려보세요. 잠들기 전
+            렌즈는 물론 선글라스 렌즈로도 활용할 수 있습니다.언제나 내 눈에 꼭
+            맞는, 나만의 글래스로 스타일과 편안함을 동시에 누려보세요.잠들기 전
             충전하고, 하루 종일 자유롭게 함께하세요!
           </Description>
+          <SubDescription>
+            * Gen 2 에서는 간편 충전을 지원합니다.
+          </SubDescription>
         </FeatureTextBlock>
       </SectionContent>
     </SectionWrapper>
@@ -68,7 +71,7 @@ const SectionWrapper = styled.div`
 `;
 
 const SectionContent = styled.div`
-  max-width: 1200px;
+  max-width: 1440px;
   display: flex;
   gap: clamp(2rem, 6vw, 6.25rem);
   align-items: center;
@@ -80,7 +83,6 @@ const SectionContent = styled.div`
 `;
 
 const FeatureTextBlock = styled.div`
-  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 4vw, 2rem);
@@ -100,6 +102,14 @@ const Description = styled.p`
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
+  text-align: right;
+`;
+
+const SubDescription = styled.p`
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 400;
+  color: #909294;
+  opacity: 0.7;
   text-align: right;
 `;
 

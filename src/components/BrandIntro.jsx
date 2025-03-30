@@ -118,7 +118,7 @@ const BrandIntro = () => {
 
   return (
     <SectionWrapper>
-      <HeroText>AInoon Becomes a Part of Everyday Life</HeroText>
+      <ScrollingHeroText text="AInoon Becomes a Part of Everyday Life" />
       <ContentWrapper>
         <TitleBlock>
           <motion.div
@@ -189,6 +189,66 @@ const BrandIntro = () => {
   );
 };
 
+// 새로 추가된 ScrollingHeroText 컴포넌트
+const ScrollingTextContainer = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 4.5rem 0;
+
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+  }
+`;
+
+const ScrollingTextWrapper = styled.div`
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 20s linear infinite;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    animation: marquee 15s linear infinite;
+  }
+`;
+
+const HeroText = styled.div`
+  color: white;
+  font-size: 120px;
+  font-weight: bold;
+  padding: 0;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 48px;
+  }
+`;
+
+// 새로운 ScrollingHeroText 컴포넌트
+const ScrollingHeroText = ({ text }) => {
+  // 텍스트를 여러번 반복하여 연속적인 스크롤 효과 생성
+  const repeatedText = Array(4).fill(text);
+
+  return (
+    <ScrollingTextContainer>
+      <ScrollingTextWrapper>
+        {repeatedText.map((text, index) => (
+          <HeroText key={index}>{text}&nbsp;&nbsp;&nbsp;</HeroText>
+        ))}
+      </ScrollingTextWrapper>
+    </ScrollingTextContainer>
+  );
+};
+
 const cardData = [
   {
     video: "/01_dog.mp4",
@@ -216,24 +276,7 @@ const cardData = [
 const SectionWrapper = styled.div`
   background: #eff0f3;
   padding: 1rem;
-`;
-
-const HeroText = styled.div`
-  color: white;
-  font-size: 120px;
-  font-weight: bold;
-  padding: 4.5rem;
-  white-space: nowrap;
-  width: 140vw;
-  transform: translateX(-20vw);
-
-  @media (max-width: 768px) {
-    font-size: 48px;
-    padding: 2rem 1rem;
-    width: 100vw;
-    white-space: nowrap;
-    transform: translateX(-10vw);
-  }
+  overflow: hidden; // 수평 스크롤바 방지
 `;
 
 const ContentWrapper = styled.div`

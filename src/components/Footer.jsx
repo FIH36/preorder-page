@@ -42,7 +42,7 @@ export default function Footer() {
               <InfoItem>대표자명 : 정진욱</InfoItem>
               <InfoItem>
                 사업장 주소 : 06628 서울특별시 서초구 강남대로 315 (서초동)
-                파이낸셜뉴스빌딩
+                파이낸셜뉴스빌딩 2층
               </InfoItem>
               <InfoItem>대표 전화 : 070-7702-6800</InfoItem>
               <InfoItem>사업자 등록번호 : 105-88-03237</InfoItem>
@@ -63,9 +63,9 @@ export default function Footer() {
           <FooterSection>
             <SectionTitle>고객센터 정보</SectionTitle>
             <InfoList>
-              <InfoItem>상담/주문전화: 070-7702-6800</InfoItem>
+              {/*<InfoItem>상담/주문전화: 070-7702-6800</InfoItem>*/}
               <InfoItem>상담/주문 이메일: ainoon@seerslab.com</InfoItem>
-              <InfoItem>CS운영시간: 10:00~18:00</InfoItem>
+              <InfoItem>CS운영시간: 11:00~17:30</InfoItem>
             </InfoList>
           </FooterSection>
 

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react"; // Added useRef import
 import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
@@ -12,6 +12,7 @@ import SpecImage from "../components/SpecImage.jsx";
 import AppFeature from "../components/AppFeature.jsx";
 import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
+import HistoryTimeline from "../components/HistoryTimeline.jsx";
 
 // 제품 데이터
 const PRODUCTS = [
@@ -63,15 +64,13 @@ const productCardVariants = {
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [introDone, setIntroDone] = useState(false);
-  const [buyNowText, setBuyNowText] = useState("지금 바로 구매하기");
+  const [buyNowText, setBuyNowText] = useState("사전 구매하기");
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   // 반응형 텍스트 처리
   useEffect(() => {
     const handleResize = () => {
-      setBuyNowText(
-        window.innerWidth <= 1000 ? "구매하기" : "지금 바로 구매하기",
-      );
+      setBuyNowText(window.innerWidth <= 1000 ? "구매하기" : "사전 구매하기");
     };
 
     window.addEventListener("resize", handleResize);
@@ -134,6 +133,34 @@ export default function Home() {
     window.open(STORE_URLS.blackFrame, "_blank");
   };
 
+  // UsageVideoSection 컴포넌트 정의
+  const UsageVideoSection = () => {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const videoRef = useRef(null);
+
+    const handleThumbnailClick = () => {
+      setIsPlaying(true);
+      if (videoRef.current) {
+        videoRef.current.play();
+      }
+    };
+
+    return (
+      <Wrapper>
+        {!isPlaying && (
+          <Thumbnail
+            src="/video_thumbnail.png"
+            alt="video thumbnail"
+            onClick={handleThumbnailClick}
+          />
+        )}
+        <UsageVideo ref={videoRef} loop muted playsInline controls>
+          <source src="/UsageVideo.mp4" type="video/mp4" />
+        </UsageVideo>
+      </Wrapper>
+    );
+  };
+
   return (
     <>
       {!introDone && (
@@ -156,23 +183,19 @@ export default function Home() {
           {/*    <source src="/Intro.mp4" type="video/mp4" />*/}
           {/*  </BackgroundVideo>*/}
           {/*</VideoSection>*/}
-          <BrandIntro />
-          <UsageVideoSection>
-            <UsageVideo autoPlay loop muted playsInline controls>
-              <source src="/UsageVideo.mp4" type="video/mp4" />
-            </UsageVideo>
-          </UsageVideoSection>
-          <UsageIdea />
-          <Performance />
           <SpecImage />
           <Feature />
           <LensFeature />
+          <Performance />
+          <BrandIntro />
+          <UsageIdea />
+          <UsageVideoSection /> {/* Using the component properly */}
           <AppFeature />
           <PrivacyFeature />
           {/*<Specification />*/}
           <PreOrder />
           {/*<DeliveryInfo />*/}
-          {/*<HistoryTimeline />*/}
+          <HistoryTimeline />
         </SectionsContainer>
 
         <img src="/FooterImage.png" alt="착용샷" style={{ width: "100%" }} />
@@ -286,30 +309,33 @@ const BackgroundVideo = styled.video`
   }
 `;
 
-const UsageVideoSection = styled.div`
+const Wrapper = styled.div`
   background-color: white;
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  //padding: 9rem 0;
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
+  position: relative;
 `;
 
 const UsageVideo = styled.video`
   width: 100%;
-  //max-width: 1200px;
   height: auto;
-  //border-radius: 2rem;
+  display: block;
 
   @media (max-width: 768px) {
-    width: 100%;
     border-radius: 0;
   }
+`;
+
+const Thumbnail = styled.img`
+  position: absolute;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+  z-index: 2;
 `;
 
 const BuyNowBannerContainer = styled.div`
@@ -333,30 +359,59 @@ const BuyNowBannerContainer = styled.div`
 `;
 
 const ProductName = styled.div`
-  color: black;
   font-size: 20px;
   font-weight: 600;
   margin: 0 1.2rem 0 2rem;
   white-space: nowrap;
   text-align: center;
   letter-spacing: -1px;
+  background: linear-gradient(45deg, #2580ff, #000, #6e5cff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowText 3s ease-in-out infinite;
+
+  @keyframes glowText {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 `;
 
 const BuyNowButton = styled.button`
   padding: 14px 1.5rem;
-  background: linear-gradient(46deg, #2580ff 0%, #6e5cff 50%, #b5a1ff 100%);
+  background: linear-gradient(45deg, #2580ff, #6e5cff, #2580ff);
+  background-size: 600% 600%;
+  animation: gradientShift 5s ease infinite;
   color: white;
   border-radius: 100px;
   font-size: 18px;
   font-weight: 600;
   min-height: 53px;
   cursor: pointer;
-  transition: all 0.2s ease;
   margin: 6px;
-  border: hidden;
+  border: none;
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
   &:hover {
-    background-color: #2580ff;
+    filter: brightness(1.1);
   }
 `;
 

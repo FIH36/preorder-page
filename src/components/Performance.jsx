@@ -25,7 +25,7 @@ export default function Performance() {
           viewport={{ once: true }}
         >
           <Image src="Performance_01.gif" alt="요리하며 통화" />
-          <Caption>핸즈프리로 통화를 하면서도 요리에 집중</Caption>
+          <Caption>핸즈프리로 통화하면서, 요리에 더 집중할 수 있어요</Caption>
         </CardItem>
 
         <CardItem
@@ -37,7 +37,9 @@ export default function Performance() {
           viewport={{ once: true }}
         >
           <Image src="Performance_02.gif" alt="운동하며 음악 듣기" />
-          <Caption>블루투스로 음악을 들으며 두 손 자유롭게 운동</Caption>
+          <Caption>
+            블루투스로 음악을 들으며, 두 손은 자유롭게 운동할 수 있어요
+          </Caption>
         </CardItem>
       </CardWrapper>
     </Container>
@@ -48,7 +50,7 @@ const Container = styled.div`
   max-width: 1440px;
   margin: 9rem auto;
   padding: 0 2rem;
-  background: #0c0c0c;
+  background: black;
   display: flex;
   flex-direction: column;
   align-items: center;

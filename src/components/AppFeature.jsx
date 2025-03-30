@@ -15,7 +15,7 @@ export default function AppFeature() {
       <SectionContent as={motion.div} {...fadeInUp(0)}>
         <FeatureBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            AInoon 전용앱으로
+            AInoon 전용 앱으로
             <br />
             복잡함은 줄이고, 편리함은 더하다
           </Title>
@@ -41,22 +41,71 @@ export default function AppFeature() {
               </ItemDesc>
             </FeatureItem>
           </FeatureList>
+          <div>
+            <div
+              style={{
+                fontSize: "1.1rem",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="/AInoon-logo.svg"
+                alt="AInoon"
+                style={{
+                  filter: "invert(1)",
+                  height: "20px",
+                  marginRight: "0.75rem",
+                }}
+              />{" "}
+              전용 앱 (6월 출시)
+            </div>
+            <DownloadButtons as={motion.div} {...fadeInUp(1.3)}>
+              {/*<a*/}
+              {/*  href="https://apps.apple.com/app/id000000000" // 실제 앱스토어 링크로 변경*/}
+              {/*  target="_blank"*/}
+              {/*  rel="noopener noreferrer"*/}
+              {/*>*/}
+              <img src="/appstore_badge.png" alt="Download on the App Store" />
+              {/*</a>*/}
+              {/*<a*/}
+              {/*  href="https://play.google.com/store/apps/details?id=com.example.app" // 실제 플레이스토어 링크로 변경*/}
+              {/*  target="_blank"*/}
+              {/*  rel="noopener noreferrer"*/}
+              {/*>*/}
+              <img src="/googleplay_badge.png" alt="Get it on Google Play" />
+              {/*</a>*/}
+            </DownloadButtons>
+          </div>
         </FeatureBlock>
-        <VideoBox as={motion.div} {...fadeInUp(1.2)}>
-          <video
-            src="AppFeature_01.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "1rem",
-              objectFit: "cover",
-            }}
-          />
-        </VideoBox>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <VideoBox as={motion.div} {...fadeInUp(1.2)}>
+            <video
+              src="AppFeature_01.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "1rem",
+                objectFit: "cover",
+              }}
+            />
+          </VideoBox>
+          <div
+            style={{ color: "#909294", marginTop: "2rem", fontSize: "1rem" }}
+          >
+            AInoon 전용 앱으로 간편한 사용 경험 제공
+          </div>
+        </div>
       </SectionContent>
     </SectionWrapper>
   );
@@ -106,6 +155,21 @@ const FeatureBlock = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
+  }
+`;
+
+const DownloadButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.75rem;
+
+  img {
+    width: 180px;
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    flex-wrap: wrap;
   }
 `;
 
