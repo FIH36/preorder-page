@@ -171,6 +171,7 @@ export default function Home() {
           <PrivacyFeature />
           {/*<Specification />*/}
           <PreOrder />
+          {/*<DeliveryInfo />*/}
         </SectionsContainer>
 
         <img src="/FooterImage.png" alt="착용샷" style={{ width: "100%" }} />
