@@ -12,7 +12,7 @@ export default function PrivacyFeature() {
 
   return (
     <SectionWrapper>
-      <BackgroundImage src="https://placehold.co/1920x1071" alt="bg" />
+      <BackgroundImage src="PrivacyFeature_02.png" alt="bg" />
       <OverlayDark />
       <OverlayAccent />
       <ContentContainer as={motion.div} {...fadeInUp(0)}>
@@ -70,7 +70,6 @@ const SectionWrapper = styled.section`
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #0c0c0c;
   overflow: hidden;
   padding: 0 5vw 6rem;
   box-sizing: border-box;
@@ -155,7 +154,7 @@ const Description = styled.p`
 const RightImage = styled.div`
   width: clamp(20rem, 40vw, 37rem);
   aspect-ratio: 16 / 10;
-  background: white;
+  background: url("PrivacyFeature_01.gif") center center / cover no-repeat;
   border-radius: 1rem;
   flex-shrink: 0;
 
@@ -167,11 +166,13 @@ const RightImage = styled.div`
 
 const CardRow = styled.div`
   position: relative;
+  max-width: 1440px;
   z-index: 3;
-  margin-top: clamp(3rem, 6vw, 6rem);
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(3rem, 6vw, 6rem) auto 0 auto;
   gap: 1.5rem;
 
   @media (max-width: 1024px) {

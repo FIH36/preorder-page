@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 
@@ -9,6 +10,21 @@ export default function LensFeature() {
     transition: { duration: 1, ease: "easeOut", delay },
     viewport: { once: true },
   });
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = [
+    "/LensFeature_02.png",
+    "/LensFeature_03.png",
+    "/LensFeature_04.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <SectionWrapper>
@@ -27,8 +43,16 @@ export default function LensFeature() {
           </Description>
         </FeatureTextBlock>
         <FeatureImageCards>
-          <ImageCard as={motion.div} {...fadeInUp(1.2)} />
-          <ImageCard as={motion.div} {...fadeInUp(1.3)} />
+          <ImageCard
+            as={motion.div}
+            {...fadeInUp(1.2)}
+            style={{ backgroundImage: `url(/LensFeature_01.png)` }}
+          />
+          <ImageCard
+            as={motion.div}
+            {...fadeInUp(1.3)}
+            style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
+          />
         </FeatureImageCards>
       </SectionContent>
     </SectionWrapper>
@@ -92,12 +116,14 @@ const FeatureImageCards = styled.div`
 const ImageCard = styled.div`
   width: clamp(20rem, 35vw, 32.5rem);
   aspect-ratio: 16 / 9;
-  background: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 1rem;
+  transition: background-image 0.5s ease-in-out;
 
   @media (max-width: 768px) {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
   }
 `;

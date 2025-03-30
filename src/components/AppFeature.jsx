@@ -13,9 +13,21 @@ export default function AppFeature() {
   return (
     <SectionWrapper>
       <SectionContent as={motion.div} {...fadeInUp(0)}>
-        <ImageBox as={motion.div} {...fadeInUp(0.2)}>
-          {/* <img src="/your-image-or-video.jpg" alt="AInoon app" /> */}
-        </ImageBox>
+        <VideoBox as={motion.div} {...fadeInUp(0.2)}>
+          <video
+            src="AppFeature_01.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "1rem",
+              objectFit: "cover",
+            }}
+          />
+        </VideoBox>
         <FeatureBlock as={motion.div} {...fadeInUp(0.4)}>
           <Title>
             AInoon 전용앱으로
@@ -71,16 +83,15 @@ const SectionContent = styled.div`
   }
 `;
 
-const ImageBox = styled.div`
+const VideoBox = styled.div`
   width: clamp(18rem, 40vw, 32.5rem);
   aspect-ratio: 3 / 4;
-  background: white;
   border-radius: 1rem;
+  overflow: hidden;
   flex-shrink: 0;
 
   @media (max-width: 768px) {
     width: 100%;
-    height: auto;
     aspect-ratio: 3 / 4;
   }
 `;

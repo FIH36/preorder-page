@@ -180,7 +180,6 @@ export default function Home() {
               <source src="/UsageVideo.mp4" type="video/mp4" />
             </video>
           </UsageVideoSection>
-
           <Performance />
           <SpecImage />
           <LensFeature />
