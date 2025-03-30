@@ -150,17 +150,16 @@ export default function MainBanner({ isActive, scrollY }) {
 const BannerWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 98vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow: hidden;
 `;
+
 const Header = styled.div`
   z-index: 5;
-  //position: absolute;
-  top: 0;
   width: 100%;
   height: 72px;
   display: flex;
@@ -186,22 +185,25 @@ const BackgroundVideo = styled.video`
 `;
 
 const ImageSection = styled.div`
-  //position: absolute;
   z-index: 1;
+  top: 72px; /* 헤더 높이만큼 아래로 이동 */
+  left: 0;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
+  height: calc(100% - 72px); /* 헤더 높이만큼 전체 높이에서 빼기 */
 `;
 
 const BackgroundImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
 `;
 
 const ContentContainer = styled.div`
   position: absolute;
   z-index: 3;
-  top: 144px;
+  top: 120px; /* 헤더(72px) + 여백(88px) */
   display: flex;
   flex-direction: column;
   align-items: center;

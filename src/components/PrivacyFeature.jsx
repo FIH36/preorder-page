@@ -1,0 +1,222 @@
+/** @jsxImportSource @emotion/react */
+import styled from "@emotion/styled";
+import { motion } from "framer-motion";
+
+export default function PrivacyFeature() {
+  const fadeInUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 50 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 1, ease: "easeOut", delay },
+    viewport: { once: true },
+  });
+
+  return (
+    <SectionWrapper>
+      <BackgroundImage src="https://placehold.co/1920x1071" alt="bg" />
+      <OverlayDark />
+      <OverlayAccent />
+      <ContentContainer as={motion.div} {...fadeInUp(0)}>
+        <LeftBlock>
+          <Title>
+            보안은 철저하게,
+            <br />
+            개인정보는 안전하게
+          </Title>
+          <TextBlock>
+            <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
+            <Description>
+              AInoon은 사용자 개인정보 보호를 최우선으로 하여 모든 데이터를
+              익명화 및 암호화로 안전하게 보호합니다. 개인정보 중심 처리와 보안
+              전송 기술로 정보의 비공개를 유지하며, 사용자는 전용 앱을 통해
+              데이터를 직접 저장하거나 삭제할 수 있어 안전한 환경을 제공합니다.
+            </Description>
+          </TextBlock>
+        </LeftBlock>
+        <RightImage />
+      </ContentContainer>
+
+      <CardRow as={motion.div} {...fadeInUp(0.3)}>
+        {cardData.map((card, i) => (
+          <InfoCard key={i}>
+            <CardTitle>{card.title}</CardTitle>
+            <CardDesc>{card.desc}</CardDesc>
+          </InfoCard>
+        ))}
+      </CardRow>
+    </SectionWrapper>
+  );
+}
+
+const cardData = [
+  {
+    title: "투명한 촬영으로 신뢰를 높이다",
+    desc: "사진이나 동영상 촬영 시 LED 표시등이 작동하여 주변인들에게 촬영 상황을 알리며, 사용자와 타인의 권리를 동시에 존중합니다.",
+  },
+  {
+    title: "프라이버시를 지키는 익명화 기술",
+    desc: "모든 데이터는 AI 상호작용 전에 철저히 익명화되며, 이 데이터는 어떤 경우에도 AI 모델 학습에 활용되지 않습니다.",
+  },
+  {
+    title: "내 손 안에서 완벽한 데이터 관리",
+    desc: "스마트폰을 통해 언제든 데이터를 확인·수정·삭제할 수 있으며, 모든 데이터는 각 국가의 개인정보보호정책에 따라 관리됩니다.",
+  },
+  {
+    title: "데이터 판매 제로, 철저한 보안 원칙",
+    desc: "수집된 모든 데이터는 제3자에게 판매되지 않으며, LED 표시등 작동을 통해 사용자의 촬영 권리와 타인의 프라이버시를 동시에 존중합니다.",
+  },
+];
+
+const SectionWrapper = styled.section`
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #0c0c0c;
+  overflow: hidden;
+  padding: 0 5vw 6rem;
+  box-sizing: border-box;
+`;
+
+const BackgroundImage = styled.img`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+`;
+
+const OverlayDark = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0c0c0c 0%, rgba(12, 12, 12, 0.8) 100%);
+  z-index: 1;
+`;
+
+const OverlayAccent = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0c0c0c 30%, #2580ff 100%);
+  opacity: 0.1;
+  z-index: 2;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding-top: clamp(6rem, 15vh, 10rem);
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: flex-end;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+`;
+
+const LeftBlock = styled.div`
+  max-width: 44rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 4.5rem);
+`;
+
+const Title = styled.h2`
+  color: white;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.4;
+`;
+
+const TextBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const Subtitle = styled.h3`
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: white;
+`;
+
+const Description = styled.p`
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #909294;
+`;
+
+const RightImage = styled.div`
+  width: clamp(20rem, 40vw, 37rem);
+  aspect-ratio: 16 / 10;
+  background: white;
+  border-radius: 1rem;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
+`;
+
+const CardRow = styled.div`
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(3rem, 6vw, 6rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
+
+  @media (max-width: 640px) {
+    gap: 0.75rem;
+  }
+`;
+
+const InfoCard = styled.div`
+  width: calc(25% - 1.125rem);
+  background: #1a1a1a;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(144, 146, 148, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 18rem;
+
+  @media (max-width: 1024px) {
+    width: calc(50% - 0.75rem);
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    min-height: auto;
+  }
+`;
+
+const CardTitle = styled.h4`
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+`;
+
+const CardDesc = styled.p`
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: #909294;
+  line-height: 1.5;
+
+  @media (max-width: 640px) {
+    font-size: 1rem;
+  }
+`;

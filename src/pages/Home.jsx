@@ -9,6 +9,10 @@ import Specification from "../components/Specifications.jsx";
 import BrandIntro from "../components/BrandIntro.jsx";
 import UsageIdea from "../components/UsageIdea.jsx";
 import Performance from "../components/Performance.jsx";
+import LensFeature from "../components/LensFeature.jsx";
+import SpecImage from "../components/SpecImage.jsx";
+import AppFeature from "../components/AppFeature.jsx";
+import PrivacyFeature from "../components/PrivacyFeature.jsx";
 
 // 제품 데이터
 const PRODUCTS = [
@@ -178,7 +182,10 @@ export default function Home() {
           </UsageVideoSection>
 
           <Performance />
-
+          <SpecImage />
+          <LensFeature />
+          <AppFeature />
+          <PrivacyFeature />
           <Specification />
 
           <SectionWrapper id="products">

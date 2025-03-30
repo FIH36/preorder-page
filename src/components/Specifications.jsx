@@ -6,27 +6,6 @@ export default function Specifications() {
   return (
     <SectionWrapper>
       <SectionContainer>
-        {/*<Title>Specifications</Title>*/}
-
-        {/* ✅ 이미지 영역 */}
-        <ImageWrapper>
-          <BaseImage
-            as={motion.img}
-            src={"/Specifications_01.png"}
-            alt="Glasses Spec"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: false }}
-          />
-          <OverlayImage
-            src="/Specifications_02.png"
-            alt="Glasses Text"
-            {...fadeInUp}
-          />
-        </ImageWrapper>
-
-        {/* ✅ 중앙 정렬된 테이블 */}
         <SpecTable>
           <thead>
             <tr>
@@ -48,15 +27,6 @@ export default function Specifications() {
   );
 }
 
-// ✅ 애니메이션 설정 (Fade-in-Up)
-const fadeInUp = {
-  initial: { opacity: 0, y: 50 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 1, delay: 0.5, ease: "easeOut" },
-  viewport: { once: false },
-};
-
-// ✅ 데이터 목록
 const specs = [
   { category: "Weight", detail: "40g" },
   { category: "CPU", detail: "1×A75 2.0GHz + 3×A55 @ 1.8GHz" },
