@@ -127,7 +127,7 @@ export default function Home() {
 
   // 구매 버튼
   const handleBuyNow = () => {
-    window.open(STORE_URLS.blackFrame, "_blank");
+    window.open("https://stepearth.store/category/AInoon/78/", "_blank");
   };
 
   const handleBuyProduct = (productId) => {
@@ -173,8 +173,8 @@ export default function Home() {
           <PreOrder />
         </SectionsContainer>
 
+        <img src="/FooterImage.png" alt="착용샷" style={{ width: "100%" }} />
         <Footer />
-
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
           <BuyNowButton onClick={handleBuyNow}>{buyNowText}</BuyNowButton>

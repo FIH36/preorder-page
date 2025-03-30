@@ -2,115 +2,35 @@
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll } from "framer-motion";
+import { FiVolume2, FiVolumeX } from "react-icons/fi";
 
 export default function MainBanner({ isActive, scrollY }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userData, setUserData] = useState(null);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isMuted, setIsMuted] = useState(true);
   const bannerRef = useRef(null);
+  const videoRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: bannerRef,
     offset: ["start start", "end start"],
   });
 
-  // 스크롤 위치에 따라 효과 적용
   useEffect(() => {
-    const vh = window.innerHeight;
-
-    // 스크롤 위치에 따라 단계 변경
-    if (scrollY < vh * 0.3) {
-      setCurrentStep(1); // 초기 상태에서도 첫 번째 텍스트가 보이도록 0에서 1로 변경
-    } else if (scrollY < vh * 0.6) {
-      setCurrentStep(1);
-    } else if (scrollY < vh * 0.9) {
-      setCurrentStep(2);
-    } else {
-      setCurrentStep(3);
+    if (videoRef.current) {
+      videoRef.current.volume = 0.5; // 볼륨 50%로 시작
     }
-  }, [scrollY]);
-
-  // 결제 관련 스크립트 로드
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
-    script.async = true;
-    document.body.appendChild(script);
   }, []);
 
-  const processPayment = (formData) => {
-    if (!window.IMP) {
-      alert("포트원 SDK가 로드되지 않았습니다.");
-      return;
-    }
-
-    const IMP = window.IMP;
-    IMP.init("imp66470748");
-    const merchantUid = `order_${new Date().getTime()}`;
-    const amount = 10000;
-
-    IMP.request_pay(
-      {
-        pg: "html5_inicis",
-        pay_method: "card",
-        merchant_uid: merchantUid,
-        amount: amount,
-        name: "테스트 상품",
-        buyer_email: formData.email,
-        buyer_name: formData.name,
-        buyer_tel: formData.phone,
-        buyer_addr: formData.address,
-        buyer_postcode: formData.postcode,
-      },
-      async (response) => {
-        if (response.success) {
-          alert("✅ 결제 성공!");
-          console.log("결제 성공 데이터:", response);
-          await saveToGoogleSheet({
-            merchant_uid: merchantUid,
-            amount: amount,
-            buyer_name: formData.name,
-            buyer_email: formData.email,
-            buyer_tel: formData.phone,
-            status: "성공",
-          });
-        } else {
-          alert(`❌ 결제 실패: ${response.error_msg}`);
-          await saveToGoogleSheet({
-            merchant_uid: merchantUid,
-            amount: amount,
-            buyer_name: formData.name,
-            buyer_email: formData.email,
-            buyer_tel: formData.phone,
-            status: "실패",
-          });
-        }
-      },
-    );
-  };
-
-  const saveToGoogleSheet = async (data) => {
-    try {
-      console.log("📌 Google Sheets API 요청 데이터:", data);
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbwYZaOJ6TDQPi0zYSzlb5r7aM1CzXzbEt6YIiwNZsYGo73MdKFyxUe9TuW4z-8uoXttUg/exec",
-        {
-          method: "POST",
-          redirect: "follow",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-        },
-      );
-      console.log("📌 스프레드시트 저장 성공!", await response.text());
-    } catch (error) {
-      console.error("❌ 스프레드시트 저장 오류:", error);
+  const toggleMute = () => {
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    if (videoRef.current) {
+      videoRef.current.muted = newMuted;
     }
   };
 
   return (
-    <BannerWrapper ref={bannerRef} id="main-banner">
+    <BannerWrapper ref={bannerRef} id="main-banner" onClick={toggleMute}>
       <Header>
         <img
           src="/AInoon-logo.svg"
@@ -123,13 +43,25 @@ export default function MainBanner({ isActive, scrollY }) {
       </Header>
 
       <VideoSection>
-        <BackgroundVideo autoPlay loop muted playsInline>
-          <source src="/Main.mp4" type="video/mp4" />
+        <BackgroundVideo
+          ref={videoRef}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+        >
+          <source src="/MainBanner_01.mp4" type="video/mp4" />
         </BackgroundVideo>
       </VideoSection>
-      {/*<ImageSection>*/}
-      {/*  <BackgroundImage src="/Background.png" alt="Background" />*/}
-      {/*</ImageSection>*/}
+
+      <SoundToggleButton
+        onClick={(e) => {
+          e.stopPropagation(); // 배너 전체 클릭 이벤트 차단
+          toggleMute();
+        }}
+      >
+        {isMuted ? <FiVolumeX /> : <FiVolume2 />}
+      </SoundToggleButton>
 
       <ContentContainer>
         <motion.div
@@ -166,7 +98,6 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  //background-color: white;
 `;
 
 const VideoSection = styled.div`
@@ -183,22 +114,6 @@ const BackgroundVideo = styled.video`
   height: 100%;
   object-fit: cover;
   opacity: 0.9;
-`;
-
-const ImageSection = styled.div`
-  z-index: 1;
-  top: 72px; /* 헤더 높이만큼 아래로 이동 */
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  height: calc(100% - 72px); /* 헤더 높이만큼 전체 높이에서 빼기 */
-`;
-
-const BackgroundImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
 `;
 
 const ContentContainer = styled.div`
@@ -246,5 +161,36 @@ const MainText = styled.h1`
 
   @media (max-width: 480px) {
     font-size: 2.2rem;
+  }
+`;
+
+const SoundToggleButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  padding: 0.6rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
   }
 `;

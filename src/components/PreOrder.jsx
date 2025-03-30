@@ -19,7 +19,19 @@ export default function PreOrder() {
                 <TextGroup>
                   <ProductTitle>{product.title}</ProductTitle>
                   <Description>{product.description}</Description>
-                  <Price>{product.price}</Price>
+                  <Price>
+                    <div
+                      style={{
+                        fontSize: "1.1rem",
+                        fontWeight: "400",
+                        textDecoration: "line-through",
+                        lineHeight: "120%",
+                      }}
+                    >
+                      {product.salePrice}
+                    </div>
+                    {product.price}
+                  </Price>
                 </TextGroup>
                 <BuyButton
                   as="a"
@@ -40,36 +52,36 @@ export default function PreOrder() {
 
 const products = [
   {
-    image: "https://placehold.co/300x150/000000/FFFFFF",
+    image: "/PreOrder_01.png",
     title: "하금테 Black",
     price: "270,000원",
     salePrice: "229,000원",
     description: "세련된 감각을 담아 스마트함을 더한 하프 프레임",
-    link: "https://example.com/product1",
+    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EB%B8%94%EB%9E%99/385/category/78/display/1/",
   },
   {
-    image: "https://placehold.co/300x150/222222/FFFFFF",
+    image: "/PreOrder_02.png",
     title: "하금테 Grey",
     price: "270,000원",
     salePrice: "229,000원",
     description: "고급스럽지만 산뜻한 느낌을 더한 하프 프레임",
-    link: "https://example.com/product2",
+    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/386/category/78/display/1/",
   },
   {
-    image: "https://placehold.co/300x150/444444/FFFFFF",
+    image: "/PreOrder_03.png",
     title: "뿔테 Black",
     price: "290,000원",
     salePrice: "246,000원",
     description: "첨단 감각에 세련된 디자인의 풀 프레임",
-    link: "https://example.com/product3",
+    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {
-    image: "https://placehold.co/300x150/666666/FFFFFF",
+    image: "/PreOrder_04.png",
     title: "뿔테 Grey",
     price: "290,000원",
     salePrice: "246,000원",
     description: "도시적이고 감각적인 디자인의 풀 프레임",
-    link: "https://example.com/product4",
+    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/388/category/78/display/1/",
   },
 ];
 
@@ -165,14 +177,12 @@ const ImageWrapper = styled.div`
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
   width: 100%;
 `;
 
 const TextGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
   margin: 2rem 0;
 `;
 
@@ -182,6 +192,7 @@ const ProductTitle = styled.div`
   letter-spacing: -1px;
   line-height: 32px;
   color: black;
+  margin-bottom: 0.5rem;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -191,9 +202,10 @@ const ProductTitle = styled.div`
 
 const Price = styled.div`
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 32px;
   color: #2580ff;
+  text-align: right;
 
   @media (max-width: 768px) {
     font-size: 20px;

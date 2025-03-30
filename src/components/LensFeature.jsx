@@ -29,6 +29,18 @@ export default function LensFeature() {
   return (
     <SectionWrapper>
       <SectionContent as={motion.div} {...fadeInUp(0)}>
+        <FeatureImageCards>
+          <ImageCard
+            as={motion.div}
+            {...fadeInUp(1.2)}
+            style={{ backgroundImage: `url(/LensFeature_01.png)` }}
+          />
+          <ImageCard
+            as={motion.div}
+            {...fadeInUp(1.2)}
+            style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
+          />
+        </FeatureImageCards>
         <FeatureTextBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
             시력도, 스타일도 나에게 맞게!
@@ -42,18 +54,6 @@ export default function LensFeature() {
             충전하고, 하루 종일 자유롭게 함께하세요!
           </Description>
         </FeatureTextBlock>
-        <FeatureImageCards>
-          <ImageCard
-            as={motion.div}
-            {...fadeInUp(1.2)}
-            style={{ backgroundImage: `url(/LensFeature_01.png)` }}
-          />
-          <ImageCard
-            as={motion.div}
-            {...fadeInUp(1.3)}
-            style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
-          />
-        </FeatureImageCards>
       </SectionContent>
     </SectionWrapper>
   );
@@ -91,6 +91,7 @@ const Title = styled.h2`
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.4;
+  text-align: right;
 `;
 
 const Description = styled.p`
@@ -99,6 +100,7 @@ const Description = styled.p`
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
+  text-align: right;
 `;
 
 const FeatureImageCards = styled.div`

@@ -13,22 +13,7 @@ export default function AppFeature() {
   return (
     <SectionWrapper>
       <SectionContent as={motion.div} {...fadeInUp(0)}>
-        <VideoBox as={motion.div} {...fadeInUp(0.2)}>
-          <video
-            src="AppFeature_01.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "1rem",
-              objectFit: "cover",
-            }}
-          />
-        </VideoBox>
-        <FeatureBlock as={motion.div} {...fadeInUp(0.4)}>
+        <FeatureBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
             AInoon 전용앱으로
             <br />
@@ -57,6 +42,21 @@ export default function AppFeature() {
             </FeatureItem>
           </FeatureList>
         </FeatureBlock>
+        <VideoBox as={motion.div} {...fadeInUp(1.2)}>
+          <video
+            src="AppFeature_01.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "1rem",
+              objectFit: "cover",
+            }}
+          />
+        </VideoBox>
       </SectionContent>
     </SectionWrapper>
   );
@@ -72,18 +72,19 @@ const SectionWrapper = styled.div`
 
 const SectionContent = styled.div`
   max-width: 1200px;
+  width: 100%;
   display: flex;
-  gap: clamp(2rem, 6vw, 6.25rem);
+  justify-content: space-between;
   align-items: center;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem; // 텍스트와 비디오 사이 간격 추가
   }
 `;
 
 const VideoBox = styled.div`
-  width: clamp(18rem, 40vw, 32.5rem);
+  width: clamp(18rem, 40vw, 24rem);
   aspect-ratio: 3 / 4;
   border-radius: 1rem;
   overflow: hidden;
@@ -96,16 +97,15 @@ const VideoBox = styled.div`
 `;
 
 const FeatureBlock = styled.div`
-  flex: 1 1 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: clamp(3rem, 4vw, 3.25rem);
+  padding-right: 2rem; // 혹시 여백이 너무 붙었다면 추가. 필요 없으면 제거.
 
   @media (max-width: 768px) {
     width: 100%;
-    align-items: flex-start;
-    text-align: left;
   }
 `;
 
@@ -114,7 +114,7 @@ const Title = styled.h2`
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.4;
-  text-align: right;
+  text-align: left;
 
   @media (max-width: 768px) {
     text-align: left;
@@ -139,7 +139,7 @@ const ItemTitle = styled.div`
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
   color: #aaa;
-  text-align: right;
+  text-align: left;
 
   @media (max-width: 768px) {
     text-align: left;
@@ -151,7 +151,7 @@ const ItemDesc = styled.p`
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
-  text-align: right;
+  text-align: left;
 
   @media (max-width: 768px) {
     text-align: left;
