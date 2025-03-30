@@ -172,6 +172,7 @@ export default function Home() {
           {/*<Specification />*/}
           <PreOrder />
           {/*<DeliveryInfo />*/}
+          {/*<HistoryTimeline />*/}
         </SectionsContainer>
 
         <img src="/FooterImage.png" alt="착용샷" style={{ width: "100%" }} />
