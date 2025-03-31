@@ -147,6 +147,7 @@ const BrandIntro = () => {
         <CarouselContainer>
           <StyledSwiper
             modules={[Pagination, Navigation, Autoplay]}
+            touchStartPreventDefault={false}
             spaceBetween={isMobile ? 32 : 64}
             slidesPerView={"auto"}
             centeredSlides={true}
@@ -160,6 +161,10 @@ const BrandIntro = () => {
             }}
             initialSlide={0}
             watchSlidesProgress={true}
+            // Add these properties to fix vertical scrolling issues
+            touchReleaseOnEdges={true}
+            preventInteractionOnTransition={false}
+            cssMode={true} // Enable CSS mode for better native scrolling
           >
             {cardData.map((card, index) => (
               <StyledSwiperSlide key={index} style={getSlideWidth()}>
@@ -276,7 +281,7 @@ const cardData = [
 const SectionWrapper = styled.div`
   background: #eff0f3;
   padding: 1rem;
-  overflow: hidden; // 수평 스크롤바 방지
+  overflow-x: hidden;
 `;
 
 const ContentWrapper = styled.div`

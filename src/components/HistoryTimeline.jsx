@@ -9,8 +9,8 @@ const historyData = [
     event: "제작발표회 (강남 씨스퀘어, 24.12.12)",
   },
   { date: "2025년 3월", event: "예약 판매 시작", highlight: true },
-  { date: "2025년 4월", event: "슈퍼 얼리 버드 15% 할인" },
-  { date: "2025년 5월", event: "얼리 버드 10% 할인" },
+  { date: "2025년 4월", event: "슈퍼 얼리버드 15% 할인" },
+  { date: "2025년 5월", event: "얼리버드 10% 할인" },
   { date: "2025년 6월 말", event: "글로벌 출하시작" },
   { date: "2025년 7월", event: "소비자 예상 수령", highlight: true },
 ];
