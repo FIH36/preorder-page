@@ -24,7 +24,7 @@ export default function Performance() {
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Image src="Performance_01.gif" alt="요리하며 통화" />
+          <Video autoPlay loop muted playsInline src="Performance_01_c.mp4" />
           <Caption>핸즈프리로 통화하면서, 요리에 더 집중할 수 있어요</Caption>
         </CardItem>
 
@@ -36,7 +36,7 @@ export default function Performance() {
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <Image src="Performance_02.gif" alt="운동하며 음악 듣기" />
+          <Video autoPlay loop muted playsInline src="Performance_02_c.mp4" />
           <Caption>
             블루투스로 음악을 들으며, 두 손은 자유롭게 운동할 수 있어요
           </Caption>
@@ -117,7 +117,7 @@ const CardItem = styled(motion.figure)`
   }
 `;
 
-const Image = styled.img`
+const Video = styled.video`
   width: 100%;
   border-radius: 1rem;
   object-fit: cover;

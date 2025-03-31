@@ -45,7 +45,13 @@ export default function PrivacyFeature() {
               상황을 알리며, 사용자와 타인의 권리를 동시에 존중합니다.
             </Description>
           </div>
-          <RightImage />
+          <RightVideo
+            autoPlay
+            loop
+            muted
+            playsInline
+            src="/PrivacyFeature_01_c.mp4"
+          />
         </LeftBlock>
       </ContentContainer>
 
@@ -175,11 +181,11 @@ const Description = styled.p`
   color: #909294;
 `;
 
-const RightImage = styled.div`
+const RightVideo = styled.video`
   width: clamp(20rem, 40vw, 32rem);
   aspect-ratio: 16 / 10;
-  background: url("/PrivacyFeature_01.gif") center center / cover no-repeat;
   border-radius: 1rem;
+  object-fit: cover;
   flex-shrink: 0;
 
   @media (max-width: 768px) {
