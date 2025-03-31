@@ -100,7 +100,7 @@ const products = [
     title: "뿔테 Black",
     price: "246,000원",
     salePrice: "290,000원",
-    description: "단정한 스퀘어 실루엣이 돋보이는 클래식 뿔테 디자인",
+    description: "모던한 스퀘어 실루엣이 돋보이는 클래식 뿔테 디자인",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {

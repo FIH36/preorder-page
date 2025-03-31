@@ -44,7 +44,7 @@ const FEATURE_CONTENTS = [
   },
   {
     icon: <FiMic />,
-    subtitle: "라이프스타일에 맞춘 렌즈 교체 지원",
+    subtitle: "깨끗한 음성 인식과 통화 품질",
     title: "3개 마이크 + 노이즈 감소",
   },
 ];

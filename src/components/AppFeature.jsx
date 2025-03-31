@@ -87,7 +87,7 @@ export default function AppFeature() {
         >
           <VideoBox as={motion.div} {...fadeInUp(1.2)}>
             <video
-              src="AppFeature_01.mp4"
+              src="AppFeature_01_c.mp4"
               autoPlay
               loop
               muted

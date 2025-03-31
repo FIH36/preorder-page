@@ -16,7 +16,7 @@ const cardData = [
   {
     video: "UsageIdea_02.mp4",
     title: "여행 중 외국어 번역",
-    description: "낯선 여행지에서 외국어 번역은 물로 관광지 정보도 물어보세요",
+    description: "낯선 여행지에서 외국어 번역은 물론 관광지 정보도 물어보세요",
   },
   {
     video: "UsageIdea_03.mp4",
