@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react"; // Added useRef import
+import { useEffect, useRef, useState } from "react";
 import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
@@ -12,7 +12,7 @@ import SpecImage from "../components/SpecImage.jsx";
 import AppFeature from "../components/AppFeature.jsx";
 import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
-import HistoryTimeline from "../components/HistoryTimeline.jsx"; // 제품 데이터
+import HistoryTimeline from "../components/HistoryTimeline.jsx";
 
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState([]);
@@ -20,19 +20,17 @@ export default function Home() {
   const [buyNowText, setBuyNowText] = useState("사전 구매하기");
   const [videoLoaded, setVideoLoaded] = useState(false);
 
-  // 반응형 텍스트 처리
   useEffect(() => {
     const handleResize = () => {
       setBuyNowText(window.innerWidth <= 1000 ? "구매하기" : "사전 구매하기");
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // 초기 로드 시 체크
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 인트로 로딩 처리
   useEffect(() => {
     setTimeout(() => {
       setVideoLoaded(true);
@@ -46,7 +44,6 @@ export default function Home() {
     }
   }, [videoLoaded]);
 
-  // 제품 카드 인터섹션 옵저버
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -77,36 +74,42 @@ export default function Home() {
     };
   }, [visibleProducts]);
 
-  // 구매 버튼
   const handleBuyNow = () => {
     window.open("https://stepearth.store/category/AInoon/78/", "_blank");
   };
 
-  // UsageVideoSection 컴포넌트 정의
   const UsageVideoSection = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const videoRef = useRef(null);
 
     const handleThumbnailClick = () => {
       setIsPlaying(true);
-      if (videoRef.current) {
-        videoRef.current.muted = false;
-        videoRef.current.play();
-      }
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.muted = false;
+          videoRef.current.play();
+        }
+      }, 100);
     };
 
     return (
       <Wrapper>
         {!isPlaying && (
-          <Thumbnail
-            src="/video_thumbnail.png"
-            alt="video thumbnail"
-            onClick={handleThumbnailClick}
-          />
+          <>
+            <Background src="/UsageVideo_firstframe.jpg" alt="first frame" />
+            <Thumbnail
+              src="/video_thumbnail.png"
+              alt="video thumbnail"
+              onClick={handleThumbnailClick}
+            />
+          </>
         )}
-        <UsageVideo ref={videoRef} loop muted playsInline controls>
-          <source src="/UsageVideo.mp4" type="video/mp4" />
-        </UsageVideo>
+
+        {isPlaying && (
+          <UsageVideo ref={videoRef} controls loop playsInline preload="none">
+            <source src="/UsageVideo_c.mp4" type="video/mp4" />
+          </UsageVideo>
+        )}
       </Wrapper>
     );
   };
@@ -152,30 +155,6 @@ export default function Home() {
   );
 }
 
-const cardData = [
-  {
-    video: "/01_dog.mp4",
-    title: "사랑스러운 순간",
-    description: "반려동물의 사랑스러운 순간, 놓칠 틈 없이 빠르게 기록하세요",
-  },
-  {
-    video: "/01_baby.mp4",
-    title: "감동의 순간",
-    description: "아기 첫 걸음, 순간이 아닌 영원한 기억으로 남겨주세요",
-  },
-  {
-    video: "/01_family.mp4",
-    title: "행복한 순간",
-    description:
-      "행복한 찰나, 기억이 아닌 기록으로 가족, 친구들과 오래오래 간직하세요",
-  },
-  {
-    video: "/01_parking.mp4",
-    title: "기억이 필요한 순간",
-    description: "기억할 필요 없이 탭 한번으로 주차 위치를 저장하세요",
-  },
-];
-
 const Container = styled.div`
   width: 100%;
   position: relative;
@@ -217,68 +196,47 @@ const SectionsContainer = styled.div`
   position: relative;
 `;
 
-const SectionWrapper = styled.section`
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const VideoSection = styled.div`
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-
-  @media (max-width: 768px) {
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-`;
-
-const BackgroundVideo = styled.video`
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  display: block;
-
-  @media (max-width: 768px) {
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-  }
-`;
-
 const Wrapper = styled.div`
-  background-color: white;
   width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  aspect-ratio: 16 / 9;
   position: relative;
+  background-color: black;
+  overflow: hidden;
 `;
 
-const UsageVideo = styled.video`
+const Background = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  display: block;
-
-  @media (max-width: 768px) {
-    border-radius: 0;
-  }
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 `;
 
 const Thumbnail = styled.img`
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   cursor: pointer;
+  z-index: 1;
+`;
+
+const UsageVideo = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   z-index: 2;
+
+  @media (max-width: 768px) {
+    border-radius: 0;
+  }
 `;
 
 const BuyNowBannerContainer = styled.div`
@@ -355,156 +313,5 @@ const BuyNowButton = styled.button`
 
   &:hover {
     filter: brightness(1.1);
-  }
-`;
-
-const ContentSection = styled.div`
-  word-break: keep-all;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 6rem 0;
-  text-align: center;
-  @media (max-width: 1024px) {
-    padding: 6rem 1rem;
-  }
-`;
-
-const SectionTitle = styled.div`
-  margin-bottom: 4rem;
-  word-break: keep-all;
-`;
-
-const GradientText = styled.h2`
-  word-break: keep-all;
-  font-size: 3rem;
-  font-weight: 700;
-  background: white;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
-  }
-`;
-
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  word-break: keep-all;
-  color: #999;
-  max-width: 400px;
-  margin: 0 auto;
-  line-height: 2rem;
-`;
-
-const FeatureGrid = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 0 2rem;
-`;
-
-const FeatureSection = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 2rem;
-  height: 580px;
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    height: auto;
-    gap: 2rem;
-  }
-`;
-
-const FeatureBox = styled.div`
-  word-break: keep-all;
-  flex: 1;
-  position: relative;
-  background-color: #171719;
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  font-weight: 300;
-  font-size: 15px;
-  color: white;
-  overflow: hidden;
-  height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-
-  @media (max-width: 1024px) {
-    min-height: 480px;
-    padding: 2rem 1.5rem;
-  }
-`;
-
-const ProductImageContainer = styled.div`
-  width: 100%;
-  height: 300px;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-`;
-
-const ProductImage = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-`;
-
-const FeatureTitle = styled.h3`
-  font-size: 1.8rem;
-  word-break: keep-all;
-  font-weight: 600;
-  color: white;
-  text-align: center;
-  margin-top: 1rem;
-  line-height: 1.3;
-
-  @media (max-width: 1024px) {
-    font-size: 1.5rem;
-  }
-`;
-
-const FeatureSubtitle = styled.div`
-  color: #999;
-  word-break: keep-all;
-  text-align: center;
-  max-width: 90%;
-  font-size: 1rem;
-  line-height: 1.5;
-`;
-
-const PriceTag = styled.div`
-  font-size: 2rem;
-  font-weight: 700;
-  color: orangered;
-  margin: 1rem 0 1.5rem;
-`;
-
-const PreOrderButton = styled.button`
-  width: 100%;
-  padding: 1rem 0;
-  background: linear-gradient(90deg, #ff4500, #ffa500);
-  color: white;
-  border: none;
-  border-radius: 100px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: auto;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 69, 0, 0.2);
   }
 `;

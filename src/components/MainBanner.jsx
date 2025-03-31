@@ -50,7 +50,7 @@ export default function MainBanner({ isActive, scrollY }) {
           muted={isMuted}
           playsInline
         >
-          <source src="/Main2.mp4" type="video/mp4" />
+          <source src="/Main2_c.mp4" type="video/mp4" />
         </BackgroundVideo>
       </VideoSection>
 
