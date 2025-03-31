@@ -14,53 +14,6 @@ import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
 import HistoryTimeline from "../components/HistoryTimeline.jsx"; // 제품 데이터
 
-// 제품 데이터
-const PRODUCTS = [
-  {
-    id: "하금테_스타일",
-    name: "하금테 스타일",
-    color: "Black",
-    price: 240000,
-    image: "/black_01.png",
-    subtitle: "세련된 감각을 담아 스마트함을 더한 하금테 프레임",
-  },
-  {
-    id: "스퀘어_스타일",
-    name: "스퀘어 스타일",
-    color: "Black",
-    price: 260000,
-    image: "/Black_Clear01.png",
-    subtitle: "클래식한 무드를 담아 신뢰감을 주는 블랙 프레임",
-  },
-];
-
-const STORE_URLS = {
-  blackFrame:
-    "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/56/display/1/",
-};
-
-const productCardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.25, 0.1, 0.25, 1.0],
-    },
-  },
-  hover: {
-    y: -10,
-    boxShadow:
-      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-    backgroundColor: "#1e1e21",
-    transition: { duration: 0.3 },
-  },
-};
-
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [introDone, setIntroDone] = useState(false);
@@ -129,10 +82,6 @@ export default function Home() {
     window.open("https://stepearth.store/category/AInoon/78/", "_blank");
   };
 
-  const handleBuyProduct = (productId) => {
-    window.open(STORE_URLS.blackFrame, "_blank");
-  };
-
   // UsageVideoSection 컴포넌트 정의
   const UsageVideoSection = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -179,24 +128,17 @@ export default function Home() {
       <Container>
         <SectionsContainer>
           <MainBanner />
-          {/*<VideoSection>*/}
-          {/*  <BackgroundVideo autoPlay loop muted playsInline controls>*/}
-          {/*    <source src="/Intro.mp4" type="video/mp4" />*/}
-          {/*  </BackgroundVideo>*/}
-          {/*</VideoSection>*/}
           <SpecImage />
           <Feature />
           <LensFeature />
           <Performance />
           <BrandIntro />
           <UsageIdea />
-          <UsageVideoSection /> {/* Using the component properly */}
+          <UsageVideoSection />
           <AppFeature />
           <PrivacyFeature />
-          {/*<Specification />*/}
           <HistoryTimeline />
           <PreOrder />
-          {/*<DeliveryInfo />*/}
         </SectionsContainer>
 
         <img src="/FooterImage3.png" alt="착용샷" style={{ width: "100%" }} />

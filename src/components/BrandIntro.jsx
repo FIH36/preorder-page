@@ -161,10 +161,6 @@ const BrandIntro = () => {
             }}
             initialSlide={0}
             watchSlidesProgress={true}
-            // Add these properties to fix vertical scrolling issues
-            touchReleaseOnEdges={true}
-            preventInteractionOnTransition={false}
-            cssMode={true} // Enable CSS mode for better native scrolling
           >
             {cardData.map((card, index) => (
               <StyledSwiperSlide key={index} style={getSlideWidth()}>

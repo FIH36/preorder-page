@@ -100,6 +100,7 @@ const Description = styled.p`
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 400;
   line-height: 1.6;
+  text-align: right;
   color: #909294;
   @media (max-width: 768px) {
     text-align: left;
