@@ -12,7 +12,7 @@ import SpecImage from "../components/SpecImage.jsx";
 import AppFeature from "../components/AppFeature.jsx";
 import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
-import HistoryTimeline from "../components/HistoryTimeline.jsx";
+import HistoryTimeline from "../components/HistoryTimeline.jsx"; // 제품 데이터
 
 // 제품 데이터
 const PRODUCTS = [
@@ -199,7 +199,7 @@ export default function Home() {
           {/*<DeliveryInfo />*/}
         </SectionsContainer>
 
-        <img src="/FooterImage2.png" alt="착용샷" style={{ width: "100%" }} />
+        <img src="/FooterImage3.png" alt="착용샷" style={{ width: "100%" }} />
         <Footer />
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
