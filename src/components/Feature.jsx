@@ -83,17 +83,17 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  gap: 1.5rem;
 `;
 
 const FeatureRow = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 4rem;
+  gap: 1.5rem;
 
   @media (max-width: 1024px) {
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: 600px) {
@@ -103,12 +103,15 @@ const FeatureRow = styled.div`
 `;
 
 const FeatureItem = styled.div`
-  width: 280px;
+  width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.1rem;
   color: white;
   text-align: center;
+  background-color: #111;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
 
   @media (max-width: 600px) {
     width: 100%;

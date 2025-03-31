@@ -22,8 +22,8 @@ export default function PreOrder() {
                   <Price>
                     <div
                       style={{
-                        fontSize: "1.1rem",
-                        fontWeight: "400",
+                        fontSize: "1.2rem",
+                        fontWeight: "500",
                         lineHeight: "120%",
                         color: "#0c0c0c",
                         opacity: 0.8,
@@ -38,7 +38,12 @@ export default function PreOrder() {
                       >
                         정가{" "}
                       </span>
-                      <div style={{ textDecoration: "line-through" }}>
+                      <div
+                        style={{
+                          textDecoration: "line-through",
+                          textDecorationColor: "red",
+                        }}
+                      >
                         {product.salePrice}
                       </div>
                     </div>

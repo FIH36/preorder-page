@@ -141,6 +141,7 @@ export default function Home() {
     const handleThumbnailClick = () => {
       setIsPlaying(true);
       if (videoRef.current) {
+        videoRef.current.muted = false;
         videoRef.current.play();
       }
     };
