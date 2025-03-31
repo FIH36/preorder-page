@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 const historyData = [
   { date: "2023년 3월", event: "AI 글래스 R&D 진행 시작" },
@@ -20,7 +20,6 @@ const historyData = [
   },
 ];
 
-// fadeInUp 애니메이션
 const fadeInUp = (delay = 0) => ({
   initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
@@ -77,8 +76,6 @@ const History = () => {
 };
 
 export default History;
-
-// 스타일 -----------------------------------------
 
 const Wrapper = styled.section`
   padding: 9rem 2rem 2rem 2rem;

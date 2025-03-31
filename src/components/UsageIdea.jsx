@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import React, { useEffect, useRef, useState } from "react";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { motion } from "framer-motion";
+import React, {useEffect, useRef, useState} from "react";
+import {Autoplay} from "swiper/modules";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {motion} from "framer-motion";
 import "swiper/css";
 
 const cardData = [
@@ -29,21 +29,17 @@ const cardData = [
   },
 ];
 
-// 메인 컴포넌트 함수
 function UsageIdea() {
   const [activeIndex, setActiveIndex] = useState(0);
   const videoRefs = useRef({});
   const swiperRef = useRef(null);
 
-  // 애니메이션을 위한 상태
   const [titleVisible, setTitleVisible] = useState(false);
   const [imageVisible, setImageVisible] = useState(false);
 
-  // 요소 참조
   const titleRef = useRef(null);
   const imageRef = useRef(null);
 
-  // 스크롤 애니메이션을 위한 Intersection Observer 설정
   useEffect(() => {
     const observerOptions = {
       threshold: 0.2,
@@ -79,7 +75,6 @@ function UsageIdea() {
     };
   }, []);
 
-  // 비디오 재생 관리
   useEffect(() => {
     Object.values(videoRefs.current).forEach((video) => {
       if (video) video.pause();
@@ -130,7 +125,6 @@ function UsageIdea() {
 
       <RightSection>
         <CarouselContainer>
-          {/* 상단 그라데이션 오버레이 */}
           <GradientOverlayTop />
 
           <StyledSwiper
@@ -348,25 +342,30 @@ const GradientOverlayBottom = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    position: relative;
+    
+    touch-action: pan-y;
+    
+    overscroll-behavior: contain;
 
-  .swiper-wrapper {
-    align-items: center;
-    transition-timing-function: ease-out;
-  }
+    .swiper-wrapper {
+        align-items: center;
+        transition-timing-function: ease-out;
+    }
 
-  .swiper-slide {
-    transition: all 0.4s ease-out;
-    overflow: visible; /* 개별 슬라이드는 visible 유지 */
-  }
+    .swiper-slide {
+        transition: all 0.4s ease-out;
+        overflow: visible;
+    }
 
-  .swiper-slide-active {
-    z-index: 5;
-  }
+    .swiper-slide-active {
+        z-index: 5;
+    }
 `;
+
 
 const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
@@ -383,7 +382,6 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   }
 `;
 
-// 통합된 카드 컴포넌트
 const IntegratedCard = styled.div`
   background: transparent;
   transition: all 0.4s ease-in-out;

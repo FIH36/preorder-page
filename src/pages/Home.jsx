@@ -107,7 +107,7 @@ export default function Home() {
 
         {isPlaying && (
           <UsageVideo ref={videoRef} controls loop playsInline preload="none">
-            <source src="/UsageVideo_c.mp4" type="video/mp4" />
+            <source src="/UsageVideo.mp4" type="video/mp4" />
           </UsageVideo>
         )}
       </Wrapper>

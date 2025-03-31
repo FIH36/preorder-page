@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 export default function PrivacyFeature() {
   const fadeInUp = (delay = 0) => ({
@@ -16,12 +16,10 @@ export default function PrivacyFeature() {
       <OverlayDark />
       <OverlayAccent />
 
-      {/* 타이틀 */}
       <motion.div {...fadeInUp(0)} style={{ zIndex: 3 }}>
         <Title>보안은 철저하게, 개인정보는 안전하게</Title>
       </motion.div>
 
-      {/* 설명 + 이미지 */}
       <ContentContainer as={motion.div} {...fadeInUp(0.2)}>
         <TextBlock>
           <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
@@ -68,7 +66,6 @@ export default function PrivacyFeature() {
   );
 }
 
-// 카드 데이터
 const cardData = [
   {
     title: "프라이버시를 지키는 익명화 기술",

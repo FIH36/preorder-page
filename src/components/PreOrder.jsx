@@ -158,12 +158,12 @@ const CardRow = styled.div`
 
   @media (max-width: 768px) {
     gap: 16px;
-    padding: 0 2rem; // 모바일 좌우 마진 역할
+    padding: 0 2rem;
   }
 `;
 
 const Card = styled.div`
-  width: calc((100% - 72px) / 4); // 4개 카드 기준 (gap 24px x 3)
+  width: calc((100% - 72px) / 4);
   height: 450px;
   background: white;
   border-radius: 24px;
@@ -181,11 +181,11 @@ const Card = styled.div`
   }
 
   @media (max-width: 1024px) {
-    width: calc((100% - 48px) / 3); // 3개 카드
+    width: calc((100% - 48px) / 3);
   }
 
   @media (max-width: 768px) {
-    width: 100%; // 모바일은 한 줄씩 꽉 차게
+    width: 100%;
     height: auto;
   }
 `;
