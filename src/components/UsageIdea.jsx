@@ -11,22 +11,21 @@ const cardData = [
   {
     video: "UsageIdea_01.mp4",
     title: "칼로리 계산",
-    description:
-      "음식 사진을 찍으면, 칼로리를 계산하고 영양 정보를 제공해 드립니다",
+    description: "음식 사진을 찍으면, 칼로리와 영양 정보를 바로 알려드려요",
   },
   {
     video: "UsageIdea_02.mp4",
-    title: "여행중 외국어 번역",
-    description: "여행 중 메뉴, 표지판 등 실시간으로 외국어를 번역해 드립니다",
+    title: "여행 중 외국어 번역",
+    description: "낯선 여행지에서 외국어 번역은 물로 관광지 정보도 물어보세요",
   },
   {
     video: "UsageIdea_03.mp4",
     title: "회사 업무 지원",
-    description: "회의 내용을 자동으로 기록하고 중요 포인트를 요약해 드립니다",
+    description: "업무 중에도 스마트하게 보고, 듣고, 질문하세요",
   },
   {
     video: "UsageIdea_04.mp4",
-    title: "스타일 코디네이터",
+    title: "코디네이터",
     description: "입지 않아도 OK! 손짓 하나로 코디 추천을 받아보세요",
   },
 ];

@@ -84,7 +84,7 @@ const products = [
     title: "하금테 Black",
     price: "229,000원",
     salePrice: "270,000원",
-    description: "세련된 감각을 담아 스마트함을 더한 하프 프레임",
+    description: "절제된 세련미에 지적인 무드를 더한 하금테 디자인",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EB%B8%94%EB%9E%99/385/category/78/display/1/",
   },
   {
@@ -92,7 +92,7 @@ const products = [
     title: "하금테 Grey",
     price: "229,000원",
     salePrice: "270,000원",
-    description: "고급스럽지만 산뜻한 느낌을 더한 하프 프레임",
+    description: "산뜻한 컬러감과 고급스러움이 어우러진 하금테 디자인",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/386/category/78/display/1/",
   },
   {
@@ -100,7 +100,7 @@ const products = [
     title: "뿔테 Black",
     price: "246,000원",
     salePrice: "290,000원",
-    description: "첨단 감각에 세련된 디자인의 풀 프레임",
+    description: "단정한 스퀘어 실루엣이 돋보이는 클래식 뿔테 디자인",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {
@@ -108,7 +108,7 @@ const products = [
     title: "뿔테 Grey",
     price: "246,000원",
     salePrice: "290,000원",
-    description: "도시적이고 감각적인 디자인의 풀 프레임",
+    description: "도시적인 감성에 부드러운 개성을 더한 뿔테 디자인",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/388/category/78/display/1/",
   },
 ];

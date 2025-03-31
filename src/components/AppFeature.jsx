@@ -28,15 +28,15 @@ export default function AppFeature() {
               </ItemDesc>
             </FeatureItem>
             <FeatureItem>
-              <ItemTitle>사진 / 비디오 촬영 관리</ItemTitle>
+              <ItemTitle>사진/동영상 관리</ItemTitle>
               <ItemDesc>
-                안경으로 순간포착하고, 촬영한 사진과 비디오를 동기화하여, 관리
+                안경으로 순간을 포착하고, 사진과 영상을 손쉽게 동기화 및 관리
               </ItemDesc>
             </FeatureItem>
             <FeatureItem>
               <ItemTitle>AI 대화 히스토리</ItemTitle>
               <ItemDesc>
-                날짜, 시간 및 사진 포함 대화 기록을 최신 대화 순으로 접근 및
+                날짜, 시간, 사진과 함께 기록된 AI 대화를 최신 순으로 확인 및
                 검색
               </ItemDesc>
             </FeatureItem>
