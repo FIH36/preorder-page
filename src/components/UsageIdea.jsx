@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import "swiper/css";
 
-// 데이터 정의
 const cardData = [
   {
     video: "UsageIdea_01.mp4",
@@ -124,7 +123,7 @@ function UsageIdea() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <ImageWrapper>
-            <Image src="/UsageIdea.png" alt="Glasses" />
+            <Image src="/UsageIdea.webp" alt="Glasses" />
           </ImageWrapper>
         </motion.div>
       </LeftSection>
@@ -168,7 +167,6 @@ function UsageIdea() {
             {cardData.map((card, index) => (
               <StyledSwiperSlide key={index}>
                 <IntegratedCard isActive={index === activeIndex}>
-                  {/* 비디오 부분 */}
                   <VideoWrapper isActive={index === activeIndex}>
                     <Video
                       ref={(el) => (videoRefs.current[index] = el)}
@@ -179,7 +177,6 @@ function UsageIdea() {
                     />
                   </VideoWrapper>
 
-                  {/* 텍스트 부분 */}
                   <CardTextContent isActive={index === activeIndex}>
                     <CardTitle>{card.title}</CardTitle>
                     <CardDescription>{card.description}</CardDescription>
@@ -189,7 +186,6 @@ function UsageIdea() {
             ))}
           </StyledSwiper>
 
-          {/* 하단 그라데이션 오버레이 */}
           <GradientOverlayBottom />
         </CarouselContainer>
       </RightSection>
@@ -213,7 +209,7 @@ const SectionWrapper = styled.div`
     height: auto;
     min-height: 100vh;
     padding: 4rem 0 3rem 0;
-    overflow: hidden; /* 모바일에서 전체 섹션 오버플로우 히든 유지 */
+    overflow: hidden;
   }
 `;
 

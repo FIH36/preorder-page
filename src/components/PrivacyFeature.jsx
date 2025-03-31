@@ -175,7 +175,7 @@ const Subtitle = styled.h3`
 `;
 
 const Description = styled.p`
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 400;
   line-height: 1.6;
   color: #909294;

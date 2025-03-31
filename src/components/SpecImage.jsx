@@ -14,7 +14,7 @@ export default function SpecImage() {
     <ImageWrapper>
       <BaseImage
         as={motion.img}
-        src={"/Specifications_01.png"}
+        src={"/Specifications_01.webp"}
         alt="Glasses Spec"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -22,7 +22,7 @@ export default function SpecImage() {
         viewport={{ once: false }}
       />
       <OverlayImage
-        src="/Specifications_02.png"
+        src="/Specifications_02.webp"
         alt="Glasses Text"
         {...fadeInUp}
       />

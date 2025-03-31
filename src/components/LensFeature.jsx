@@ -13,14 +13,29 @@ export default function LensFeature() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
-    "/LensFeature_02.png",
-    "/LensFeature_03.png",
-    "/LensFeature_04.png",
+    "/LensFeature_02.webp",
+    "/LensFeature_03.webp",
+    "/LensFeature_04.webp",
   ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const [currentImageIndex2, setCurrentImageIndex2] = useState(0);
+  const images2 = [
+    "/LensFeature_05.webp",
+    "/LensFeature_06.webp",
+    "/LensFeature_07.webp",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex2((prev) => (prev + 1) % images2.length);
     }, 2000);
 
     return () => clearInterval(interval);
@@ -33,7 +48,7 @@ export default function LensFeature() {
           <ImageCard
             as={motion.div}
             {...fadeInUp(1.2)}
-            style={{ backgroundImage: `url(/LensFeature_01.png)` }}
+            style={{ backgroundImage: `url(${images2[currentImageIndex2]})` }}
           />
           <ImageCard
             as={motion.div}

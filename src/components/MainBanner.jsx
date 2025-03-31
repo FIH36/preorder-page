@@ -1,19 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll } from "framer-motion";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 
 export default function MainBanner({ isActive, scrollY }) {
-  const [currentStep, setCurrentStep] = useState(1);
   const [isMuted, setIsMuted] = useState(true);
   const bannerRef = useRef(null);
   const videoRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: bannerRef,
-    offset: ["start start", "end start"],
-  });
 
   useEffect(() => {
     if (videoRef.current) {
@@ -50,13 +43,13 @@ export default function MainBanner({ isActive, scrollY }) {
           muted={isMuted}
           playsInline
         >
-          <source src="/Main2_c.mp4" type="video/mp4" />
+          <source src="/MainBanner_01.mp4" type="video/mp4" />
         </BackgroundVideo>
       </VideoSection>
 
       <SoundToggleButton
         onClick={(e) => {
-          e.stopPropagation(); // 배너 전체 클릭 이벤트 차단
+          e.stopPropagation();
           toggleMute();
         }}
       >
@@ -64,17 +57,8 @@ export default function MainBanner({ isActive, scrollY }) {
       </SoundToggleButton>
 
       <ContentContainer>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{
-            opacity: currentStep >= 1 ? 1 : 0,
-            y: currentStep >= 1 ? 0 : 30,
-          }}
-          transition={{ duration: 0.5 }}
-        >
-          <SubText>눈으로 보고, 찍고, 듣고, 즐기다</SubText>
-          <MainText>눈앞의 모든 순간이 당신의 콘텐츠가 됩니다</MainText>
-        </motion.div>
+        <SubText>눈으로 보고, 찍고, 듣고, 즐기다</SubText>
+        <MainText>눈앞의 모든 순간이 당신의 콘텐츠가 됩니다</MainText>
       </ContentContainer>
     </BannerWrapper>
   );

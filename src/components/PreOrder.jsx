@@ -80,7 +80,7 @@ export default function PreOrder() {
 
 const products = [
   {
-    image: "/PreOrder_01.png",
+    image: "/PreOrder_01.webp",
     title: "하금테 Black",
     price: "229,000원",
     salePrice: "270,000원",
@@ -88,7 +88,7 @@ const products = [
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EB%B8%94%EB%9E%99/385/category/78/display/1/",
   },
   {
-    image: "/PreOrder_02.png",
+    image: "/PreOrder_02.webp",
     title: "하금테 Grey",
     price: "229,000원",
     salePrice: "270,000원",
@@ -96,7 +96,7 @@ const products = [
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/386/category/78/display/1/",
   },
   {
-    image: "/PreOrder_03.png",
+    image: "/PreOrder_03.webp",
     title: "뿔테 Black",
     price: "246,000원",
     salePrice: "290,000원",
@@ -104,7 +104,7 @@ const products = [
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {
-    image: "/PreOrder_04.png",
+    image: "/PreOrder_04.webp",
     title: "뿔테 Grey",
     price: "246,000원",
     salePrice: "290,000원",

@@ -144,7 +144,7 @@ export default function Home() {
           <PreOrder />
         </SectionsContainer>
 
-        <img src="/FooterImage3.png" alt="착용샷" style={{ width: "100%" }} />
+        <img src="/FooterImage3.webp" alt="착용샷" style={{ width: "100%" }} />
         <Footer />
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>

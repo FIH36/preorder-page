@@ -61,20 +61,8 @@ export default function AppFeature() {
               전용 앱 (6월 출시)
             </div>
             <DownloadButtons as={motion.div} {...fadeInUp(1.3)}>
-              {/*<a*/}
-              {/*  href="https://apps.apple.com/app/id000000000" // 실제 앱스토어 링크로 변경*/}
-              {/*  target="_blank"*/}
-              {/*  rel="noopener noreferrer"*/}
-              {/*>*/}
-              <img src="/appstore_badge.png" alt="Download on the App Store" />
-              {/*</a>*/}
-              {/*<a*/}
-              {/*  href="https://play.google.com/store/apps/details?id=com.example.app" // 실제 플레이스토어 링크로 변경*/}
-              {/*  target="_blank"*/}
-              {/*  rel="noopener noreferrer"*/}
-              {/*>*/}
-              <img src="/googleplay_badge.png" alt="Get it on Google Play" />
-              {/*</a>*/}
+              <img src="/appstore_badge.webp" alt="Download on the App Store" />
+              <img src="/googleplay_badge.webp" alt="Get it on Google Play" />
             </DownloadButtons>
           </ButtonSection>
         </FeatureBlock>
@@ -86,12 +74,9 @@ export default function AppFeature() {
           }}
         >
           <VideoBox as={motion.div} {...fadeInUp(1.2)}>
-            <video
-              src="AppFeature_01_c.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
+            <img
+              src="/AppFeature_01.webp"
+              alt="App Feature Animation"
               style={{
                 width: "100%",
                 height: "100%",
