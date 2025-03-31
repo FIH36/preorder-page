@@ -150,7 +150,7 @@ export default function Home() {
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
           <BuyNowButton onClick={handleBuyNow}>
-            {buyNowText}
+            사전 구매하기
           </BuyNowButton>
         </BuyNowBannerContainer>
       </Container>
