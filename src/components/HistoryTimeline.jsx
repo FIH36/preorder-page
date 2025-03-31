@@ -6,13 +6,18 @@ const historyData = [
   { date: "2023년 3월", event: "AI 글래스 R&D 진행 시작" },
   {
     date: "2024년 12월",
-    event: "제작발표회 (강남 씨스퀘어, 24.12.12)",
+    event: "제작발표회\n(강남 씨스퀘어, 24.12.12)",
   },
   { date: "2025년 3월", event: "예약 판매 시작", highlight: true },
   { date: "2025년 4월", event: "슈퍼 얼리버드 15% 할인" },
   { date: "2025년 5월", event: "얼리버드 10% 할인" },
   { date: "2025년 6월 말", event: "글로벌 출하시작" },
-  { date: "2025년 7월", event: "소비자 예상 수령", highlight: true },
+  {
+    date: "2025년 7월",
+    event: "소비자 예상 수령",
+    highlight: true,
+    special: true,
+  },
 ];
 
 // fadeInUp 애니메이션
@@ -37,16 +42,30 @@ const History = () => {
               {...fadeInUp(index * 0.2)}
             >
               {item.highlight ? (
-                <HighlightedCircle>
-                  <GlowEffect />
-                </HighlightedCircle>
+                item.special ? (
+                  <SpecialCircle>
+                    <SpecialGlow />
+                  </SpecialCircle>
+                ) : (
+                  <HighlightedCircle>
+                    <GlowEffect />
+                  </HighlightedCircle>
+                )
               ) : (
                 <Circle />
               )}
               <Line side={index % 2 === 0 ? "left" : "right"}>
                 <TextBlock side={index % 2 === 0 ? "left" : "right"}>
-                  <Date highlighted={item.highlight}>{item.date}</Date>
-                  <Event highlighted={item.highlight}>{item.event}</Event>
+                  <Date highlighted={item.highlight} special={item.special}>
+                    {item.date}
+                  </Date>
+                  <Event
+                    highlighted={item.highlight}
+                    special={item.special}
+                    dangerouslySetInnerHTML={{
+                      __html: item.event.replace(/\n/g, "<br />"),
+                    }}
+                  />
                 </TextBlock>
               </Line>
             </Item>
@@ -147,6 +166,11 @@ const HighlightedCircle = styled.div`
   }
 `;
 
+const SpecialCircle = styled(HighlightedCircle)`
+  background-color: orangered;
+  box-shadow: 0 0 0 4px rgba(255, 69, 0, 0.3);
+`;
+
 const GlowEffect = styled.div`
   position: absolute;
   width: 50px;
@@ -161,6 +185,14 @@ const GlowEffect = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
+`;
+
+const SpecialGlow = styled(GlowEffect)`
+  background: radial-gradient(
+    circle,
+    rgba(255, 69, 0, 0.4) 0%,
+    rgba(255, 69, 0, 0) 70%
+  );
 `;
 
 const Line = styled.div`
@@ -191,12 +223,14 @@ const TextBlock = styled.div`
 const Date = styled.div`
   font-weight: 600;
   font-size: 1.1rem;
-  color: ${(props) => (props.highlighted ? "#2580ff" : "#2580ff")};
+  color: ${(props) =>
+    props.special ? "orangered" : props.highlighted ? "#2580ff" : "#2580ff"};
   ${(props) => props.highlighted && "font-weight: 700;"}
 `;
 
 const Event = styled.div`
   font-size: 1.4rem;
-  color: ${(props) => (props.highlighted ? "#0c0c0c" : "#0c0c0c")};
-  ${(props) => props.highlighted && "font-weight: 600;  "}
+  color: #0c0c0c;
+  ${(props) => props.highlighted && "font-weight: 600;"}
+  line-height: 1.4;
 `;
