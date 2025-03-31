@@ -169,7 +169,7 @@ const Subtitle = styled.h3`
 `;
 
 const Description = styled.p`
-  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
   font-weight: 400;
   line-height: 1.6;
   color: #909294;
@@ -178,7 +178,7 @@ const Description = styled.p`
 const RightImage = styled.div`
   width: clamp(20rem, 40vw, 32rem);
   aspect-ratio: 16 / 10;
-  background: url("PrivacyFeature_01.gif") center center / cover no-repeat;
+  background: url("/PrivacyFeature_01.gif") center center / cover no-repeat;
   border-radius: 1rem;
   flex-shrink: 0;
 
