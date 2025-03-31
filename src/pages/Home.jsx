@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import MainBanner from "../components/MainBanner.jsx";
 import Feature from "../components/Feature.jsx";
 import Footer from "../components/Footer.jsx";
@@ -146,9 +146,12 @@ export default function Home() {
 
         <img src="/FooterImage3.webp" alt="착용샷" style={{ width: "100%" }} />
         <Footer />
+
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
-          <BuyNowButton onClick={handleBuyNow}>{buyNowText}</BuyNowButton>
+          <BuyNowButton onClick={handleBuyNow}>
+            {buyNowText}
+          </BuyNowButton>
         </BuyNowBannerContainer>
       </Container>
     </>
@@ -156,162 +159,245 @@ export default function Home() {
 }
 
 const Container = styled.div`
-  width: 100%;
-  position: relative;
-  background-color: black;
-  color: white;
-  overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    background-color: black;
+    color: white;
+    overflow-x: hidden;
 `;
 
 const IntroSection = styled.section`
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: black;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
 `;
 
 const LogoWrapper = styled.div`
-  animation: zoomOut 1.2s ease forwards;
+    animation: zoomOut 1.2s ease forwards;
 
-  @keyframes zoomOut {
-    0% {
-      opacity: 0;
-      transform: scale(0.8);
+    @keyframes zoomOut {
+        0% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        30% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: scale(1.4);
+        }
     }
-    30% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1.4);
-    }
-  }
 `;
 
 const SectionsContainer = styled.div`
-  position: relative;
+    position: relative;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  position: relative;
-  background-color: black;
-  overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    background-color: black;
+    overflow: hidden;
 `;
 
 const Background = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
 `;
 
 const Thumbnail = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  cursor: pointer;
-  z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    z-index: 1;
 `;
 
 const UsageVideo = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 2;
-
-  @media (max-width: 768px) {
-    border-radius: 0;
-  }
-`;
-
-const BuyNowBannerContainer = styled.div`
-  position: fixed;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: white;
-  border-radius: 100px;
-  z-index: 1000;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-
-  @media (max-width: 1024px) {
-    bottom: 0;
-    border-radius: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    justify-content: space-between;
-  }
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+
+    @media (max-width: 768px) {
+        border-radius: 0;
+    }
 `;
 
+// BuyNowBannerContainer 조정 - 컨테이너 자체의 패딩과 여백 개선
+const BuyNowBannerContainer = styled.div`
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(34, 34, 34, 0.9);
+    border-radius: 100px;
+    z-index: 1000;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.25rem 0.25rem 0.25rem 1.75rem;
+    border: 1px solid #333;
+
+
+    @media (max-width: 1024px) {
+        bottom: 0;
+        border-radius: 0;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.5rem 0.75rem 0.5rem 1rem;
+    }
+`;
+
+// ProductName 조정 - 여백 조정
 const ProductName = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 1.2rem 0 2rem;
-  white-space: nowrap;
-  text-align: center;
-  letter-spacing: -1px;
-  background: linear-gradient(45deg, #2580ff, #000, #6e5cff);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: glowText 3s ease-in-out infinite;
-
-  @keyframes glowText {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 0.75rem;
+    white-space: nowrap;
+    text-align: center;
+    letter-spacing: -1px;
+    color: white;
 `;
 
-const BuyNowButton = styled.button`
-  padding: 14px 1.5rem;
-  background: linear-gradient(45deg, #2580ff, #6e5cff, #2580ff);
-  background-size: 600% 600%;
-  animation: gradientShift 5s ease infinite;
-  color: white;
-  border-radius: 100px;
-  font-size: 18px;
-  font-weight: 600;
-  min-height: 53px;
-  cursor: pointer;
-  margin: 6px;
-  border: none;
+// 디스코 그라데이션 버튼 컴포넌트
+const BuyNowButton = ({ onClick, children }) => {
+  return (
+    <ButtonWrapper>
+      <DiscoButton onClick={onClick} className="disco-button">
+        <ButtonInner className="button-inner">{children}</ButtonInner>
+        <DiscoEffect className="disco-effect" />
+      </DiscoButton>
+    </ButtonWrapper>
+  );
+};
 
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+// 버튼 래퍼
+const ButtonWrapper = styled.div`
+    position: relative;
+    width: auto;
+    min-width: 150px;
+    margin: 6px 4px 6px 10px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
-  &:hover {
-    filter: brightness(1.1);
-  }
+// 버튼 자체
+const DiscoButton = styled.button`
+    position: relative;
+    overflow: hidden;
+    border-radius: 1000px;
+    width: 100%;
+    height: 46px;
+    z-index: 10;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+
+    /* 호버 시 애니메이션 속도 변경 */
+    &:hover .disco-effect::before {
+        animation-duration: 1s;
+    }
+
+    &:hover .disco-effect::after {
+        animation-duration: 1.5s;
+    }
+
+    /* 호버 시 내부 배경 투명하게 */
+    &:hover .button-inner {
+        background-color: transparent;
+        background-image: none;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+
+    /* 호버 시 디스코 효과 조정 */
+    &:hover .disco-effect {
+        filter: blur(5px);
+        transform: scale(1.5);
+    }
+`;
+
+// 버튼 내부 텍스트와 배경
+const ButtonInner = styled.span`
+    position: absolute;
+    inset: 2px;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    border-radius: 1000px;
+    background-color: black;
+    background-image: linear-gradient(to top, #262626, black);
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    padding: 0 1.5rem;
+    transition: background-color 0.3s ease, background-image 0.3s ease;
+`;
+
+// 디스코 효과 요소
+const DiscoEffect = styled.span`
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transform: scale(2.5);
+    filter: blur(10px);
+    opacity: 0.9;
+    overflow: hidden;
+    transition: filter 0.3s ease, transform 0.3s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        top: 50%;
+        aspect-ratio: 1;
+        background: conic-gradient(from 0deg, #0052CC, #FF3A3A, #2580FF);
+        animation: disco 1.5s linear infinite;
+        box-shadow: 0 0 15px 5px rgba(37, 128, 255, 0.5);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        top: 50%;
+        aspect-ratio: 1;
+        background: conic-gradient(from 180deg, #0052CC, #FF3A3A, #2580FF);
+        animation: disco 2s linear infinite reverse;
+        opacity: 0.7;
+    }
+
+    @keyframes disco {
+        0% {
+            transform: translateY(-50%) rotate(0deg);
+        }
+        100% {
+            transform: translateY(-50%) rotate(360deg);
+        }
+    }
 `;
