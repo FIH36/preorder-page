@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import {FaFacebook, FaInstagram, FaTiktok, FaYoutube} from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -64,6 +64,22 @@ export default function Footer() {
               >
                 <FaInstagram size={24} />
               </SocialIconLink>
+              <SocialIconLink
+                href="https://www.youtube.com/@AI_noon"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+              >
+                <FaYoutube size={24} />
+              </SocialIconLink>
+              <SocialIconLink
+                href="https://www.tiktok.com/@ai__noon"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+              >
+                <FaTiktok size={24} />
+              </SocialIconLink>
             </SocialIconsContainer>
           </SocialMediaSection>
 
@@ -77,82 +93,82 @@ export default function Footer() {
 }
 
 const FooterWrapper = styled.footer`
-  width: 100%;
-  max-width: 1440px;
-  color: white;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  opacity: 0.8;
+    width: 100%;
+    max-width: 1440px;
+    color: white;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    opacity: 0.8;
 
-  @media (max-width: 1024px) {
-    padding: 3rem 1.5rem;
-  }
+    @media (max-width: 1024px) {
+        padding: 3rem 1.5rem;
+    }
 `;
 
 const FooterSection = styled.div`
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  color: #eee;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #eee;
 `;
 
 const InfoList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 `;
 
 const InfoItem = styled.p`
-  font-size: 14px;
-  line-height: 1.6;
-  color: #aaa;
-  margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #aaa;
+    margin: 0;
 `;
 
 const BizInfoLink = styled.a`
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const FooterBottom = styled.div`
-  //margin-top: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    //margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 `;
 
 const Copyright = styled.p`
-  font-size: 14px;
-  color: #777;
-  margin: 0;
+    font-size: 14px;
+    color: #777;
+    margin: 0;
 `;
 
 const SocialMediaSection = styled(FooterSection)`
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 `;
 
 const SocialIconsContainer = styled.div`
-  display: flex;
-  gap: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
 `;
 
 const SocialIconLink = styled.a`
-  color: #aaa;
-  transition: color 0.2s ease;
+    color: #aaa;
+    transition: color 0.2s ease;
 
-  &:hover {
-    color: #fff;
-  }
+    &:hover {
+        color: #fff;
+    }
 `;

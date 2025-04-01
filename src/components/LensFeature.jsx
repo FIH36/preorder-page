@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 export default function LensFeature() {
   const fadeInUp = (delay = 0) => ({
@@ -13,9 +13,9 @@ export default function LensFeature() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = [
-    "/LensFeature_02.webp",
-    "/LensFeature_03.webp",
-    "/LensFeature_04.webp",
+    "/LensFeature_02_c.webp",
+    "/LensFeature_03_c.webp",
+    "/LensFeature_04_c.webp",
   ];
 
   useEffect(() => {

@@ -144,7 +144,7 @@ export default function Home() {
           <PreOrder />
         </SectionsContainer>
 
-        <img src="/FooterImage3.webp" alt="착용샷" style={{ width: "100%" }} />
+        <img src="/FooterImage.webp" alt="착용샷" style={{ width: "100%" }} />
         <Footer />
 
         <BuyNowBannerContainer>
@@ -305,7 +305,6 @@ const BuyNowButton = ({ onClick, children }) => {
   );
 };
 
-// 버튼 래퍼 - 모바일 대응 추가
 const ButtonWrapper = styled.div`
     position: relative;
     width: auto;
@@ -323,7 +322,6 @@ const ButtonWrapper = styled.div`
     }
 `;
 
-// 버튼 자체 - 기본 상태에서 애니메이션 적용
 const DiscoButton = styled.button`
     position: relative;
     overflow: hidden;
@@ -379,7 +377,6 @@ const DiscoButton = styled.button`
     }
 `;
 
-// 버튼 내부 - 모바일 대응 추가
 const ButtonInner = styled.span`
     position: absolute;
     inset: 2px;
@@ -400,12 +397,11 @@ const ButtonInner = styled.span`
 
 `;
 
-// 디스코 효과 - 기본 상태 조정
 const DiscoEffect = styled.span`
     position: absolute;
     inset: 0;
     z-index: 0;
-    transform: scale(1.2); /* 기본 크기 축소 */
+    transform: scale(1.2);
     filter: blur(8px);
     opacity: 0.9;
     overflow: hidden;
