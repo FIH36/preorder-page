@@ -242,7 +242,7 @@ const UsageVideo = styled.video`
     }
 `;
 
-// BuyNowBannerContainer 조정 - 컨테이너 자체의 패딩과 여백 개선
+// BuyNowBannerContainer - 모바일 대응 추가
 const BuyNowBannerContainer = styled.div`
     position: fixed;
     display: flex;
@@ -257,7 +257,6 @@ const BuyNowBannerContainer = styled.div`
     padding: 0.25rem 0.25rem 0.25rem 1.75rem;
     border: 1px solid #333;
 
-
     @media (max-width: 1024px) {
         bottom: 0;
         border-radius: 0;
@@ -265,9 +264,14 @@ const BuyNowBannerContainer = styled.div`
         justify-content: space-between;
         padding: 0.5rem 0.75rem 0.5rem 1rem;
     }
+
+    @media (max-width: 480px) {
+        flex-wrap: nowrap;
+        padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    }
 `;
 
-// ProductName 조정 - 여백 조정
+// ProductName - 모바일에서 두 줄 표시 가능하도록 수정
 const ProductName = styled.div`
     font-size: 20px;
     font-weight: 600;
@@ -276,6 +280,17 @@ const ProductName = styled.div`
     text-align: center;
     letter-spacing: -1px;
     color: #f0f0f0;
+
+    @media (max-width: 480px) {
+        white-space: normal;
+        line-height: 1.2;
+        margin-right: 0.5rem;
+        max-width: calc(100% - 120px); /* 버튼 너비를 감안하여 조정 */
+    }
+
+    @media (max-width: 380px) {
+        font-size: 18px;
+    }
 `;
 
 // 디스코 그라데이션 버튼 컴포넌트
@@ -290,7 +305,7 @@ const BuyNowButton = ({ onClick, children }) => {
   );
 };
 
-// 버튼 래퍼
+// 버튼 래퍼 - 모바일 대응 추가
 const ButtonWrapper = styled.div`
     position: relative;
     width: auto;
@@ -300,6 +315,12 @@ const ButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 480px) {
+        min-width: 140px;
+        margin: 6px 0 6px 6px;
+        height: 38px;
+    }
 `;
 
 // 버튼 자체 - 기본 상태에서 애니메이션 적용
@@ -358,7 +379,7 @@ const DiscoButton = styled.button`
     }
 `;
 
-// 버튼 내부 - 배경 제거 (투명하게)
+// 버튼 내부 - 모바일 대응 추가
 const ButtonInner = styled.span`
     position: absolute;
     inset: 2px;
@@ -376,6 +397,7 @@ const ButtonInner = styled.span`
     white-space: nowrap;
     padding: 0 1.5rem;
     transition: background-color 0.3s ease, text-shadow 0.3s ease;
+
 `;
 
 // 디스코 효과 - 기본 상태 조정
