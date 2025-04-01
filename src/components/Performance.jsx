@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 export default function Performance() {
   return (
@@ -24,7 +24,7 @@ export default function Performance() {
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <Video autoPlay loop muted playsInline src="Performance_01_c.mp4" />
+          <Video autoPlay loop muted playsInline preload="metadata" src="/Performance_01_c.mp4" />
           <Caption>핸즈프리로 통화하면서, 요리에 더 집중할 수 있어요</Caption>
         </CardItem>
 
@@ -36,7 +36,7 @@ export default function Performance() {
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <Video autoPlay loop muted playsInline src="Performance_02_c.mp4" />
+          <Video autoPlay loop muted playsInline preload="metadata" src="/Performance_02_c.mp4" />
           <Caption>
             블루투스로 음악을 들으며, 두 손은 자유롭게 운동할 수 있어요
           </Caption>

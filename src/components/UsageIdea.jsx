@@ -168,6 +168,7 @@ function UsageIdea() {
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   </VideoWrapper>
 

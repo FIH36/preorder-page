@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import {motion} from "framer-motion";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Autoplay, Navigation, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -173,6 +173,7 @@ const BrandIntro = () => {
                         muted
                         loop
                         playsInline
+                        preload="metadata"
                       />
                     </VideoWrapper>
                     <CardContent>

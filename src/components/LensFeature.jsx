@@ -28,9 +28,9 @@ export default function LensFeature() {
 
   const [currentImageIndex2, setCurrentImageIndex2] = useState(0);
   const images2 = [
-    "/LensFeature_05.webp",
-    "/LensFeature_06.webp",
-    "/LensFeature_07.webp",
+    "/LensFeature_05_c.webp",
+    "/LensFeature_06_c.webp",
+    "/LensFeature_07_c.webp",
   ];
 
   useEffect(() => {

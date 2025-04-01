@@ -12,7 +12,7 @@ export default function PrivacyFeature() {
 
   return (
     <SectionWrapper>
-      <BackgroundImage src="PrivacyFeature_02.png" alt="bg" />
+      <BackgroundImage src="PrivacyFeature_02_c.webp" alt="bg" />
       <OverlayDark />
       <OverlayAccent />
 
@@ -48,6 +48,7 @@ export default function PrivacyFeature() {
             loop
             muted
             playsInline
+            preload="metadata"
             src="/PrivacyFeature_01_c.mp4"
           />
         </LeftBlock>
