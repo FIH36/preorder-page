@@ -275,7 +275,7 @@ const ProductName = styled.div`
     white-space: nowrap;
     text-align: center;
     letter-spacing: -1px;
-    color: white;
+    color: #f0f0f0;
 `;
 
 // 디스코 그라데이션 버튼 컴포넌트
@@ -302,7 +302,7 @@ const ButtonWrapper = styled.div`
     align-items: center;
 `;
 
-// 버튼 자체
+// 버튼 자체 - 기본 상태에서 애니메이션 적용
 const DiscoButton = styled.button`
     position: relative;
     overflow: hidden;
@@ -315,20 +315,40 @@ const DiscoButton = styled.button`
     cursor: pointer;
     padding: 0;
 
-    /* 호버 시 애니메이션 속도 변경 */
+    /* 애니메이션 기본 적용 - 호버 상태가 아닐 때도 작동 (속도 감소) */
+    & .disco-effect::before {
+        animation-duration: 4s;
+    }
+
+    & .disco-effect::after {
+        animation-duration: 5s;
+    }
+
+    /* 호버 시 애니메이션 속도 변경 (속도 감소) */
     &:hover .disco-effect::before {
-        animation-duration: 1s;
+        animation-duration: 3s;
     }
 
     &:hover .disco-effect::after {
-        animation-duration: 1.5s;
+        animation-duration: 3.5s;
     }
 
-    /* 호버 시 내부 배경 투명하게 */
-    &:hover .button-inner {
+    /* 기본 상태의 내부 배경 설정 */
+    & .button-inner {
         background-color: transparent;
         background-image: none;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    /* 호버 시 내부 배경 효과 강화 */
+    &:hover .button-inner {
         text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+
+    /* 기본 상태의 디스코 효과 설정 */
+    & .disco-effect {
+        filter: blur(8px);
+        transform: scale(1.2);
     }
 
     /* 호버 시 디스코 효과 조정 */
@@ -338,7 +358,7 @@ const DiscoButton = styled.button`
     }
 `;
 
-// 버튼 내부 텍스트와 배경
+// 버튼 내부 - 배경 제거 (투명하게)
 const ButtonInner = styled.span`
     position: absolute;
     inset: 2px;
@@ -349,23 +369,22 @@ const ButtonInner = styled.span`
     width: calc(100% - 4px);
     height: calc(100% - 4px);
     border-radius: 1000px;
-    background-color: black;
-    background-image: linear-gradient(to top, #262626, black);
+    background-color: transparent;
     color: white;
     font-weight: 600;
     font-size: 1.1rem;
     white-space: nowrap;
     padding: 0 1.5rem;
-    transition: background-color 0.3s ease, background-image 0.3s ease;
+    transition: background-color 0.3s ease, text-shadow 0.3s ease;
 `;
 
-// 디스코 효과 요소
+// 디스코 효과 - 기본 상태 조정
 const DiscoEffect = styled.span`
     position: absolute;
     inset: 0;
     z-index: 0;
-    transform: scale(2.5);
-    filter: blur(10px);
+    transform: scale(1.2); /* 기본 크기 축소 */
+    filter: blur(8px);
     opacity: 0.9;
     overflow: hidden;
     transition: filter 0.3s ease, transform 0.3s ease;
