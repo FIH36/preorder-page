@@ -22,7 +22,7 @@ export default function Footer() {
                 사업장 주소 : 06628 서울특별시 서초구 강남대로 315 (서초동)
                 파이낸셜뉴스빌딩 2층
               </InfoItem>
-              <InfoItem>대표 전화 : 070-7702-6800</InfoItem>
+{/*               <InfoItem>대표 전화 : 070-7702-6800</InfoItem> */}
               <InfoItem>사업자 등록번호 : 105-88-03237</InfoItem>
               <InfoItem>
                 통신판매업 신고번호 : 2021-서울서초-1580{" "}
@@ -41,8 +41,9 @@ export default function Footer() {
           <FooterSection>
             <SectionTitle>고객센터 정보</SectionTitle>
             <InfoList>
-              <InfoItem>상담/주문 이메일: ainoon@seerslab.com</InfoItem>
-              <InfoItem>CS운영시간: 11:00~17:30</InfoItem>
+                <InfoItem>문의 전화 : 02-588-6801</InfoItem>
+              <InfoItem>이메일 : ainoon@seerslab.com</InfoItem>
+              <InfoItem>운영시간 : 11:00~17:30</InfoItem>
             </InfoList>
           </FooterSection>
 
