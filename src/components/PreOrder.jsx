@@ -62,6 +62,7 @@ export default function PreOrder() {
                   </Price>
                 </TextGroup>
                 <BuyButton
+                id={`buy-${product.title.toLowerCase().replace(/\s+/g, "-")}`}
                   as="a"
                   href={product.link}
                   target="_blank"

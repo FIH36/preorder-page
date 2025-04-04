@@ -149,7 +149,7 @@ export default function Home() {
 
         <BuyNowBannerContainer>
           <ProductName>AInoon 4월 한달 15% 할인</ProductName>
-          <BuyNowButton onClick={handleBuyNow}>
+          <BuyNowButton id="buy-floating-button"  onClick={handleBuyNow}>
             사전 구매하기
           </BuyNowButton>
         </BuyNowBannerContainer>
@@ -294,10 +294,10 @@ const ProductName = styled.div`
 `;
 
 // 디스코 그라데이션 버튼 컴포넌트
-const BuyNowButton = ({ onClick, children }) => {
+const BuyNowButton = ({ id, onClick, children }) => {
   return (
     <ButtonWrapper>
-      <DiscoButton onClick={onClick} className="disco-button">
+      <DiscoButton id={id} onClick={onClick} className="disco-button">
         <ButtonInner className="button-inner">{children}</ButtonInner>
         <DiscoEffect className="disco-effect" />
       </DiscoButton>
