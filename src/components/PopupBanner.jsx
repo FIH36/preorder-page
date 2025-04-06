@@ -28,7 +28,7 @@ export default function PopupBanner() {
 
   return (
     <PopupContainer>
-      <PopupImage src="/Popup.png" alt="팝업 배너" />
+      <PopupImage src="/Popup.webp" alt="팝업 배너" />
       <PopupButtons>
         <PopupButton onClick={handleHideToday}>오늘 하루 보지 않기</PopupButton>
         <PopupButton onClick={handleClose}>닫기</PopupButton>
