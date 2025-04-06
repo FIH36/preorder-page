@@ -117,7 +117,7 @@ export default function Home() {
 
   return (
     <>
-{/*     <PopupBanner/> */}
+    <PopupBanner/>
       {!introDone && (
         <IntroSection>
           <LogoWrapper>
