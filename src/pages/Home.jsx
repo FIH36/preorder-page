@@ -14,6 +14,7 @@ import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
 import HistoryTimeline from "../components/HistoryTimeline.jsx";
 import PopupBanner from "../components/PopupBanner.jsx"
+import ChatUI from "../components/ChatUI.jsx";
 
 export default function Home() {
   const [visibleProducts, setVisibleProducts] = useState([]);
@@ -140,6 +141,7 @@ export default function Home() {
           <BrandIntro />
           <UsageIdea />
           <UsageVideoSection />
+          <ChatUI/>
           <AppFeature />
           <PrivacyFeature />
           <HistoryTimeline />
