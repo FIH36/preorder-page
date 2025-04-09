@@ -28,7 +28,9 @@ export default function PopupBanner() {
 
   return (
     <PopupContainer>
-      <PopupImage src="/Popup.webp" alt="팝업 배너" />
+      <PopupImageWrapper>
+        <PopupImage src="/Popup.webp" alt="팝업 배너" />
+      </PopupImageWrapper>
       <PopupButtons>
         <PopupButton onClick={handleHideToday}>오늘 하루 보지 않기</PopupButton>
         <PopupButton onClick={handleClose}>닫기</PopupButton>
@@ -44,9 +46,12 @@ const PopupContainer = styled.div`
   z-index: 2000;
   background: white;
   border-radius: 12px;
-  overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   width: 580px;
+  max-height: calc(100vh - 2rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden
 
   @media (max-width: 480px) {
     width: 95%;
@@ -55,10 +60,16 @@ const PopupContainer = styled.div`
   }
 `;
 
+const PopupImageWrapper = styled.div`
+  overflow-y: auto;
+`;
+
 const PopupImage = styled.img`
   width: 100%;
   height: auto;
   display: block;
+  border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 `;
 
 const PopupButtons = styled.div`
@@ -66,7 +77,12 @@ const PopupButtons = styled.div`
   justify-content: space-between;
   padding: 0.5rem;
   background-color: #f7f7f7;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  flex-shrink: 0;
 `;
+
 
 const PopupButton = styled.button`
   background: none;
