@@ -39,7 +39,7 @@ const ImageWrapper = styled.div`
   align-self: center;
   text-align: center;
   max-width: 1200px;
-  margin: 0 auto 4rem auto;
+  margin: 6rem auto 4rem auto;
 `;
 
 const BaseImage = styled.img`

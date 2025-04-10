@@ -47,12 +47,12 @@ export default function LensFeature() {
         <FeatureImageCards>
           <ImageCard
             as={motion.div}
-            {...fadeInUp(1.2)}
+            {...fadeInUp(0.75)}
             style={{ backgroundImage: `url(${images2[currentImageIndex2]})` }}
           />
           <ImageCard
             as={motion.div}
-            {...fadeInUp(1.2)}
+            {...fadeInUp(0.75)}
             style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
           />
         </FeatureImageCards>
@@ -76,7 +76,7 @@ export default function LensFeature() {
 const SectionWrapper = styled.div`
   width: 100%;
   padding: 9rem 2rem;
-  background: linear-gradient(to bottom, #000000, #0c0c0c);
+  background: black;
   display: flex;
   justify-content: center;
 `;

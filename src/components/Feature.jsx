@@ -83,22 +83,23 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 `;
 
 const FeatureRow = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 
   @media (max-width: 1024px) {
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 720px) {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 `;
 
@@ -106,18 +107,17 @@ const FeatureItem = styled.div`
   width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
   color: white;
   text-align: center;
   background-color: #111;
-  border-radius: 1rem;
-  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  padding: 1.5rem 2rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 720px) {
     width: 100%;
-    max-width: 300px;
   }
 `;
+
 
 const Icon = styled.div`
   font-size: 32px;
