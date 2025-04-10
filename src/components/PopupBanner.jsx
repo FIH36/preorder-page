@@ -51,7 +51,7 @@ const PopupContainer = styled.div`
   max-height: calc(100vh - 2rem);
   display: flex;
   flex-direction: column;
-  overflow: hidden
+  overflow: hidden;
 
   @media (max-width: 480px) {
     width: 95%;
@@ -59,6 +59,7 @@ const PopupContainer = styled.div`
     transform: translateX(-50%);
   }
 `;
+
 
 const PopupImageWrapper = styled.div`
   overflow-y: auto;
