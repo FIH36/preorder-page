@@ -1,7 +1,8 @@
 // ChatUI.jsx
 import React, {useEffect, useRef, useState} from 'react';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 import styled from '@emotion/styled';
-import {keyframes} from '@emotion/react';
+import {ChatHistory, ChatInput, ErrorPopup, HelperText, PresetQuestionList} from './ChatComponents';
 
 // 이미지 및 질문 데이터
 const imageOptions = [
@@ -58,12 +59,6 @@ const MAX_QUESTIONS = 10;
 const STORAGE_KEY = 'daily-question-count';
 const DATE_KEY = 'daily-question-date';
 
-// 마크다운 처리를 위한 함수
-const formatTextContent = (text) => {
-  // ** 볼드 처리 (마크다운 처리)
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-};
-
 export default function ChatUI() {
   const [question, setQuestion] = useState('');
   const [imageIndex, setImageIndex] = useState(0);
@@ -77,8 +72,8 @@ export default function ChatUI() {
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState('');
   const [typingContent, setTypingContent] = useState(null);
-  const chatHistoryRef = useRef(null); // 채팅 히스토리 컨테이너 ref로 수정
-  const intervalRef = useRef(null); // 타이핑 interval 참조를 저장할 ref
+  const chatHistoryRef = useRef(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -319,6 +314,7 @@ export default function ChatUI() {
     intervalRef.current = setInterval(() => {
       i++;
       setTypingContent(text.slice(0, i));
+
       if (i >= text.length) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -327,37 +323,30 @@ export default function ChatUI() {
         const isUnrelatedResponse = text &&
           text.includes('앞선 대화와 관련 없는 질문처럼 보여요');
 
-        // 채팅 히스토리 안전하게 업데이트
-        setChatHistories(prevHistories => {
-          const newHistories = [...prevHistories];
+        // requestAnimationFrame을 활용해 깜빡임 방지
+        requestAnimationFrame(() => {
+          setChatHistories(prevHistories => {
+            const newHistories = [...prevHistories];
 
-          // 관련 없는 응답인 경우 이전 대화 내용을 유지하면서 응답만 추가
-          if (isUnrelatedResponse) {
-            newHistories[index] = [...prevMessages, {
-              role: 'assistant',
-              content: [{ type: 'text', text }]
-            }];
-          } else {
-            // 사용자가 보낸 질문이 포함되어 있지 않으면 추가
-            const userMessageExists = prevMessages.length > 0 &&
-              prevMessages[prevMessages.length - 1].role === 'user';
-
-            const messagesToUpdate = userMessageExists ?
-              prevMessages : [...prevMessages, {
-                role: 'user',
-                content: [{ type: 'text', text: question }]
+            if (isUnrelatedResponse) {
+              // 이전 메시지 유지 + assistant 답변만 추가
+              newHistories[index] = [...prevMessages, {
+                role: 'assistant',
+                content: [{ type: 'text', text }]
               }];
+            } else {
+              newHistories[index] = [...prevMessages, {
+                role: 'assistant',
+                content: [{ type: 'text', text }]
+              }];
+            }
 
-            newHistories[index] = [...messagesToUpdate, {
-              role: 'assistant',
-              content: [{ type: 'text', text }]
-            }];
-          }
+            return newHistories;
+          });
 
-          return newHistories;
+          // 타이핑 애니메이션 종료
+          setTypingContent(null);
         });
-
-        setTypingContent(null);
       }
     }, 20);
   };
@@ -378,446 +367,537 @@ export default function ChatUI() {
     );
   };
 
+  // 현재 표시할 3개의 이미지 인덱스 계산
+  const getVisibleImageIndices = () => {
+    const totalImages = imageOptions.length;
+    // 현재 이미지를 중앙에 배치하고 양옆에 이미지를 배치
+    return [
+      (imageIndex - 1 + totalImages) % totalImages, // 왼쪽 이미지
+      imageIndex, // 현재 이미지
+      (imageIndex + 1) % totalImages // 오른쪽 이미지
+    ];
+  };
+
+  const visibleImageIndices = getVisibleImageIndices();
   const currentMessages = chatHistories[imageIndex];
   const presetQuestions = presetQuestionsByImage[imageIndex];
   const currentTitle = imageTitles[imageIndex];
+  // 상태 추가 (component 내부에 추가)
+  const [isChatVisible, setIsChatVisible] = useState(false);
+
+// 말풍선 클릭 핸들러 (component 내부에 추가)
+  const handleSpeechBubbleClick = () => {
+    setIsChatVisible(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatVisible(false);
+  };
 
   return (
-    <BackgroundContainer style={{ backgroundImage: `url(${imageOptions[imageIndex]})` }}>
-      <GradientOverlay />
-      <Container>
-        {error && <Popup>{error}</Popup>}
-        {/*<ImageNavigator>*/}
-        {/*  <TitleArrow onClick={() => handleImageSwipe('left')}>◀</TitleArrow>*/}
-        {/*  <ImageCounter>{imageIndex + 1} / {imageOptions.length}</ImageCounter>*/}
-        {/*  <TitleArrow onClick={() => handleImageSwipe('right')}>▶</TitleArrow>*/}
-        {/*</ImageNavigator>*/}
+    <PageContainer $isChatVisible={isChatVisible}>
+    <ErrorPopup message={error} />
 
-        <TitleContainer>
-          <TitleArrow onClick={() => handleImageSwipe('left')}>◀</TitleArrow>
-          <ImageTitle>{currentTitle}</ImageTitle>
-          <TitleArrow onClick={() => handleImageSwipe('right')}>▶</TitleArrow>
-        </TitleContainer>
+      <LayoutWrapper $isChatVisible={isChatVisible}>
 
-        <ChatContainer>
-          <ChatHistory ref={chatHistoryRef}>
-            {currentMessages.length === 0 ? (
-              <EmptyStateMessage>질문을 입력해보세요</EmptyStateMessage>
-            ) : (
-              currentMessages.map((msg, i) => (
-                <ChatBubble
-                  key={`${imageIndex}-${i}-${msg.role}`}
-                  $user={msg.role === 'user'}
-                  $animated={i === currentMessages.length - 1} // 마지막 메시지만 애니메이션 적용
+        <ImageSection $isChatVisible={isChatVisible}>
+          {!isChatVisible && (
+            <ArrowButton direction="left" onClick={() => handleImageSwipe('left')}>
+              <ChevronLeft size={28} strokeWidth={2.5} />
+            </ArrowButton>
+          )}
+
+          <ImageCarousel>
+            {visibleImageIndices.map((idx) => (
+              <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ImageTitle $isActive={idx === imageIndex}>{imageTitles[idx]}</ImageTitle>
+                <ImageCard
+                  $isActive={idx === imageIndex}
+                  onClick={() => setImageIndex(idx)}
                 >
-                  {msg.content.map((c, j) =>
-                    c.type === 'text' ? (
-                      <div
-                        key={j}
-                        dangerouslySetInnerHTML={{ __html: formatTextContent(c.text) }}
-                      />
-                    ) : (
-                      <img key={j} src={c.image_url.url} alt="img" style={{ width: '100%', display: 'none' }} />
-                    )
-                  )}
-                </ChatBubble>
-              ))
-            )}
-            {typingContent &&
-              <ChatBubble $user={false} $animated={true}>
-                <div dangerouslySetInnerHTML={{ __html: formatTextContent(typingContent) }} />
-                <Cursor>|</Cursor>
-              </ChatBubble>
-            }
-            {isLoading && <LoadingSpinner>답변 생성 중...</LoadingSpinner>}
-          </ChatHistory>
+                  <CardImage src={imageOptions[idx]} alt={imageTitles[idx]} />
+                </ImageCard>
+              </div>
+            ))}
+          </ImageCarousel>
 
-          <PresetListContainer>
-            <PresetList>
-              {presetQuestions.map((q, i) => (
-                <PresetButton key={i} onClick={() => handlePresetSelect(q)} disabled={disabled}>{q}</PresetButton>
-              ))}
-            </PresetList>
-          </PresetListContainer>
+          {!isChatVisible && (
+            <ArrowButton direction="right" onClick={() => handleImageSwipe('right')}>
+              <ChevronRight size={28} strokeWidth={2.5} />
+            </ArrowButton>
+          )}
 
-          <ChatBox>
-            <Input
-              type="text"
-              placeholder="질문을 입력하세요"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-              disabled={disabled || isLoading}
-            />
-            <SendButton onClick={handleSubmit} disabled={disabled || isLoading || !question.trim()}>질문하기</SendButton>
-          </ChatBox>
-          {disabled && <HelperText>오늘 하루 물을 수 있는 질문을 모두 사용하였어요.</HelperText>}
-        </ChatContainer>
-      </Container>
-    </BackgroundContainer>
-  );
+          <OverlayImage src="/ChatUI_00.webp" alt="ChatUI" />
+
+          {!isChatVisible && (
+            <SpeechBubble onClick={handleSpeechBubbleClick}>
+              <SpeechBubbleText>Click하여 해당 이미지에 관해 AI에게 물어보세요!</SpeechBubbleText>
+            </SpeechBubble>
+          )}
+        </ImageSection>
+
+
+
+        {isChatVisible && (
+          <ChatContainerWrapper>
+            <StyledChatContainer
+              $hasStarted={currentMessages.some(msg => msg.role === 'user')}
+            >
+              <CloseButton onClick={handleCloseChat} />
+              <ChatHistory
+                messages={currentMessages}
+                isLoading={isLoading}
+                typingContent={typingContent}
+                chatHistoryRef={chatHistoryRef}
+              />
+
+              <PresetQuestionList
+                questions={presetQuestions}
+                onSelect={handlePresetSelect}
+                disabled={disabled}
+              />
+
+              <ChatInput
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                onSubmit={handleSubmit}
+                disabled={disabled}
+                isLoading={isLoading}
+              />
+              {disabled && <HelperText>오늘 하루 물을 수 있는 질문을 모두 사용하였어요.</HelperText>}
+            </StyledChatContainer>
+          </ChatContainerWrapper>
+        )}
+      </LayoutWrapper
+      >
+      {!isChatVisible && <BottomSpacer />}
+    </PageContainer>
+);
 }
 
-// 애니메이션 키프레임
-const bubbleInRight = keyframes`
-    0% {
-        opacity: 0;
-        transform: translateX(10px) translateY(10px) scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0) translateY(0) scale(1);
-    }
-`;
-
-const bubbleInLeft = keyframes`
-    0% {
-        opacity: 0;
-        transform: translateX(-10px) translateY(10px) scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0) translateY(0) scale(1);
-    }
-`;
-
-// 스타일 컴포넌트 정의
-const BackgroundContainer = styled.div`
+const PageContainer = styled.div`
     width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: left center;
-    background-repeat: no-repeat;
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    overflow: hidden;
-`;
-
-const GradientOverlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.9) 80%, rgba(255,255,255,1) 100%);
-    z-index: 1;
-`;
-
-const Container = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    max-width: 1440px;
-    margin: 0 auto;
+    height: auto;
+    min-height: ${props => props.$isChatVisible ? '100vh' : 'auto'};
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    z-index: 2;
-    padding: 0 40px;
-    box-sizing: border-box;
-
-    @media (max-width: 768px) {
-        padding: 16px;
-        align-items: center;
-    }
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 5rem 0;
+    position: relative;
+    background-color: white;
+    transition: height 0.3s ease;
 `;
 
-const TitleContainer = styled.div`
+const BottomSpacer = styled.div`
+  height: 80px;
+
+  @media (max-width: 1199px) {
+    height: 0;
+  }
+`;
+
+const LayoutWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    transition: transform 0.4s ease-in-out;
+
+    ${props => props.$isChatVisible && `
+    @media (min-width: 1320px) {
+      transform: translateX(-5%); /* -15%에서 -5%로 변경 */
+    }
+    
+    @media (max-width: 1320px) {
+      align-items: center; /* 1320px 이하에서 컨텐츠 중앙 정렬 */
+    }
+  `}
+`;
+
+const ImageSection = styled.div`
+    width: 100%;
+    position: relative;
+    padding-bottom: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease-in-out;
+
+    ${props => props.$isChatVisible && `
+    @media (min-width: 1320px) {
+      transform: translateX(-3%); /* 채팅창이 표시될 때 이미지를 더 왼쪽으로 이동 */
+    }
+    
+    @media (max-width: 1320px) {
+      width: 90%; /* 이미지 섹션 너비 축소 */
+      margin: 0 auto; /* 중앙 정렬 */
+    }
+  `}
+`;
+
+const SpeechBubble = styled.div`
     position: absolute;
-    top: 50%;
-    left: 40px;
-    transform: translateY(-50%);
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    @media (max-width: 768px) {
-        top: 60px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-`;
-
-const TitleArrow = styled.button`
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #000;
+    background: linear-gradient(45deg, #2580FF, #6E5CFF, #B5A1FF);
+    border-radius: 1rem;
+    padding: 0.8rem 2rem; /* 패딩 상하 줄임 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 50%;
+    font-weight: 400;
+    z-index: 25;
     transition: all 0.2s ease;
 
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.9);
-        transform: scale(1.1);
+    /* 안경 이미지 바로 위에 위치 */
+    top: 55%;
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    width: auto;
+    min-width: 320px; /* 최소 너비 설정하여 텍스트가 한줄로 나오도록 */
+    height: auto;
+
+    animation: speechBubbleFloat 2s infinite ease-in-out alternate;
+
+    @keyframes speechBubbleFloat {
+        0% {
+            transform: translateX(-50%) translateY(-100%);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        100% {
+            transform: translateX(-50%) translateY(-110%);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
     }
 
-    &:active {
-        transform: scale(0.95);
+    /* 말풍선 꼬리 추가 */
+    &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -10px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: #6E5CFF transparent transparent transparent;
+        filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+    }
+
+    &:hover {
+        transform: translateX(-50%) translateY(-100%) scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 작은 화면에서의 스타일 */
+    @media (max-width: 1199px) {
+        position: absolute;
+        top: auto;
+        bottom: 10%; /* 더 아래로 내림 */
+        transform: translateX(-50%);
+        min-width: 280px;
+        max-width: 280px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+        animation: smallScreenFloat 2s infinite ease-in-out alternate;
+
+        @keyframes smallScreenFloat {
+            0% {
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        &::after {
+            display: none;
+        }
+
+        &:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+    }
+
+    @media (max-width: 768px) {
+        bottom: 5%; /* 모바일에서 더 아래로 */
+        padding: 0.8rem 1.5rem;
+        min-width: 240px;
+        max-width: 240px;
     }
 `;
 
-const ImageTitle = styled.h1`
-    font-size: 3rem;
-    font-weight: bold;
-    color: #000;
+const SpeechBubbleText = styled.p`
     margin: 0;
-    padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 15px;
+    padding: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    line-height: 1.2;
+`;
+
+
+const ImageCarousel = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    width: 160%;
+    padding: 20px 0;
+
+    @media (max-width: 768px) {
+        width: 140%;
+        gap: 0.75rem;
+    }
+`;
+
+const ImageTitle = styled.div`
+    height: 2.25rem;
+    margin-bottom: 3rem;
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #000;
+    opacity: ${props => props.$isActive ? 1 : 0};
+    transition: opacity 0.3s ease;
 
     @media (max-width: 768px) {
         font-size: 2rem;
-        padding: 8px 16px;
+        height: 2.2rem;
     }
 `;
 
-const ChatContainer = styled.div`
-    width: 400px;
-    height: auto;
-    max-height: 80vh;
+
+const ImageCard = styled.div`
+    width: 90%; // 기본 너비를 80%에서 90%로 증가
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    opacity: ${props => props.$isActive ? 1 : 0.6};
+    z-index: ${props => props.$isActive ? 2 : 1};
+    position: relative;
+
+    &:hover {
+        opacity: 1;
+        box-shadow: ${props => props.$isActive ? '0 8px 24px rgba(0, 0, 0, 0.2)' : '0 6px 16px rgba(0, 0, 0, 0.15)'};
+
+        img {
+            transform: scale(1.03);
+        }
+    }
+
+    @media (max-width: 768px) {
+        width: 95%; // 모바일에서 너비를 늘려 작아지지 않도록 조정
+        min-width: 280px; // 최소 너비 설정
+    }
+
+    @media (min-width: 769px) and (max-width: 1199px) {
+        width: 480px; // 태블릿 크기에서의 너비 조정
+    }
+
+    @media (min-width: 1200px) {
+        width: 780px; // 데스크탑에서의 너비 유지
+    }
+`;
+
+const CardImage = styled.img`
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+`;
+
+const OverlayImage = styled.img`
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    max-width: 1100px;
+    z-index: 5;
+
+    /* 기본(데스크탑) 스타일 */
+    bottom: -5%;
+    transform: translateX(-50%) translateY(10%);
+
+    /* 중간 크기 화면 스타일 */
+    @media (max-width: 1320px) {
+        max-width: 900px;
+        bottom: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* 태블릿 스타일 */
+    @media (max-width: 768px) {
+        bottom: 0%;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 620px) {
+        bottom: 10%;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* 작은 모바일 스타일 */
+    @media (max-width: 450px) {
+        bottom: 23%; /* 더 위로 올림 */
+        transform: translateX(-50%) translateY(0);
+    }
+`;
+
+const ChatContainerWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 450px;
+    height: 100%;
+    z-index: 10;
+    padding: 20px;
     display: flex;
-    flex-direction: column;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-    margin-left: auto;
-    align-self: center;
+    justify-content: center;
+    animation: slideIn 0.5s ease-out forwards;
+    margin-right: 10%;
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @media (max-width: 1320px) {
+        position: relative;
+        width: 90%;
+        max-width: 600px;
+        padding: 0 20px;
+        margin: -100px auto 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     @media (max-width: 768px) {
         width: 100%;
-        max-width: 400px;
-        height: auto;
-        margin: 100px 0 20px 0;
-        max-height: calc(100vh - 120px);
     }
 `;
 
-const ImageNavigator = styled.div`
-    position: absolute;
-    top: 20px;
-    left: 40px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 8px 16px;
-    border-radius: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 3;
 
-    @media (max-width: 768px) {
-        top: 10px;
-        left: 16px;
-    }
-`;
-
-const ImageCounter = styled.div`
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-`;
-
-const ChatHistory = styled.div`
-    flex: 1;
-    overflow-y: auto;
+const StyledChatContainer = styled.div`
+    width: 100%;
+    height: auto;
+    max-height: ${({ $hasStarted }) => ($hasStarted ? '75vh' : '40vh')};
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    color: black;
-    padding: 16px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    top: 20px;
     position: relative;
-    margin-bottom: 16px;
 
-    /* 스크롤바 완전히 숨기기 */
-    -ms-overflow-style: none;  /* IE 및 Edge */
-    scrollbar-width: none;  /* Firefox */
-
-    &::-webkit-scrollbar {
-        display: none;  /* Chrome, Safari, Opera */
-        width: 0;
-        background: transparent;
-    }
-`;
-
-const ChatBubble = styled.div`
-    background-color: ${(props) => (props.$user ? '#d1f3f9' : '#f5f5f5')};
-    align-self: ${(props) => (props.$user ? 'flex-end' : 'flex-start')};
-    padding: 12px;
-    border-radius: 12px;
-    max-width: 80%;
-    white-space: pre-wrap;
-    line-height: 1.4;
-
-    /* 애니메이션 효과 추가 - $animated 프롭으로 제어 */
-    animation: ${(props) => (props.$animated ? (props.$user ? bubbleInRight : bubbleInLeft) : 'none')} 0.3s ease-out forwards;
-    transform-origin: ${(props) => (props.$user ? 'bottom right' : 'bottom left')};
-`;
-
-const EmptyStateMessage = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #999;
-    font-size: 16px;
-    text-align: center;
-    width: 100%;
-`;
-
-const PresetListContainer = styled.div`
-    overflow-x: auto;
-    position: relative;
-    min-height: 44px;
-    margin-bottom: 16px;
-
-    /* 스크롤바 스타일 숨기기 */
-    -ms-overflow-style: none;  /* IE 및 Edge */
-    scrollbar-width: none;  /* Firefox */
-
-    &::-webkit-scrollbar {
-        display: none;  /* Chrome, Safari, Opera */
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 20px;
         width: 0;
         height: 0;
-        background: transparent;
+        border: 10px solid transparent;
+        border-top-color: white;
+        display: ${({ $hasStarted }) => ($hasStarted ? 'none' : 'block')};
+
+        @media (max-width: 1320px) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 1320px) {
+        margin-bottom: 50px;
     }
 `;
 
-const PresetList = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding: 4px 0;
-    width: max-content; /* 모든 버튼을 가로로 수용 */
-`;
-
-const PresetButton = styled.button`
-    padding: 8px 16px;
-    border-radius: 20px;
+const CloseButton = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: transparent;
     border: none;
-    background-color: #eee;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center;
-    white-space: nowrap; /* 버튼 내 텍스트 줄바꿈 방지 */
-    min-width: max-content; /* 텍스트 길이에 맞게 버튼 너비 설정 */
-
-    &:hover {
-        background-color: #ddd;
-    }
-
-    &:disabled {
-        background-color: #f2f2f2;
-        color: #aaa;
-        cursor: not-allowed;
-    }
-`;
-
-const ChatBox = styled.div`
-    display: flex;
-    gap: 8px;
-`;
-
-const Input = styled.input`
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    background-color: white;
-`;
-
-const SendButton = styled.button`
-    padding: 12px 20px;
-    border-radius: 12px;
-    border: none;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    &:hover {
-        background-color: #333;
-    }
-    &:disabled {
-        background-color: #999;
-        cursor: not-allowed;
-    }
-`;
-
-const HelperText = styled.div`
-    margin-top: 8px;
-    font-size: 14px;
-    color: #f44336;
-`;
-
-const LoadingSpinner = styled.div`
-    font-size: 14px;
-    color: gray;
-    align-self: flex-start;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 20;
 
-    &:before {
-        content: "";
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        margin-right: 8px;
-        border-radius: 50%;
-        border: 2px solid #ddd;
-        border-top-color: #888;
-        animation: spin 1s linear infinite;
+    &:hover {
+        &::before, &::after {
+            background-color: #000;
+        }
     }
 
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
+    &::before, &::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 2px;
+        background-color: #777;
+        border-radius: 1px;
+        transition: background-color 0.2s ease;
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(-45deg);
     }
 `;
 
-const Cursor = styled.span`
-    animation: blink 1s step-start infinite;
-    @keyframes blink {
-        50% {
-            opacity: 0;
-        }
-    }
-`;
-
-const Popup = styled.div`
+const ArrowButton = styled.button`
     position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #f44336;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    top: 40%;
+    ${props => props.direction === 'left' ? 'left: 2%;' : 'right: 2%;'}
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     z-index: 10;
-    animation: slideDown 0.3s ease-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
 
-    @keyframes slideDown {
-        0% {
-            opacity: 0;
-            transform: translate(-50%, -20px);
-        }
-        100% {
-            opacity: 1;
-            transform: translate(-50%, 0);
+    svg {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2.5;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+        width: 36px;
+        height: 36px;
+
+        svg {
+            width: 20px;
+            height: 20px;
         }
     }
 `;

@@ -141,7 +141,7 @@ export default function Home() {
           <BrandIntro />
           <UsageIdea />
           <UsageVideoSection />
-{/*           <ChatUI/> */}
+           <ChatUI/>
           <AppFeature />
           <PrivacyFeature />
           <HistoryTimeline />
