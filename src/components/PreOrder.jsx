@@ -239,7 +239,7 @@ const Price = styled.div`
   line-height: 32px;
   color: #2580ff;
   text-align: right;
-    justify-content: flex-end;
+  justify-content: flex-end;
 
   @media (max-width: 768px) {
     font-size: 20px;
