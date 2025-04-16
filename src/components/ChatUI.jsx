@@ -371,6 +371,38 @@ export default function ChatUI() {
     setIsChatVisible(false);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      handleOverlayLoad();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  const overlayRef = useRef(null);
+  const [bubbleLeft, setBubbleLeft] = useState(null); // 초기에는 null
+
+  const handleOverlayLoad = () => {
+    if (overlayRef.current) {
+      const containerWidth = window.innerWidth;
+      // 작은 화면이면 가운데로 고정
+      if (containerWidth <= 1199) {
+        setBubbleLeft('50%');
+        return;
+      }
+
+      const rect = overlayRef.current.getBoundingClientRect();
+      const rightEdge = rect.left + rect.width;
+      const centerX = containerWidth / 7;
+
+      const offsetPx = rightEdge - centerX + 40;
+      const bubbleLeftPercent = (offsetPx / containerWidth) * 100;
+
+      setBubbleLeft(`${bubbleLeftPercent.toFixed(2)}%`);
+    }
+  };
+
   return (
     <PageContainer $isChatVisible={isChatVisible}>
     <ErrorPopup message={error} />
@@ -404,10 +436,22 @@ export default function ChatUI() {
             </ArrowButton>
           )}
 
-          <OverlayImage src="/ChatUI_00.webp" alt="ChatUI" />
+          <OverlayImage
+            ref={overlayRef}
+            src="/ChatUI_00.webp"
+            alt="ChatUI"
+            onLoad={handleOverlayLoad}
+          />
 
-          {!isChatVisible && (
-            <SpeechBubble onClick={handleSpeechBubbleClick}>
+          <LongpressImage
+            src="/longpress.png"
+            alt="hint"
+            $left={bubbleLeft}
+            $isChatVisible={isChatVisible} // ✅ 이거 꼭 있어야 함
+          />
+
+          {!isChatVisible && bubbleLeft && (
+            <SpeechBubble style={{ left: bubbleLeft }} onClick={handleSpeechBubbleClick}>
               <SpeechBubbleText>{t.chatui_bubble}</SpeechBubbleText>
             </SpeechBubble>
           )}
@@ -527,8 +571,7 @@ const SpeechBubble = styled.div`
     /* 안경 이미지 바로 위에 위치 */
     top: 55%;
     bottom: auto;
-    left: 78%;
-    transform: translateX(-50%) translateY(-100%);
+    transform: translateY(-100%);
     width: auto;
     min-width: 320px; /* 최소 너비 설정하여 텍스트가 한줄로 나오도록 */
     height: auto;
@@ -547,15 +590,16 @@ const SpeechBubble = styled.div`
     }
 
     /* 말풍선 꼬리 추가 */
+
     &::after {
         content: "";
         position: absolute;
         top: 100%;
-        left: 50%;
+        left: 85%;
         margin-left: -10px;
-        border-width: 10px;
+        border-width: 11px;
         border-style: solid;
-        border-color: #6E5CFF transparent transparent transparent;
+        border-color: #897aff transparent transparent transparent;
         filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
     }
 
@@ -797,6 +841,12 @@ const StyledChatContainer = styled.div`
     @media (max-width: 1320px) {
         margin-bottom: 50px;
     }
+
+    @media (max-width: 768px) {
+        max-height: none;     // ✅ 제한 해제
+        height: auto;         // ✅ 내용만큼 늘어나도록
+        overflow-y: visible;  // ✅ 아래로 흘러나오지 않게
+    }
 `;
 
 const CloseButton = styled.button`
@@ -843,7 +893,7 @@ const CloseButton = styled.button`
 const ArrowButton = styled.button`
     position: absolute;
     top: 40%;
-    ${props => props.direction === 'left' ? 'left: 18%;' : 'right: 18%;'}
+    ${props => props.direction === 'left' ? 'left: 23%;' : 'right: 23%;'}
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.8);
     border: none;
@@ -890,3 +940,33 @@ const ArrowButton = styled.button`
         ${props => props.direction === 'left' ? 'left: 2%;' : 'right: 2%;'}
     }
 `;
+
+const LongpressImage = styled.img`
+    position: absolute;
+    width: 120px;
+    z-index: 10;
+    top: 73%;
+    left: ${props => props.$left};
+    transform: translateX(60%) translateY(-50%);
+    animation: floatUpDown 1.8s ease-in-out infinite alternate;
+    display: ${props => (props.$isChatVisible ? 'none' : 'block')};
+
+    @media (max-width: 1200px) {
+        width: 50px;
+        top: auto;
+        bottom: 18%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+    }
+    @keyframes floatUpDown {
+        0% {
+            transform: translateX(60%) translateY(-50%);
+        }
+        100% {
+            transform: translateX(60%) translateY(-60%);
+        }
+    }
+`;
+
+
