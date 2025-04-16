@@ -1,23 +1,23 @@
 import {keyframes} from "@emotion/react";
 import styled from "@emotion/styled";
 import React from "react";
+import {useI18n} from "../hooks/useI18n.js";
 
-// 마크다운 처리를 위한 함수
 const formatTextContent = (text) => {
   return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 };
 
-// 채팅 히스토리 표시 컴포넌트
 export const ChatHistory = ({
                               messages,
                               isLoading,
                               typingContent,
                               chatHistoryRef,
                             }) => {
+  const { t, loading } = useI18n();
   return (
     <ChatHistoryContainer ref={chatHistoryRef}>
       {messages.length === 0 ? (
-        <EmptyStateMessage>AInoon에게 질문해보세요!</EmptyStateMessage>
+        <EmptyStateMessage>{t.chatui_empty}</EmptyStateMessage>
       ) : (
         messages.map((msg, i) => (
           <ChatBubble
@@ -30,7 +30,7 @@ export const ChatHistory = ({
                 <div
                   key={j}
                   dangerouslySetInnerHTML={{
-                    __html: formatTextContent(c.text),
+                    __html: formatTextContent(c.text, t), // ✅ t 넘김
                   }}
                 />
               ) : (
@@ -49,17 +49,16 @@ export const ChatHistory = ({
         <ChatBubble $user={false} $animated={true}>
           <div
             dangerouslySetInnerHTML={{
-              __html: formatTextContent(typingContent),
+              __html: formatTextContent(typingContent, t), // ✅ t 넘김
             }}
           />
         </ChatBubble>
       )}
-      {isLoading && <LoadingSpinner>답변 생성 중...</LoadingSpinner>}
+      {isLoading && <LoadingSpinner>{t.chatui_moment}</LoadingSpinner>}
     </ChatHistoryContainer>
   );
 };
 
-// ✅ 여기서 default export 대신 named export로 변경
 export const PresetQuestionList = ({ questions, onSelect, disabled }) => {
   return (
     <PresetContainer>
@@ -79,11 +78,12 @@ export const ChatInput = ({
                             disabled,
                             isLoading,
                           }) => {
+  const { t } = useI18n();
   return (
     <ChatBox>
       <Input
         type="text"
-        placeholder="질문을 입력하세요"
+        placeholder={t.chatui_placeholder}
         value={value}
         onChange={onChange}
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
@@ -93,7 +93,7 @@ export const ChatInput = ({
         onClick={onSubmit}
         disabled={disabled || isLoading || !value.trim()}
       >
-        질문하기
+        {t.chatui_ask}
       </SendButton>
     </ChatBox>
   );

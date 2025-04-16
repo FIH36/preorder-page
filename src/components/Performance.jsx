@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import {motion} from "framer-motion";
+import {useI18n} from '../hooks/useI18n.js';
 
 export default function Performance() {
+  const { t, loading } = useI18n();
+
   return (
     <Container>
       <TextGroup
@@ -11,9 +14,9 @@ export default function Performance() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <Headline>두 손 가볍게 소리에 집중하고, 일상은 스마트하게</Headline>
+        <Headline>{t.handsfree_title}</Headline>
         <SubText>
-          두 손이 자유로운 순간, 더 많은 퍼포먼스가 가능해집니다!
+          {t.handsfree_subtitle}
         </SubText>
       </TextGroup>
 
@@ -25,7 +28,7 @@ export default function Performance() {
           viewport={{ once: true }}
         >
           <Video autoPlay loop muted playsInline preload="metadata" src="/Performance_01.mp4" />
-          <Caption>핸즈프리로 통화하면서, 요리에 더 집중할 수 있어요</Caption>
+          <Caption>{t.handsfree_focus_on}</Caption>
         </CardItem>
 
         <CardItem
@@ -38,7 +41,7 @@ export default function Performance() {
         >
           <Video autoPlay loop muted playsInline preload="metadata" src="/Performance_02.mp4" />
           <Caption>
-            블루투스로 음악을 들으며, 두 손은 자유롭게 운동할 수 있어요
+            {t.handsfree_move_freely}
           </Caption>
         </CardItem>
       </CardWrapper>

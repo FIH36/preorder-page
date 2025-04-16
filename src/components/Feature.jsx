@@ -1,51 +1,44 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import styled from "@emotion/styled";
-import {
-  FiBatteryCharging,
-  FiCamera,
-  FiEye,
-  FiFeather,
-  FiMic,
-  FiVolume2,
-  FiZap,
-} from "react-icons/fi";
+import {FiBatteryCharging, FiCamera, FiEye, FiFeather, FiMic, FiVolume2, FiZap,} from "react-icons/fi";
+import {useI18n} from '../hooks/useI18n.js';
 
 const FEATURE_CONTENTS = [
   {
     icon: <FiZap />,
-    subtitle: "언제, 어디서나 꾹- 누르기만 하면 실행",
-    title: "고성능 AI 어시스턴트",
+    titleKey: 'feature_high_performance',
+    subtitleKey: 'feature_one_press',
   },
   {
     icon: <FiCamera />,
-    subtitle: "내 시선과 같은 각도로 촬영",
-    title: "16MP 카메라 & 1080P 영상",
+    titleKey: 'feature_16mp_camera',
+    subtitleKey: 'feature_capture_moments',
   },
   {
     icon: <FiBatteryCharging />,
-    subtitle: "4시간 연속 음악 재생, 30분 연속 촬영",
-    title: "강력한 배터리와 고속 충전",
+    titleKey: 'feature_long_battery',
+    subtitleKey: 'feature_enjoy_over',
   },
   {
     icon: <FiFeather />,
-    subtitle: "실제 안경 같은 하루 종일 편안한 착용감",
-    title: "45g 초경량 디자인",
+    titleKey: 'feature_featherlight_at',
+    subtitleKey: 'feature_feels_like',
   },
   {
     icon: <FiVolume2 />,
-    subtitle: "음악과 통화 시, 외부 소리 동시 청취",
-    title: "오픈 이어 스피커",
+    titleKey: 'feature_open_ear',
+    subtitleKey: 'feature_listen_to',
   },
   {
     icon: <FiEye />,
-    subtitle: "라이프스타일에 맞춘 렌즈 교체 지원",
-    title: "도수안경 및 선글라스 렌즈 교체",
+    titleKey: 'feature_supports_both',
+    subtitleKey: 'feature_change_lenses',
   },
   {
     icon: <FiMic />,
-    subtitle: "깨끗한 음성 인식과 통화 품질",
-    title: "3개 마이크 + 노이즈 감소",
+    titleKey: 'feature_triple_microphone',
+    subtitleKey: 'feature_clear_voice',
   },
 ];
 
@@ -53,26 +46,30 @@ export default function Feature() {
   const featuresSection1 = FEATURE_CONTENTS.slice(0, 4);
   const featuresSection2 = FEATURE_CONTENTS.slice(4, 7);
 
+  const { t, loading } = useI18n();
+
   return (
     <SectionWrapper>
       <FeatureRow>
         {featuresSection1.map((item, i) => (
           <FeatureItem key={i}>
             <Icon>{item.icon}</Icon>
-            <Title>{item.title}</Title>
-            <Subtitle>{item.subtitle}</Subtitle>
+            <Title>{t[item.titleKey]}</Title>
+            <Subtitle>{t[item.subtitleKey]}</Subtitle>
           </FeatureItem>
         ))}
       </FeatureRow>
+
       <FeatureRow>
         {featuresSection2.map((item, i) => (
           <FeatureItem key={i}>
             <Icon>{item.icon}</Icon>
-            <Title>{item.title}</Title>
-            <Subtitle>{item.subtitle}</Subtitle>
+            <Title>{t[item.titleKey]}</Title>
+            <Subtitle>{t[item.subtitleKey]}</Subtitle>
           </FeatureItem>
         ))}
       </FeatureRow>
+
     </SectionWrapper>
   );
 }

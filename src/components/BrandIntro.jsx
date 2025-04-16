@@ -6,8 +6,11 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Autoplay, Navigation, Pagination} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import {useI18n} from '../hooks/useI18n.js';
 
 const BrandIntro = () => {
+  const { t, loading } = useI18n();
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0,
@@ -128,7 +131,7 @@ const BrandIntro = () => {
             animate={titleVisible ? "visible" : "hidden"}
           >
             <MainTitle>
-              <span>안경테를</span> 탭-탭!<span> 찰칵보다 </span>빠른 터치!
+              {t.camera_title}
             </MainTitle>
           </motion.div>
 
@@ -139,7 +142,7 @@ const BrandIntro = () => {
             animate={subtitleVisible ? "visible" : "hidden"}
           >
             <Subtitle>
-              찰나를 저장하는 마법의 터치, 내 눈앞의 순간을 영원히 기억하자
+              {t.camera_subtitle}
             </Subtitle>
           </motion.div>
         </TitleBlock>
@@ -177,8 +180,8 @@ const BrandIntro = () => {
                       />
                     </VideoWrapper>
                     <CardContent>
-                      <CardTitle>{card.title}</CardTitle>
-                      <CardDescription>{card.description}</CardDescription>
+                      <CardTitle>{t[card.titleKey]}</CardTitle>
+                      <CardDescription>{t[card.descriptionKey]}</CardDescription>
                     </CardContent>
                   </Card>
                 )}
@@ -190,6 +193,30 @@ const BrandIntro = () => {
     </SectionWrapper>
   );
 };
+
+const cardData = [
+  {
+    video: "/01_dog.mp4",
+    titleKey: 'camera_lovely',
+    descriptionKey: 'camera_dog',
+  },
+  {
+    video: "/01_baby.mp4",
+    titleKey: "camera_moved",
+    descriptionKey: "camera_baby",
+  },
+  {
+    video: "/01_birthday.mp4",
+    titleKey: "camera_happy",
+    descriptionKey:
+      "camera_with",
+  },
+  {
+    video: "/01_parking.mp4",
+    titleKey: "camera_memory",
+    descriptionKey: "camera_parking",
+  },
+];
 
 // 새로 추가된 ScrollingHeroText 컴포넌트
 const ScrollingTextContainer = styled.div`
@@ -250,30 +277,6 @@ const ScrollingHeroText = ({ text }) => {
     </ScrollingTextContainer>
   );
 };
-
-const cardData = [
-  {
-    video: "/01_dog.mp4",
-    title: "사랑스러운 순간",
-    description: "반려동물의 사랑스러운 순간, 놓칠 틈 없이 빠르게 기록하세요",
-  },
-  {
-    video: "/01_baby.mp4",
-    title: "감동의 순간",
-    description: "아기 첫 걸음, 순간이 아닌 영원한 기억으로 남겨주세요",
-  },
-  {
-    video: "/01_birthday.mp4",
-    title: "행복한 순간",
-    description:
-      "행복한 찰나, 기억이 아닌 기록으로 가족, 친구들과 오래오래 간직하세요",
-  },
-  {
-    video: "/01_parking.mp4",
-    title: "기억이 필요한 순간",
-    description: "기억할 필요 없이 탭 한번으로 주차 위치를 저장하세요",
-  },
-];
 
 const SectionWrapper = styled.div`
   background: #eff0f3;

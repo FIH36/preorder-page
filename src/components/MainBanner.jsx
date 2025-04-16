@@ -1,12 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
-import { FiVolume2, FiVolumeX } from "react-icons/fi";
+import {useEffect, useRef, useState} from "react";
+import {FiVolume2, FiVolumeX} from "react-icons/fi";
+import {useI18n} from '../hooks/useI18n.js';
+import {useI18nContext} from '../contexts/I18nContext.jsx';
 
 export default function MainBanner({ isActive, scrollY }) {
   const [isMuted, setIsMuted] = useState(true);
   const bannerRef = useRef(null);
   const videoRef = useRef(null);
+
+  const { t, loading } = useI18n();
+  const { lang, changeLang } = useI18nContext();
 
   useEffect(() => {
     if (videoRef.current) {
@@ -25,6 +30,20 @@ export default function MainBanner({ isActive, scrollY }) {
   return (
     <BannerWrapper ref={bannerRef} id="main-banner" onClick={toggleMute}>
       <Header>
+        <LangSwitcher>
+          <FlagButton
+            onClick={() => changeLang('ko')}
+            selected={lang === 'ko'}
+          >
+            🇰🇷
+          </FlagButton>
+          <FlagButton
+            onClick={() => changeLang('en')}
+            selected={lang === 'en'}
+          >
+            🇺🇸
+          </FlagButton>
+        </LangSwitcher>
         <img
           src="/AInoon-logo.svg"
           alt="Logo"
@@ -57,8 +76,8 @@ export default function MainBanner({ isActive, scrollY }) {
       </SoundToggleButton>
 
       <ContentContainer>
-        <SubText>눈으로 보고, 찍고, 듣고, 즐기다</SubText>
-        <MainText>눈앞의 모든 순간이 당신의 콘텐츠가 됩니다</MainText>
+        <SubText>{t.main_title}</SubText>
+        <MainText>{t.main_subtitle}</MainText>
       </ContentContainer>
     </BannerWrapper>
   );
@@ -176,5 +195,27 @@ const SoundToggleButton = styled.button`
     width: 40px;
     height: 40px;
     font-size: 1.5rem;
+  }
+`;
+
+const LangSwitcher = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  display: flex;
+  z-index: 10;
+`;
+
+const FlagButton = styled.button`
+  font-size: 1.4rem;
+  padding: 0 0.5rem;
+  background: ${({ selected }) => (selected ? 'rgba(255,255,255,0.2)' : 'transparent')};
+  border-radius: 6px;
+    border: none;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255,255,255,0.1);
   }
 `;

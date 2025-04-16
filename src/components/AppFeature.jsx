@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
+import {useI18n} from '../hooks/useI18n.js';
 
 export default function AppFeature() {
+  const { t, loading } = useI18n();
   const fadeInUp = (delay = 0) => ({
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 0 },
@@ -15,56 +17,52 @@ export default function AppFeature() {
       <SectionContent as={motion.div} {...fadeInUp(0)}>
         <FeatureBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            AInoon 전용 앱으로
-            <br />
-            복잡함은 줄이고, 편리함은 더하다
+            {t.app_title}
           </Title>
           <FeatureList>
             <FeatureItem>
-              <ItemTitle>디바이스 관리</ItemTitle>
+              <ItemTitle>{t.app_device_settings}</ItemTitle>
               <ItemDesc>
-                AI 대기시간, 언어, 음량 등의 디바이스 설정 변경 및 개인 정보
-                관리
+                {t.app_easily_manage}
               </ItemDesc>
             </FeatureItem>
             <FeatureItem>
-              <ItemTitle>사진/동영상 관리</ItemTitle>
+              <ItemTitle>{t.app_photo_video}</ItemTitle>
               <ItemDesc>
-                안경으로 순간을 포착하고, 사진과 영상을 손쉽게 동기화 및 관리
+                {t.app_capture_with}
               </ItemDesc>
             </FeatureItem>
             <FeatureItem>
-              <ItemTitle>AI 대화 히스토리</ItemTitle>
+              <ItemTitle>{t.app_history}</ItemTitle>
               <ItemDesc>
-                날짜, 시간, 사진과 함께 기록된 AI 대화를 최신 순으로 확인 및
-                검색
+                {t.app_finding}
               </ItemDesc>
             </FeatureItem>
           </FeatureList>
-          <ButtonSection>
-            <div
-              style={{
-                fontSize: "1.1rem",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="/AInoon-logo.svg"
-                alt="AInoon"
-                style={{
-                  filter: "invert(1)",
-                  height: "20px",
-                  marginRight: "0.75rem",
-                }}
-              />{" "}
-              전용 앱 (6월 출시)
-            </div>
-            <DownloadButtons as={motion.div} {...fadeInUp(1.3)}>
-              <img src="/appstore_badge.webp" alt="Download on the App Store" />
-              <img src="/googleplay_badge.webp" alt="Get it on Google Play" />
-            </DownloadButtons>
-          </ButtonSection>
+          <DownloadButtons as={motion.div} {...fadeInUp(1.3)}>
+            <img src="/appstore_badge.webp" alt="Download on the App Store" />
+            <img src="/googleplay_badge.webp" alt="Get it on Google Play" />
+          </DownloadButtons>
+          {/*<ButtonSection>*/}
+            {/*<div*/}
+            {/*  style={{*/}
+            {/*    fontSize: "1.1rem",*/}
+            {/*    display: "flex",*/}
+            {/*    alignItems: "center",*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <img*/}
+            {/*    src="/AInoon-logo.svg"*/}
+            {/*    alt="AInoon"*/}
+            {/*    style={{*/}
+            {/*      filter: "invert(1)",*/}
+            {/*      height: "20px",*/}
+            {/*      marginRight: "0.75rem",*/}
+            {/*    }}*/}
+            {/*  />{" "}*/}
+            {/*  App*/}
+            {/*</div>*/}
+          {/*</ButtonSection>*/}
         </FeatureBlock>
         <div
           style={{
@@ -88,7 +86,7 @@ export default function AppFeature() {
           <div
             style={{ color: "#909294", marginTop: "2rem", fontSize: "1rem" }}
           >
-            AInoon 전용 앱으로 간편한 사용 경험 제공
+            {t.app_ux}
           </div>
         </div>
       </SectionContent>
@@ -145,7 +143,7 @@ const FeatureBlock = styled.div`
 const DownloadButtons = styled.div`
   display: flex;
   gap: 1rem;
-  margin-top: 1.75rem;
+  margin-top: 1rem;
 
   img {
     max-width: 210px;

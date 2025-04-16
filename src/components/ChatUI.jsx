@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import styled from '@emotion/styled';
 import {ChatHistory, ChatInput, ErrorPopup, HelperText, PresetQuestionList} from './ChatComponents';
+import {useI18n} from "../hooks/useI18n.js";
 
 // 이미지 및 질문 데이터
 const imageOptions = [
@@ -15,43 +16,43 @@ const imageOptions = [
 
 // 이미지별 타이틀 추가
 const imageTitles = [
-  '식당에서',
-  '산책중에',
-  '미술관에서',
-  '의류 매장 에서',
-  '관광지에서'
+  'chatui_01_title',
+  'chatui_02_title',
+  'chatui_03_title',
+  'chatui_04_title',
+  'chatui_05_title'
 ];
 
 const presetQuestionsByImage = {
   0: [
-    '메뉴를 한국어로 번역해줘',
-    '해산물과 어울리는 음료를 추천해줘',
-    '논 알코올 음료를 추천해줘',
-    '메뉴판에 적혀 있는 피셀리노 뜻이 뭐야?'
+    'chatui_01_q1',
+    'chatui_01_q2',
+    'chatui_01_q3',
+    'chatui_01_q4'
   ],
   1: [
-    '이 꽃 이름을 알려줘',
-    '이 꽃은 물을 얼마나 자주 줘야해?',
-    '이 꽃의 꽃말을 알려줘',
-    '비슷한 종류의 다른 꽃은 뭐가 있지?'
+    'chatui_02_q1',
+    'chatui_02_q2',
+    'chatui_02_q3',
+    'chatui_02_q4'
   ],
   2: [
-    '이 그림은 무엇을 표현한 거야?',
-    '그림 속 인물의 표정은 어떤 감정을 나타내지?',
-    '이 작품의 특징은 뭐야?',
-    '이 그림이 유명해진 이유는 뭐야?'
+    'chatui_03_q1',
+    'chatui_03_q2',
+    'chatui_03_q3',
+    'chatui_03_q4'
   ],
   3: [
-    '이 두 의상 중 어느 것이 더 실용적인가요?',
-    '핑크색 니트에 포인트를 줄 수 있는 코디를 추천해줘',
-    '두 의상 중 회사 면접에 어울리는 코디를 추천해줘',
-    '두 개의 상의 중 데이트에 어울리는 코디를 추천해줘'
+    'chatui_04_q1',
+    'chatui_04_q2',
+    'chatui_04_q3',
+    'chatui_04_q4'
   ],
   4: [
-    '이 장소의 이름을 알려줘',
-    '이 장소와 관련된 유명한 이야기나 사건이 있나요?',
-    '이 장소에서 꼭 봐야할 포인트를 알려줘',
-    '이 장소와 관련된 재미있는 이야기를 알려줘'
+    'chatui_05_q1',
+    'chatui_05_q2',
+    'chatui_05_q3',
+    'chatui_05_q4'
   ]
 };
 
@@ -60,6 +61,7 @@ const STORAGE_KEY = 'daily-question-count';
 const DATE_KEY = 'daily-question-date';
 
 export default function ChatUI() {
+  const { t, loading, lang } = useI18n();  // 컴포넌트 상단에서 한 번만!
   const [question, setQuestion] = useState('');
   const [imageIndex, setImageIndex] = useState(0);
   // 각 배열 요소가 독립적인 빈 배열을 가지도록 수정
@@ -128,181 +130,156 @@ export default function ChatUI() {
   };
 
   const handleSubmit = async () => {
-    // 질문이 비어있거나 disabled 상태면 처리하지 않음
     const questionText = question;
     if (!questionText.trim() || disabled || isLoading) return;
 
     const currentIndex = imageIndex;
     const currentHistory = chatHistories[currentIndex];
     const isFirst = isFirstQuestionMap[currentIndex];
+    const lastAssistantMessage =
+      currentHistory.length > 0 ? currentHistory[currentHistory.length - 1] : null;
 
-    // 이전 응답이 '이미지와 질문이 관련 없어 보여요'로 시작하는지 확인
-    const lastAssistantMessage = currentHistory.length > 0 ?
-      currentHistory[currentHistory.length - 1] : null;
-
-    const isLastMessageUnrelated = lastAssistantMessage &&
+    const isLastMessageUnrelated =
+      lastAssistantMessage &&
       lastAssistantMessage.role === 'assistant' &&
-      lastAssistantMessage.content.some(c =>
-        c.type === 'text' && c.text.startsWith('이미지와 질문이 관련 없어 보여요')
+      lastAssistantMessage.content.some(
+        (c) =>
+          c.type === 'text' &&
+          (c.text.startsWith('이미지와 질문이 관련 없어 보여요') ||
+            c.text.startsWith("The question doesn't seem related to the image"))
       );
 
-    // 첫 질문이거나 이전 응답이 '관련 없음' 응답인 경우 이미지 포함
     const shouldIncludeImage = isFirst || isLastMessageUnrelated;
 
-    // 사용자 메시지와 payload 변수 선언
-    let userMessage;
-    let payload;
-
-    // 이미지가 포함되어야 하는 경우
-    if (shouldIncludeImage) {
-      userMessage = {
-        role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: `다음은 이미지와 질문입니다.\n- 질문이 이미지와 관련 있다고 판단되면, 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요. \n- 이미지에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)와 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.\n- 질문이 이미지와 관련없어 보인다면 이렇게 답해주세요: '이미지와 질문이 관련 없어 보여요. 이미지에 대해 궁금하신 게 있다면 알려주세요!'\n\n${questionText}`
-          },
-          {
-            type: 'image_url',
-            image_url: {
-              url: imageOptions[currentIndex]
-            }
-          }
-        ]
-      };
-
-      // 첫 질문이면 이전 대화 제외, 아니면 포함
-      payload = {
-        messages: isFirst ? [userMessage] : [...currentHistory, userMessage]
-      };
-    }
-    // 일반 후속 질문인 경우
-    else {
-      userMessage = {
-        role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: `다음은 앞선 대답과 연관된 질문입니다.\n- 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요. \n- 앞의 대화에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)나 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.\n- 질문이 대화와 관련없어 보인다면 이렇게 답해주세요: '앞선 대화와 관련 없는 질문처럼 보여요. 더 궁금하신 게 있다면 알려주세요!'\n\n${questionText}`
-          }
-        ]
-      };
-
-      payload = {
-        messages: [...currentHistory, userMessage]
-      };
-    }
-
-    // 사용자 메시지를 채팅 히스토리에 먼저 추가 (UI에 즉시 표시)
-    const userMessageForHistory = {
-      role: 'user',
-      content: [{ type: 'text', text: questionText }]
+    // ✅ 언어에 따라 프롬프트 분기
+    const promptMap = {
+      ko: {
+        first:
+          `다음은 이미지와 질문입니다.- 질문이 이미지와 관련 있다고 판단되면, 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요.- 이미지에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)와 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.- 질문이 이미지와 관련없어 보인다면 이렇게 답해주세요: '이미지와 질문이 관련 없어 보여요. 이미지에 대해 궁금하신 게 있다면 알려주세요!'`,
+        followUp:
+          `다음은 앞선 대답과 연관된 질문입니다.- 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요.- 앞의 대화에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)나 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.- 질문이 대화와 관련없어 보인다면 이렇게 답해주세요: '앞선 대화와 관련 없는 질문처럼 보여요. 더 궁금하신 게 있다면 알려주세요!'`,
+      },
+      en: {
+        first:
+          `Here is an image and a question.- If the question seems related to the image, provide a creative, concise, and kind answer in under 200 characters, based on facts.- Assume that questions inferred from visual clues (weather, mood, place, activity, etc.) or mentioned objects are considered related.- If the question seems unrelated, respond: "The question doesn't seem related to the image. Feel free to ask anything about the image!"`,
+        followUp:
+          `This is a follow-up question based on the previous conversation.- Please answer based on facts in a clear, creative, and friendly way in under 200 characters.- If the question seems unrelated to the conversation, reply with: "The question doesn't seem related to the previous conversation. Feel free to ask anything else!"`,
+      },
     };
 
-    // 이전 응답 확인 (이 부분은 위에서 계산한 shouldIncludeImage 사용)
+    // ✅ lang 안전하게 처리
+    const safeLang = ['ko', 'en'].includes(lang) ? lang : 'ko';
+    const prompt = isFirst
+      ? promptMap[safeLang].first
+      : promptMap[safeLang].followUp;
+
+    let userMessage = {
+      role: 'user',
+      content: [{ type: 'text', text: `${prompt}\n\n${questionText}` }],
+    };
+
     if (shouldIncludeImage) {
-      userMessageForHistory.content.push({
+      userMessage.content.push({
         type: 'image_url',
-        image_url: { url: imageOptions[currentIndex] }
+        image_url: { url: imageOptions[currentIndex] },
       });
     }
 
-    // 채팅 히스토리 업데이트 (API 응답 전에)
-    setChatHistories(prevHistories => {
-      const newHistories = [...prevHistories];
-      newHistories[currentIndex] = [...newHistories[currentIndex], userMessageForHistory];
+    const payload = {
+      messages: isFirst ? [userMessage] : [...currentHistory, userMessage],
+    };
+
+    const userMessageForHistory = {
+      role: 'user',
+      content: [{ type: 'text', text: questionText }],
+    };
+
+    if (shouldIncludeImage) {
+      userMessageForHistory.content.push({
+        type: 'image_url',
+        image_url: { url: imageOptions[currentIndex] },
+      });
+    }
+
+    setChatHistories((prev) => {
+      const newHistories = [...prev];
+      newHistories[currentIndex] = [
+        ...newHistories[currentIndex],
+        userMessageForHistory,
+      ];
       return newHistories;
     });
 
-    // 입력창 초기화
     setQuestion('');
-
     setIsLoading(true);
+
     try {
       const res = await fetch(
         'https://gi0r5h4vnh.execute-api.ap-northeast-2.amazonaws.com/dev/openai/chat-completion',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         }
       );
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
       const data = await res.json();
-
-      console.log("API 응답 데이터:", data); // 디버깅용 로그
-
-      // 다양한 API 응답 형식 처리
       let assistantText;
 
-      // 첫 번째 형식 - choices 배열을 통한 접근
       if (data?.choices?.[0]?.message?.content?.[0]?.text) {
         assistantText = data.choices[0].message.content[0].text;
-      }
-      // 두 번째 형식 - 직접 content 배열에 접근
-      else if (data?.content?.[0]?.text) {
+      } else if (data?.content?.[0]?.text) {
         assistantText = data.content[0].text;
-      }
-      // 세 번째 형식 - 단순 텍스트 응답
-      else if (typeof data === 'string') {
+      } else if (typeof data === 'string') {
         assistantText = data;
-      }
-      // 그 외 형식
-      else {
-        console.error("예상치 못한 API 응답 형식:", data);
+      } else {
         assistantText = null;
       }
 
-      // 응답이 "앞선 대화와 관련 없는 질문처럼 보여요" 인지 확인
-      const isUnrelatedResponse = assistantText &&
-        assistantText.includes('앞선 대화와 관련 없는 질문처럼 보여요');
+      const isUnrelated =
+        assistantText &&
+        (assistantText.includes('앞선 대화와 관련 없는 질문처럼 보여요') ||
+          assistantText.includes("The question doesn't seem related"));
+
+      const nextHistory = isUnrelated
+        ? [...currentHistory]
+        : [...currentHistory, userMessageForHistory];
 
       if (assistantText) {
-        // 관련 없는 응답인 경우 이전 대화 내용을 그대로 유지
-        if (isUnrelatedResponse) {
-          typeText(assistantText, currentIndex, [...currentHistory]);
-        } else {
-          // 정상 응답인 경우 새 메시지 추가
-          typeText(assistantText, currentIndex, [...currentHistory, userMessageForHistory]);
-        }
+        typeText(assistantText, currentIndex, nextHistory);
       } else {
-        console.error("API 응답에 예상된 형식의 텍스트가 없습니다:", data);
-
         const fallback = {
           role: 'assistant',
-          content: [{ type: 'text', text: '응답을 불러올 수 없습니다.' }]
+          content: [{ type: 'text', text: '응답을 불러올 수 없습니다.' }],
         };
-
-        // 새 history 배열을 안전하게 업데이트 (이미 사용자 메시지는 추가되어 있음)
-        setChatHistories(prevHistories => {
-          const newHistories = [...prevHistories];
-          newHistories[currentIndex] = [...newHistories[currentIndex], fallback];
+        setChatHistories((prev) => {
+          const newHistories = [...prev];
+          newHistories[currentIndex] = [
+            ...newHistories[currentIndex],
+            fallback,
+          ];
           return newHistories;
         });
       }
 
-      // 첫 질문 맵 업데이트
-      setIsFirstQuestionMap(prevMap => {
-        const updatedFirstMap = [...prevMap];
-        updatedFirstMap[currentIndex] = false;
-        return updatedFirstMap;
+      setIsFirstQuestionMap((prev) => {
+        const updated = [...prev];
+        updated[currentIndex] = false;
+        return updated;
       });
 
       increaseCount();
     } catch (err) {
       console.error('API 호출 실패:', err);
       setError('질문 처리 중 오류가 발생했어요.');
-
-      // 5초 후 에러 메시지 제거
       setTimeout(() => setError(''), 5000);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const typeText = (text, index, prevMessages) => {
     // 이전 interval 정리
@@ -380,7 +357,7 @@ export default function ChatUI() {
 
   const visibleImageIndices = getVisibleImageIndices();
   const currentMessages = chatHistories[imageIndex];
-  const presetQuestions = presetQuestionsByImage[imageIndex];
+  const presetQuestions = presetQuestionsByImage[imageIndex]?.map((key) => t[key]) || [];
   const currentTitle = imageTitles[imageIndex];
   // 상태 추가 (component 내부에 추가)
   const [isChatVisible, setIsChatVisible] = useState(false);
@@ -410,7 +387,7 @@ export default function ChatUI() {
           <ImageCarousel>
             {visibleImageIndices.map((idx) => (
               <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <ImageTitle $isActive={idx === imageIndex}>{imageTitles[idx]}</ImageTitle>
+                <ImageTitle $isActive={idx === imageIndex}>{t[imageTitles[idx]]}</ImageTitle>
                 <ImageCard
                   $isActive={idx === imageIndex}
                   onClick={() => setImageIndex(idx)}
@@ -431,7 +408,7 @@ export default function ChatUI() {
 
           {!isChatVisible && (
             <SpeechBubble onClick={handleSpeechBubbleClick}>
-              <SpeechBubbleText>Click하여 해당 이미지에 관해 AI에게 물어보세요!</SpeechBubbleText>
+              <SpeechBubbleText>{t.chatui_bubble}</SpeechBubbleText>
             </SpeechBubble>
           )}
         </ImageSection>
@@ -464,7 +441,7 @@ export default function ChatUI() {
                 disabled={disabled}
                 isLoading={isLoading}
               />
-              {disabled && <HelperText>오늘 하루 물을 수 있는 질문을 모두 사용하였어요.</HelperText>}
+              {disabled && <HelperText>{t.chaui_limit}</HelperText>}
             </StyledChatContainer>
           </ChatContainerWrapper>
         )}
@@ -540,7 +517,7 @@ const SpeechBubble = styled.div`
     position: absolute;
     background: linear-gradient(45deg, #2580FF, #6E5CFF, #B5A1FF);
     border-radius: 1rem;
-    padding: 0.8rem 2rem; /* 패딩 상하 줄임 */
+    padding: 0.8rem 1rem; /* 패딩 상하 줄임 */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     font-weight: 400;
@@ -550,7 +527,7 @@ const SpeechBubble = styled.div`
     /* 안경 이미지 바로 위에 위치 */
     top: 55%;
     bottom: auto;
-    left: 50%;
+    left: 78%;
     transform: translateX(-50%) translateY(-100%);
     width: auto;
     min-width: 320px; /* 최소 너비 설정하여 텍스트가 한줄로 나오도록 */
@@ -593,6 +570,7 @@ const SpeechBubble = styled.div`
         top: auto;
         bottom: 10%; /* 더 아래로 내림 */
         transform: translateX(-50%);
+        left: 50%;
         min-width: 280px;
         max-width: 280px;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
@@ -865,7 +843,7 @@ const CloseButton = styled.button`
 const ArrowButton = styled.button`
     position: absolute;
     top: 40%;
-    ${props => props.direction === 'left' ? 'left: 2%;' : 'right: 2%;'}
+    ${props => props.direction === 'left' ? 'left: 18%;' : 'right: 18%;'}
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.8);
     border: none;
@@ -891,13 +869,24 @@ const ArrowButton = styled.button`
         transform: translateY(-50%) scale(1.05);
     }
 
+
+    @media (max-width: 1320px) {
+        ${props => props.direction === 'left' ? 'left: 15%;' : 'right: 15%;'}
+    }
+
     @media (max-width: 768px) {
         width: 36px;
         height: 36px;
+        ${props => props.direction === 'left' ? 'left: 5%;' : 'right: 5%;'}
 
         svg {
             width: 20px;
             height: 20px;
         }
+    }
+
+    /* 작은 모바일 스타일 */
+    @media (max-width: 450px) {
+        ${props => props.direction === 'left' ? 'left: 2%;' : 'right: 2%;'}
     }
 `;

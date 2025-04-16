@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import {useI18n} from '../hooks/useI18n.js';
 
 export default function PreOrder() {
+  const { t, loading } = useI18n();
+
   return (
     <Section>
       <Content>
         <Title>
-          <Highlight>AInoon</Highlight>
-          <span> 사전 구매하기</span>
+          {t.purchase_title}
         </Title>
         <CardRow>
           {products.map((product, i) => (
@@ -17,8 +19,8 @@ export default function PreOrder() {
               </ImageWrapper>
               <CardContent>
                 <TextGroup>
-                  <ProductTitle>{product.title}</ProductTitle>
-                  <Description>{product.description}</Description>
+                  <ProductTitle>{t[product.title]}</ProductTitle>
+                  <Description>{t[product.description]}</Description>
                   <Price>
                     <div
                       style={{
@@ -36,7 +38,7 @@ export default function PreOrder() {
                       <span
                         style={{ textDecoration: "none", marginRight: "4px" }}
                       >
-                        정가{" "}
+                        {t.purchase_regular_price}{" "}
                       </span>
                       <div
                         style={{
@@ -68,7 +70,7 @@ export default function PreOrder() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <span>사전 구매하기</span>
+                  <span>{t.purchase_buy}</span>
                 </BuyButton>
               </CardContent>
             </Card>
@@ -82,34 +84,34 @@ export default function PreOrder() {
 const products = [
   {
     image: "/PreOrder_01.webp",
-    title: "하금테 Black",
+    title: "purchase_browline_black",
     price: "229,000원",
     salePrice: "270,000원",
-    description: "절제된 세련미에 지적인 무드를 더한 하금테 디자인",
+    description: "purchase_browline_black_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EB%B8%94%EB%9E%99/385/category/78/display/1/",
   },
   {
     image: "/PreOrder_02.webp",
-    title: "하금테 Grey",
+    title: "purchase_browline_grey",
     price: "229,000원",
     salePrice: "270,000원",
-    description: "산뜻한 컬러감과 고급스러움이 어우러진 하금테 디자인",
+    description: "purchase_browline_bgrey_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/386/category/78/display/1/",
   },
   {
     image: "/PreOrder_03.webp",
-    title: "뿔테 Black",
+    title: "purchase_horn_black",
     price: "246,000원",
     salePrice: "290,000원",
-    description: "모던한 스퀘어 실루엣이 돋보이는 클래식 뿔테 디자인",
+    description: "purchase_horn_black_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {
     image: "/PreOrder_04.webp",
-    title: "뿔테 Grey",
+    title: "purchase_horn_grey",
     price: "246,000원",
     salePrice: "290,000원",
-    description: "도시적인 감성에 부드러운 개성을 더한 뿔테 디자인",
+    description: "purchase_horn_grey_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/388/category/78/display/1/",
   },
 ];
@@ -254,11 +256,12 @@ const Description = styled.div`
   height: 55px;
   color: #909294;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
+    margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     font-size: 1rem;

@@ -2,8 +2,11 @@
 import {useEffect, useState} from "react";
 import styled from "@emotion/styled";
 import {motion} from "framer-motion";
+import {useI18n} from '../hooks/useI18n.js';
 
 export default function LensFeature() {
+  const { t, loading } = useI18n();
+
   const fadeInUp = (delay = 0) => ({
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 0 },
@@ -58,14 +61,10 @@ export default function LensFeature() {
         </FeatureImageCards>
         <FeatureTextBlock as={motion.div} {...fadeInUp(0.1)}>
           <Title>
-            도수 및 선글라스 렌즈로 교체할 수 있어 <br />
-            평소에 쓰시는 일반 안경처럼 언제, 어디서나 자유롭게 사용!
+            {t.lens_title}
           </Title>
           <Description>
-            안경 전문점에서 손쉽게 렌즈를 교체할 수 있어, 시력에 맞는 도수
-            렌즈는 물론 선글라스 렌즈로도 활용할 수 있습니다. 언제나 내 눈에 꼭
-            맞는, 나만의 글래스로 스타일과 편안함을 동시에 누려보세요. 잠들기 전
-            충전하고, 하루 종일 자유롭게 함께하세요!
+            {t.lens_easily_change}
           </Description>
         </FeatureTextBlock>
       </SectionContent>
@@ -79,6 +78,10 @@ const SectionWrapper = styled.div`
   background: black;
   display: flex;
   justify-content: center;
+
+    @media (max-width: 768px) {
+        padding: 2rem 2rem;
+    }
 `;
 
 const SectionContent = styled.div`
@@ -97,6 +100,8 @@ const FeatureTextBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 4vw, 2rem);
+    justify-content: flex-end;
+    align-items: flex-end;
 `;
 
 const Title = styled.h2`

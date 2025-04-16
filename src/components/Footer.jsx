@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import {FaFacebook, FaInstagram, FaTiktok, FaYoutube} from "react-icons/fa";
+import {useI18n} from "../hooks/useI18n.js";
 
 export default function Footer() {
+  const { t, loading } = useI18n();
+
   return (
     <>
       <div
@@ -15,35 +18,33 @@ export default function Footer() {
       >
         <FooterWrapper>
           <FooterSection>
-            <SectionTitle>주식회사 시어스랩</SectionTitle>
+            <SectionTitle>{t.footer_company}</SectionTitle>
             <InfoList>
-              <InfoItem>대표자명 : 정진욱</InfoItem>
+              <InfoItem>{t.footer_name}</InfoItem>
               <InfoItem>
-                사업장 주소 : 06628 서울특별시 서초구 강남대로 315 (서초동)
-                파이낸셜뉴스빌딩 2층
+                {t.footer_address}
               </InfoItem>
-{/*               <InfoItem>대표 전화 : 070-7702-6800</InfoItem> */}
-              <InfoItem>사업자 등록번호 : 105-88-03237</InfoItem>
+              <InfoItem>{t.footer_bnumber}</InfoItem>
               <InfoItem>
-                통신판매업 신고번호 : 2021-서울서초-1580{" "}
+                {t.footer_onumber}
                 <BizInfoLink
                   href="https://www.ftc.go.kr/bizCommPop.do?wrkr_no=1058803237"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  [사업자정보확인]
+                  {t.footer_ncheck}
                 </BizInfoLink>
               </InfoItem>
-              <InfoItem>개인정보보호책임자 정진욱</InfoItem>
+              {/*<InfoItem>개인정보보호책임자 정진욱</InfoItem>*/}
             </InfoList>
           </FooterSection>
 
           <FooterSection>
-            <SectionTitle>고객센터 정보</SectionTitle>
+            <SectionTitle>{t.footer_support}</SectionTitle>
             <InfoList>
-                <InfoItem>문의 전화 : 02-588-6801</InfoItem>
-              <InfoItem>이메일 : ainoon@seerslab.com</InfoItem>
-              <InfoItem>운영시간 : 11:00~17:30</InfoItem>
+                <InfoItem>{t.footer_contact}</InfoItem>
+              <InfoItem>{t.footer_mail}</InfoItem>
+              <InfoItem>{t.footer_hours}</InfoItem>
             </InfoList>
           </FooterSection>
 
@@ -135,6 +136,7 @@ const InfoItem = styled.p`
 const BizInfoLink = styled.a`
     color: white;
     text-decoration: none;
+    margin-left: 0.5rem;
 
     &:hover {
         text-decoration: underline;

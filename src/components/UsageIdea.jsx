@@ -5,31 +5,36 @@ import {Autoplay} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {motion} from "framer-motion";
 import "swiper/css";
+import {useI18n} from '../hooks/useI18n.js';
+import {useI18nContext} from '../contexts/I18nContext.jsx';
+
 
 const cardData = [
   {
     video: "UsageIdea_01.mp4",
-    title: "칼로리 계산",
-    description: "음식 사진을 찍으면, 칼로리와 영양 정보를 바로 알려드려요",
+    titleKey: "ai_calorie_tracking",
+    descriptionKey: "ai_take_photo",
   },
   {
     video: "UsageIdea_02.mp4",
-    title: "여행 중 외국어 번역",
-    description: "낯선 여행지에서 외국어 번역은 물론 관광지 정보도 물어보세요",
+    titleKey: "ai_translate",
+    descriptionKey: "ai_tourist",
   },
   {
     video: "UsageIdea_03.mp4",
-    title: "회사 업무 지원",
-    description: "업무 중에도 스마트하게 보고, 듣고, 질문하세요",
+    titleKey: "ai_assistant",
+    descriptionKey: "ai_smart",
   },
   {
     video: "UsageIdea_04.mp4",
-    title: "코디네이터",
-    description: "입지 않아도 OK! 손짓 하나로 코디 추천을 받아보세요",
+    titleKey: "ai_coordinator",
+    descriptionKey: "ai_recommend",
   },
 ];
 
 function UsageIdea() {
+  const { lang } = useI18nContext();
+  const { t, loading } = useI18n();
   const [activeIndex, setActiveIndex] = useState(0);
   const videoRefs = useRef({});
   const swiperRef = useRef(null);
@@ -100,9 +105,8 @@ function UsageIdea() {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <MainTitle>
-              <span>궁금할땐</span> 꾹-! 눌러서
-              <br />
-              언제, 어디서나<span> 망설이지 말고</span> AI에게 물어보세요!
+              {t.ai_title}<br/>
+              {t.ai_subtitle}
             </MainTitle>
           </motion.div>
         </MainTitleWrapper>
@@ -164,7 +168,7 @@ function UsageIdea() {
                   <VideoWrapper isActive={index === activeIndex}>
                     <Video
                       ref={(el) => (videoRefs.current[index] = el)}
-                      src={card.video}
+                      src={`/${card.video.replace('.mp4', `_${lang}.mp4`)}`}
                       muted
                       loop
                       playsInline
@@ -173,8 +177,8 @@ function UsageIdea() {
                   </VideoWrapper>
 
                   <CardTextContent isActive={index === activeIndex}>
-                    <CardTitle>{card.title}</CardTitle>
-                    <CardDescription>{card.description}</CardDescription>
+                    <CardTitle>{t[card.titleKey]}</CardTitle>
+                    <CardDescription>{t[card.descriptionKey]}</CardDescription>
                   </CardTextContent>
                 </IntegratedCard>
               </StyledSwiperSlide>

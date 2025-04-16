@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import {motion} from "framer-motion";
+import {useI18n} from '../hooks/useI18n.js';
 
 export default function PrivacyFeature() {
+  const { t, loading } = useI18n();
   const fadeInUp = (delay = 0) => ({
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 0 },
@@ -17,18 +19,13 @@ export default function PrivacyFeature() {
       <OverlayAccent />
 
       <motion.div {...fadeInUp(0)} style={{ zIndex: 3 }}>
-        <Title>보안은 철저하게, 개인정보는 안전하게</Title>
+        <Title>{t.privacy_title}</Title>
       </motion.div>
 
       <ContentContainer as={motion.div} {...fadeInUp(0.2)}>
         <TextBlock>
-          <Subtitle>개인정보 보호 및 보안 정책</Subtitle>
-          <Description>
-            AInoon은 사용자 개인정보 보호를 최우선으로 생각하며, 모든 데이터를
-            익명화 및 암호화하여 안전하게 관리합니다. 개인정보를 신중하게
-            처리하고, 보안 전송 기술을 활용해 정보를 철저히 보호합니다. 또한,
-            사용자는 전용 앱을 통해 자신의 데이터를 직접 저장하거나 삭제할 수
-            있어 더욱 안심할 수 있는 환경을 제공합니다.
+          <Subtitle>{t.privacy_privacy}</Subtitle>
+          <Description>{t.privacy_ainoon}
           </Description>
         </TextBlock>
         <LeftBlock>
@@ -36,11 +33,10 @@ export default function PrivacyFeature() {
             style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
             <Subtitle style={{ textAlign: "left" }}>
-              투명한 촬영으로 신뢰를 높이다
+              {t.privacy_transparency}
             </Subtitle>
             <Description>
-              사진이나 동영상 촬영 시 LED 표시등이 작동하여 주변인들에게 촬영
-              상황을 알리며, 사용자와 타인의 권리를 동시에 존중합니다.
+              {t.privacy_led}
             </Description>
           </div>
           <RightVideo
@@ -58,8 +54,8 @@ export default function PrivacyFeature() {
       <CardRow as={motion.div} {...fadeInUp(0.4)}>
         {cardData.map((card, i) => (
           <InfoCard key={i}>
-            <CardTitle>{card.title}</CardTitle>
-            <CardDesc>{card.desc}</CardDesc>
+            <CardTitle>{t[card.titleKey]}</CardTitle>
+            <CardDesc>{t[card.descKey]}</CardDesc>
           </InfoCard>
         ))}
       </CardRow>
@@ -69,16 +65,16 @@ export default function PrivacyFeature() {
 
 const cardData = [
   {
-    title: "프라이버시를 지키는 익명화 기술",
-    desc: "모든 데이터는 AI 상호작용 전에 철저히 익명화되며, 이 데이터는 어떤 경우에도 AI 모델 학습에 활용되지 않습니다.",
+    titleKey: "privacy_tech",
+    descKey: "privacy_data",
   },
   {
-    title: "내 손 안에서 완벽한 데이터 관리",
-    desc: "스마트폰 앱을 통해 언제든 데이터를 관리할 수 있으며, 모든 데이터는 각 국가의 개인정보보호정책에 따라 관리됩니다.",
+    titleKey: "privacy_management",
+    descKey: "privacy_policy",
   },
   {
-    title: "데이터 판매 제로, 철저한 보안 원칙",
-    desc: "수집된 모든 데이터는 어떠한 경우라도  제3자에게 판매되지 않으니 안심하세요.",
+    titleKey: "privacy_zero",
+    descKey: "privacy_sale",
   },
 ];
 

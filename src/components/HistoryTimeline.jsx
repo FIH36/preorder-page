@@ -1,21 +1,22 @@
 import React from "react";
 import styled from "@emotion/styled";
 import {motion} from "framer-motion";
+import {useI18n} from '../hooks/useI18n.js';
 
 const historyData = [
-  { date: "2023년 3월", event: "AI 글래스 R&D 진행 시작" },
+  { date: "timeline_23_03", event: "timeline_23_03_text" },
   {
-    date: "2024년 12월",
-    event: "제작발표회\n(강남 씨스퀘어, 24.12.12)",
+    date: "timeline_24_12",
+    event: "timeline_24_12_text",
   },
-  { date: "2025년 3월", event: "예약 판매 시작", highlight: true },
-  { date: "2025년 4월", event: "슈퍼 얼리버드 15% 할인" },
-  { date: "2025년 5월", event: "얼리버드 10% 할인" },
-  { date: "2025년 6월", event: "글로벌 생산 시작" },
-  { date: "2025년 7월", event: "글로벌 출하 시작" },
+  { date: "timeline_25_03", event: "timeline_25_03_text", highlight: true },
+  { date: "timeline_25_04", event: "timeline_25_04_text" },
+  { date: "timeline_25_05", event: "timeline_25_05_text" },
+  { date: "timeline_25_06", event: "timeline_25_06_text" },
+  { date: "timeline_25_07", event: "timeline_25_07_text" },
   {
-    date: "2025년 8월",
-    event: "소비자 예상 수령",
+    date: "timeline_25_08",
+    event: "timeline_25_08_text",
     highlight: true,
     special: true,
   },
@@ -29,6 +30,7 @@ const fadeInUp = (delay = 0) => ({
 });
 
 const History = () => {
+  const { t, loading } = useI18n();
   return (
     <Wrapper>
       <Container>
@@ -57,15 +59,17 @@ const History = () => {
               <Line side={index % 2 === 0 ? "left" : "right"}>
                 <TextBlock side={index % 2 === 0 ? "left" : "right"}>
                   <Date highlighted={item.highlight} special={item.special}>
-                    {item.date}
+                    {t[item.date] || item.date}
                   </Date>
+
                   <Event
                     highlighted={item.highlight}
                     special={item.special}
                     dangerouslySetInnerHTML={{
-                      __html: item.event.replace(/\n/g, "<br />"),
+                      __html: (t[item.event] || "").replace(/\n/g, "<br />"),
                     }}
                   />
+
                 </TextBlock>
               </Line>
             </Item>
@@ -228,7 +232,7 @@ const Date = styled.div`
 
 const Event = styled.div`
   font-size: 1.4rem;
-  color: #0c0c0c;
+  color: #333;
   ${(props) => props.highlighted && "font-weight: 600;"}
   line-height: 1.4;
 `;

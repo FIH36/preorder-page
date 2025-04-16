@@ -14,8 +14,13 @@ import PrivacyFeature from "../components/PrivacyFeature.jsx";
 import PreOrder from "../components/PreOrder.jsx";
 import HistoryTimeline from "../components/HistoryTimeline.jsx";
 import PopupBanner from "../components/PopupBanner.jsx"
+import {useI18n} from '../hooks/useI18n.js';
+import {useI18nContext} from '../contexts/I18nContext.jsx';
 
 export default function Home() {
+  const { t, loading } = useI18n();
+  const { lang } = useI18nContext();
+
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [introDone, setIntroDone] = useState(false);
   const [buyNowText, setBuyNowText] = useState("사전 구매하기");
@@ -99,7 +104,7 @@ export default function Home() {
           <>
             <Background src="/UsageVideo_firstframe.jpg" alt="first frame" />
             <Thumbnail
-              src="/video_thumbnail.png"
+              src={`/video_thumbnail_${lang}.png`}
               alt="video thumbnail"
               onClick={handleThumbnailClick}
             />
@@ -140,20 +145,24 @@ export default function Home() {
           <BrandIntro />
           <UsageIdea />
           <UsageVideoSection />
-           {/*<ChatUI/>*/}
+           {/*<ChatUI />*/}
           <AppFeature />
           <PrivacyFeature />
           <HistoryTimeline />
           <PreOrder />
         </SectionsContainer>
 
-        <img src="/FooterImage.webp" alt="착용샷" style={{ width: "100%" }} />
+        <img
+          src={`/FooterImage_${lang}.webp`}
+          alt="착용샷"
+          style={{ width: "100%" }}
+        />
         <Footer />
 
         <BuyNowBannerContainer>
-          <ProductName>AInoon 4월 한달 15% 할인</ProductName>
+          <ProductName>{t.cta_text}</ProductName>
           <BuyNowButton id="buy-floating-button"  onClick={handleBuyNow}>
-            사전 구매하기
+            {t.cta_btn}
           </BuyNowButton>
         </BuyNowBannerContainer>
       </Container>
