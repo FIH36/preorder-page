@@ -159,13 +159,14 @@ export default function ChatUI() {
     const promptMap = {
       ko: {
         first:
-          `다음은 이미지와 질문입니다.- 질문이 이미지와 관련 있다고 판단되면, 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요.- 이미지에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)와 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.- 질문이 이미지와 관련없어 보인다면 이렇게 답해주세요: '이미지와 질문이 관련 없어 보여요. 이미지에 대해 궁금하신 게 있다면 알려주세요!'`,
+          `다음은 이미지와 질문입니다. 질문이 이미지와 관련 있다고 판단되면, 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요. 다음 중 하나라도 해당되면 ‘관련 있음’으로 간주하세요: 1. 질문이 이미지에 보이는 사람, 사물, 배경, 텍스트 등에 대해 직접적으로 묻는 경우 2. 질문이 이미지로부터 합리적으로 추론 가능한 정보(날씨, 계절, 분위기, 상황, 행동, 장소 유추 등)를 기반으로 한 경우 3. 이미지의 주요 요소(예: 옷, 음식, 풍경 등)와 관련된 설명, 추천, 평가 등을 요청하는 경우  4. 질문에 “이 사진”, “이 장면”, “이 옷” 등 이미지와 명시적으로 연결된 표현이 있는 경우. 위 조건 중 하나라도 해당하면 ‘관련 있음’으로 간주하고 답변을 생성하세요. 질문이 명백히 이미지와 무관하거나, 이미지 정보만으로는 전혀 유추할 수 없는 외부적 사실을 묻는 경우에만 아래와 같이 답해주세요: ‘이미지와 질문이 관련 없어 보여요. 이미지에 대해 궁금하신 게 있다면 알려주세요!’ 관련성 판단이 애매한 경우에는 사용자에게 도움이 될 수 있도록 ‘관련 있음’으로 간주하고 답변을 생성하세요.`,
         followUp:
-          `다음은 앞선 대답과 연관된 질문입니다.- 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요.- 앞의 대화에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)나 연관 질문(이미지 상에 포함되어 있거나 언급된 것과 관련된 것)은 '관련 있음'으로 간주해주세요.- 질문이 대화와 관련없어 보인다면 이렇게 답해주세요: '앞선 대화와 관련 없는 질문처럼 보여요. 더 궁금하신 게 있다면 알려주세요!'`,
+          `다음은 앞선 대답과 연관된 질문입니다. - 사실에 기반해 창의적이고 명쾌하며 친절하게 200자 이내로 답해주세요.- 앞의 대화에서 유추 가능한 정보(날씨, 분위기, 장소, 행동 등)나 연관 질문(이미지 상에 포함되어 있거나 포함된 것과 관련된 추천)은 '관련 있음'으로 간주해주세요.- 질문이 대화와 관련없어 보인다면 이렇게 답해주세요: '앞선 대화와 관련 없는 질문처럼 보여요. 더 궁금하신 게 있다면 알려주세요!'`,
       },
       en: {
         first:
-          `Here is an image and a question.- If the question seems related to the image, provide a creative, concise, and kind answer in under 200 characters, based on facts.- Assume that questions inferred from visual clues (weather, mood, place, activity, etc.) or mentioned objects are considered related.- If the question seems unrelated, respond: "The question doesn't seem related to the image. Feel free to ask anything about the image!"`,
+          `The following includes an image and a question. If the question is deemed relevant to the image, please respond with a creative, clear, and friendly answer based on facts—within 200 characters.
+Consider the question relevant if any of the following apply: The question directly asks about people, objects, backgrounds, or text visible in the image. The question is based on reasonably inferred information from the image (e.g., weather, season, mood, action, setting). The question requests explanations, recommendations, or evaluations related to the image’s main elements (e.g., clothes, food, scenery). The question contains phrases like "this photo," "this scene," or "these clothes," clearly linking it to the image. If any of the above apply, treat it as relevant and generate a response. If the question is clearly unrelated to the image, or asks about external facts that cannot be inferred from the image, reply: “The image and question don’t seem related. Feel free to ask about the image if you’d like!” If it’s unclear whether the question is related, assume relevance and generate a helpful response.`,
         followUp:
           `This is a follow-up question based on the previous conversation.- Please answer based on facts in a clear, creative, and friendly way in under 200 characters.- If the question seems unrelated to the conversation, reply with: "The question doesn't seem related to the previous conversation. Feel free to ask anything else!"`,
       },
@@ -445,7 +446,10 @@ export default function ChatUI() {
             src="/ChatUI_00.webp"
             alt="ChatUI"
             onLoad={handleOverlayLoad}
+            onClick={handleSpeechBubbleClick} // 👈 클릭 시 채팅 시작되게
+            style={{ cursor: !isChatVisible ? 'pointer' : 'default' }}
           />
+
 
           <LongpressImage
             src="/longpress.webp"
@@ -949,14 +953,11 @@ const ArrowButton = styled.button`
 const LongpressImage = styled.img`
     position: absolute;
     width: 120px;
-    z-index: 3; /* 👈 OverlayImage(z-index: 5)보다 낮게 설정 */
+    z-index: 3;
     top: 73%;
-
-    /* 오른쪽으로 더 이동시키려면 translateX를 줄이거나 left를 높이기 */
-    left: ${props => props.$left}; // 예: 70%일 때 translateX(-50%)는 center 기준임
-    transform: translateX(80%) translateY(-50%); /* 👈 더 오른쪽으로 이동 */
-
-    animation: floatUpDown 1.8s ease-in-out infinite alternate;
+    left: ${props => props.$left};
+    transform: translateX(80%) translateY(-50%);
+    animation: floatLeftRight 1s ease-in-out infinite alternate;
     display: ${props => (props.$isChatVisible ? 'none' : 'block')};
 
     @media (max-width: 1200px) {
@@ -968,15 +969,16 @@ const LongpressImage = styled.img`
         display: none;
     }
 
-    @keyframes floatUpDown {
+    @keyframes floatLeftRight {
         0% {
-            transform: translateX(80%) translateY(-50%);
+            transform: translateX(75%) translateY(-50%);
         }
         100% {
-            transform: translateX(80%) translateY(-60%);
+            transform: translateX(85%) translateY(-50%);
         }
     }
 `;
+
 
 
 

@@ -16,6 +16,7 @@ import HistoryTimeline from "../components/HistoryTimeline.jsx";
 import PopupBanner from "../components/PopupBanner.jsx"
 import {useI18n} from '../hooks/useI18n.js';
 import {useI18nContext} from '../contexts/I18nContext.jsx';
+import ChatUI from "../components/ChatUI.jsx";
 
 export default function Home() {
   const { t, loading } = useI18n();
@@ -145,7 +146,7 @@ export default function Home() {
           <BrandIntro />
           <UsageIdea />
           <UsageVideoSection />
-           {/*<ChatUI />*/}
+           <ChatUI />
           <AppFeature />
           <PrivacyFeature />
           <HistoryTimeline />
