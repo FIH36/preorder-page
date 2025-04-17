@@ -14,6 +14,10 @@ const imageOptions = [
   'https://www.ainoon.io/chat_05.webp'
 ];
 
+const apiImageUrls = imageOptions.map(url =>
+  url.replace(/chat_(\d{2})\.webp$/, 'chat_$1_send.webp')
+);
+
 // 이미지별 타이틀 추가
 const imageTitles = [
   'chatui_01_title',
@@ -181,7 +185,7 @@ export default function ChatUI() {
     if (shouldIncludeImage) {
       userMessage.content.push({
         type: 'image_url',
-        image_url: { url: imageOptions[currentIndex] },
+        image_url: { url: apiImageUrls[currentIndex] },
       });
     }
 
@@ -197,7 +201,7 @@ export default function ChatUI() {
     if (shouldIncludeImage) {
       userMessageForHistory.content.push({
         type: 'image_url',
-        image_url: { url: imageOptions[currentIndex] },
+        image_url: { url: apiImageUrls[currentIndex] },
       });
     }
 
@@ -444,10 +448,10 @@ export default function ChatUI() {
           />
 
           <LongpressImage
-            src="/longpress.png"
+            src="/longpress.webp"
             alt="hint"
             $left={bubbleLeft}
-            $isChatVisible={isChatVisible} // ✅ 이거 꼭 있어야 함
+            $isChatVisible={isChatVisible}
           />
 
           {!isChatVisible && bubbleLeft && (
@@ -678,6 +682,7 @@ const ImageTitle = styled.div`
     height: 2.25rem;
     margin-bottom: 3rem;
     font-size: 2.25rem;
+    text-align: center;
     font-weight: 600;
     color: #000;
     opacity: ${props => props.$isActive ? 1 : 0};
@@ -944,10 +949,13 @@ const ArrowButton = styled.button`
 const LongpressImage = styled.img`
     position: absolute;
     width: 120px;
-    z-index: 10;
+    z-index: 3; /* 👈 OverlayImage(z-index: 5)보다 낮게 설정 */
     top: 73%;
-    left: ${props => props.$left};
-    transform: translateX(60%) translateY(-50%);
+
+    /* 오른쪽으로 더 이동시키려면 translateX를 줄이거나 left를 높이기 */
+    left: ${props => props.$left}; // 예: 70%일 때 translateX(-50%)는 center 기준임
+    transform: translateX(80%) translateY(-50%); /* 👈 더 오른쪽으로 이동 */
+
     animation: floatUpDown 1.8s ease-in-out infinite alternate;
     display: ${props => (props.$isChatVisible ? 'none' : 'block')};
 
@@ -959,14 +967,16 @@ const LongpressImage = styled.img`
         transform: translateX(-50%);
         display: none;
     }
+
     @keyframes floatUpDown {
         0% {
-            transform: translateX(60%) translateY(-50%);
+            transform: translateX(80%) translateY(-50%);
         }
         100% {
-            transform: translateX(60%) translateY(-60%);
+            transform: translateX(80%) translateY(-60%);
         }
     }
 `;
+
 
 

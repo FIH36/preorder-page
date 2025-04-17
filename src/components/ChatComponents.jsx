@@ -88,10 +88,12 @@ export const ChatInput = ({
         onChange={onChange}
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
         disabled={disabled || isLoading}
+        maxLength={100} // ✅ 100자로 제한
       />
+
       <SendButton
         onClick={onSubmit}
-        disabled={disabled || isLoading || !value.trim()}
+        disabled={disabled || isLoading || !value.trim() || value.length > 100}
       >
         {t.chatui_ask}
       </SendButton>
