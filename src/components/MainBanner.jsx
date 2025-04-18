@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import {useEffect, useRef, useState} from "react";
-import {FiVolume2, FiVolumeX} from "react-icons/fi";
-import {useI18n} from '../hooks/useI18n.js';
-import {useI18nContext} from '../contexts/I18nContext.jsx';
+import { useEffect, useRef, useState } from "react";
+import { FiVolume2, FiVolumeX } from "react-icons/fi";
+import { useI18nContext } from "../contexts/I18nContext.jsx";
+import { useI18n } from "../hooks/useI18n.js";
 
 export default function MainBanner({ isActive, scrollY }) {
   const [isMuted, setIsMuted] = useState(true);
@@ -31,16 +31,10 @@ export default function MainBanner({ isActive, scrollY }) {
     <BannerWrapper ref={bannerRef} id="main-banner" onClick={toggleMute}>
       <Header>
         <LangSwitcher>
-          <FlagButton
-            onClick={() => changeLang('ko')}
-            selected={lang === 'ko'}
-          >
+          <FlagButton onClick={() => changeLang("ko")} selected={lang === "ko"}>
             🇰🇷
           </FlagButton>
-          <FlagButton
-            onClick={() => changeLang('en')}
-            selected={lang === 'en'}
-          >
+          <FlagButton onClick={() => changeLang("en")} selected={lang === "en"}>
             🇺🇸
           </FlagButton>
         </LangSwitcher>
@@ -169,8 +163,8 @@ const MainText = styled.h1`
 
 const SoundToggleButton = styled.button`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.6rem;
+  left: 1rem;
   z-index: 10;
   background: rgba(0, 0, 0, 0.4);
   border: none;
@@ -200,7 +194,7 @@ const SoundToggleButton = styled.button`
 
 const LangSwitcher = styled.div`
   position: absolute;
-  left: 1rem;
+  right: 1rem;
   top: 1rem;
   display: flex;
   z-index: 10;
@@ -209,13 +203,14 @@ const LangSwitcher = styled.div`
 const FlagButton = styled.button`
   font-size: 1.4rem;
   padding: 0 0.5rem;
-  background: ${({ selected }) => (selected ? 'rgba(255,255,255,0.2)' : 'transparent')};
+  background: ${({ selected }) =>
+    selected ? "rgba(255,255,255,0.2)" : "transparent"};
   border-radius: 6px;
-    border: none;
+  border: none;
   color: white;
   cursor: pointer;
 
   &:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
   }
 `;
