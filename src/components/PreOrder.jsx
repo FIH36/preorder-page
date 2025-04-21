@@ -1,19 +1,40 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import {useI18n} from '../hooks/useI18n.js';
+import { useI18n } from "../hooks/useI18n.js";
 
 export default function PreOrder() {
   const { t, loading } = useI18n();
+  const isComingSoon = (title) =>
+    title === "purchase_horn_black" || title === "purchase_horn_grey";
 
   return (
     <Section>
       <Content>
-        <Title>
-          {t.purchase_title}
-        </Title>
+        <Title>{t.purchase_title}</Title>
         <CardRow>
           {products.map((product, i) => (
-            <Card key={i}>
+            <Card
+              key={i}
+              style={{
+                position: "relative",
+                pointerEvents: isComingSoon(product.title) ? "none" : "auto",
+              }}
+            >
+              {isComingSoon(product.title) && (
+                <>
+                  <DimmedLayer />
+                  <ComingSoonOverlay>
+                    <span>Coming Soon</span>
+                  </ComingSoonOverlay>
+                </>
+              )}
+
+              {isComingSoon(product.title) && (
+                <ComingSoonOverlay>
+                  <span>Coming Soon</span>
+                </ComingSoonOverlay>
+              )}
+
               <ImageWrapper>
                 <img src={product.image} alt={product.title} />
               </ImageWrapper>
@@ -64,7 +85,7 @@ export default function PreOrder() {
                   </Price>
                 </TextGroup>
                 <BuyButton
-                id={`buy-${product.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  id={`buy-${product.title.toLowerCase().replace(/\s+/g, "-")}`}
                   as="a"
                   href={product.link}
                   target="_blank"
@@ -261,7 +282,7 @@ const Description = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -294,6 +315,40 @@ const BuyButton = styled.a`
 
     @media (max-width: 768px) {
       font-size: 1rem;
+    }
+  }
+`;
+const DimmedLayer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0.9;
+  border-radius: 24px;
+  z-index: 9;
+`;
+
+const ComingSoonOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0c0c0c;
+
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
     }
   }
 `;

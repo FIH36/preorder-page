@@ -392,8 +392,8 @@ If the question is clearly unrelated to the image or asks about facts that canno
       const rightEdge = rect.left + rect.width;
       const centerX = containerWidth / 7;
 
-      const offsetPx = rightEdge - centerX + 40;
-      const bubbleLeftPercent = (offsetPx / containerWidth) * 100;
+      const offsetPx = rightEdge - centerX;
+      const bubbleLeftPercent = (offsetPx / containerWidth) * 90;
 
       setBubbleLeft(`${bubbleLeftPercent.toFixed(2)}%`);
     }
@@ -404,6 +404,7 @@ If the question is clearly unrelated to the image or asks about facts that canno
       <ErrorPopup message={error} />
 
       <LayoutWrapper $isChatVisible={isChatVisible}>
+        <MainTitle>{t.chatui_title}</MainTitle>
         <ImageSection $isChatVisible={isChatVisible}>
           {!isChatVisible && (
             <ArrowButton
@@ -413,7 +414,6 @@ If the question is clearly unrelated to the image or asks about facts that canno
               <ChevronLeft size={28} strokeWidth={2.5} />
             </ArrowButton>
           )}
-
           <ImageCarousel>
             {visibleImageIndices.map((idx) => (
               <div
@@ -448,19 +448,19 @@ If the question is clearly unrelated to the image or asks about facts that canno
 
           <OverlayImage
             ref={overlayRef}
-            src="/ChatUI_00.webp"
+            src="/ChatUI_001.webp"
             alt="ChatUI"
             onLoad={handleOverlayLoad}
-            onClick={handleSpeechBubbleClick} // 👈 클릭 시 채팅 시작되게
+            onClick={handleSpeechBubbleClick}
             style={{ cursor: !isChatVisible ? "pointer" : "default" }}
           />
 
-          <LongpressImage
+          {/* <LongpressImage
             src="/longpress.webp"
             alt="hint"
             $left={bubbleLeft}
             $isChatVisible={isChatVisible}
-          />
+          /> */}
 
           {!isChatVisible && bubbleLeft && (
             <SpeechBubble
@@ -664,14 +664,30 @@ const SpeechBubble = styled.div`
 `;
 
 const SpeechBubbleText = styled.p`
-  margin: 0;
+  margin: 0 0.5rem;
   padding: 0;
-  font-size: 0.95rem;
+  font-size: 1.25rem;
   font-weight: 500;
   color: white;
   text-align: center;
   overflow: hidden; /* 넘치는 텍스트 숨김 */
   line-height: 1.2;
+`;
+
+const MainTitle = styled.div`
+  color: black;
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  word-break: keep-all;
+  text-align: center;
+  margin: 0 2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 700;
+  }
 `;
 
 const ImageCarousel = styled.div`
@@ -691,17 +707,19 @@ const ImageCarousel = styled.div`
 
 const ImageTitle = styled.div`
   height: 2.25rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
   font-size: 2.25rem;
   text-align: center;
   font-weight: 600;
   color: #000;
   opacity: ${(props) => (props.$isActive ? 1 : 0)};
   transition: opacity 0.3s ease;
+  color: #909294;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
     height: 2.2rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -754,35 +772,33 @@ const OverlayImage = styled.img`
   position: absolute;
   left: 50%;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1320px;
   z-index: 5;
-
-  /* 기본(데스크탑) 스타일 */
-  bottom: -5%;
+  bottom: -15%;
   transform: translateX(-50%) translateY(10%);
 
-  /* 중간 크기 화면 스타일 */
+  /* 두둥실 애니메이션 추가 */
+  animation: floatOverlay 2.5s ease-in-out infinite alternate;
+
   @media (max-width: 1320px) {
-    max-width: 900px;
-    bottom: 0;
-    transform: translateX(-50%) translateY(0);
+    max-width: 1280px;
+    bottom: -20%;
   }
 
-  /* 태블릿 스타일 */
+  @media (max-width: 1080px) {
+    bottom: -15%;
+  }
+
   @media (max-width: 768px) {
     bottom: 0%;
-    transform: translateX(-50%) translateY(0);
   }
 
   @media (max-width: 620px) {
     bottom: 10%;
-    transform: translateX(-50%) translateY(0);
   }
 
-  /* 작은 모바일 스타일 */
   @media (max-width: 450px) {
-    bottom: 23%; /* 더 위로 올림 */
-    transform: translateX(-50%) translateY(0);
+    bottom: 18%;
   }
 `;
 
@@ -959,31 +975,31 @@ const ArrowButton = styled.button`
   }
 `;
 
-const LongpressImage = styled.img`
-  position: absolute;
-  width: 120px;
-  z-index: 3;
-  top: 73%;
-  left: ${(props) => props.$left};
-  transform: translateX(80%) translateY(-50%);
-  animation: floatLeftRight 1s ease-in-out infinite alternate;
-  display: ${(props) => (props.$isChatVisible ? "none" : "block")};
+// const LongpressImage = styled.img`
+//   position: absolute;
+//   width: 120px;
+//   z-index: 3;
+//   top: 73%;
+//   left: ${(props) => props.$left};
+//   transform: translateX(80%) translateY(-50%);
+//   animation: floatLeftRight 1s ease-in-out infinite alternate;
+//   display: ${(props) => (props.$isChatVisible ? "none" : "block")};
 
-  @media (max-width: 1200px) {
-    width: 50px;
-    top: auto;
-    bottom: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-  }
+//   @media (max-width: 1200px) {
+//     width: 50px;
+//     top: auto;
+//     bottom: 18%;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     display: none;
+//   }
 
-  @keyframes floatLeftRight {
-    0% {
-      transform: translateX(75%) translateY(-50%);
-    }
-    100% {
-      transform: translateX(85%) translateY(-50%);
-    }
-  }
-`;
+//   @keyframes floatLeftRight {
+//     0% {
+//       transform: translateX(75%) translateY(-50%);
+//     }
+//     100% {
+//       transform: translateX(85%) translateY(-50%);
+//     }
+//   }
+// `;
