@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ChatUI from "./components/ChatUI.jsx";
+import ChatOnlyPage from "./components/ChatOnlyPage.jsx";
 import SEO from "./components/SEO.jsx";
 import { I18nProvider } from "./contexts/I18nContext.jsx";
 import Home from "./pages/Home.jsx";
@@ -16,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             {/* iframe용 페이지 */}
-            <Route path="/chat" element={<ChatUI />} />
+            <Route path="/chat" element={<ChatOnlyPage />} />
           </Routes>
         </BrowserRouter>
       </I18nProvider>
