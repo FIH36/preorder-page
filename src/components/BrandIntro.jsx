@@ -1,19 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import React, {useEffect, useRef, useState} from "react";
 import styled from "@emotion/styled";
-import {motion} from "framer-motion";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Autoplay, Navigation, Pagination} from "swiper/modules";
+import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
-import {useI18n} from '../hooks/useI18n.js';
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useI18n } from "../hooks/useI18n.js";
 
 const BrandIntro = () => {
   const { t, loading } = useI18n();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 0,
+    typeof window !== "undefined" ? window.innerWidth : 0
   );
   const videoRefs = useRef({});
 
@@ -41,14 +41,13 @@ const BrandIntro = () => {
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     );
 
     const subtitleObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // 제목이 나타난 후 약간의 지연 시간을 두고 부제목 표시
             setTimeout(() => {
               setSubtitleVisible(true);
             }, 300);
@@ -56,7 +55,7 @@ const BrandIntro = () => {
           }
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     );
 
     if (titleRef.current) {
@@ -130,9 +129,7 @@ const BrandIntro = () => {
             initial="hidden"
             animate={titleVisible ? "visible" : "hidden"}
           >
-            <MainTitle>
-              {t.camera_title}
-            </MainTitle>
+            <MainTitle>{t.camera_title}</MainTitle>
           </motion.div>
 
           <motion.div
@@ -141,9 +138,7 @@ const BrandIntro = () => {
             initial="hidden"
             animate={subtitleVisible ? "visible" : "hidden"}
           >
-            <Subtitle>
-              {t.camera_subtitle}
-            </Subtitle>
+            <Subtitle>{t.camera_subtitle}</Subtitle>
           </motion.div>
         </TitleBlock>
 
@@ -181,7 +176,9 @@ const BrandIntro = () => {
                     </VideoWrapper>
                     <CardContent>
                       <CardTitle>{t[card.titleKey]}</CardTitle>
-                      <CardDescription>{t[card.descriptionKey]}</CardDescription>
+                      <CardDescription>
+                        {t[card.descriptionKey]}
+                      </CardDescription>
                     </CardContent>
                   </Card>
                 )}
@@ -197,8 +194,8 @@ const BrandIntro = () => {
 const cardData = [
   {
     video: "/01_dog.mp4",
-    titleKey: 'camera_lovely',
-    descriptionKey: 'camera_dog',
+    titleKey: "camera_lovely",
+    descriptionKey: "camera_dog",
   },
   {
     video: "/01_baby.mp4",
@@ -208,8 +205,7 @@ const cardData = [
   {
     video: "/01_birthday.mp4",
     titleKey: "camera_happy",
-    descriptionKey:
-      "camera_with",
+    descriptionKey: "camera_with",
   },
   {
     video: "/01_parking.mp4",
