@@ -563,12 +563,12 @@ const ImageSection = styled.div`
     props.$isChatVisible &&
     `
     @media (min-width: 1320px) {
-      transform: translateX(-3%); /* 채팅창이 표시될 때 이미지를 더 왼쪽으로 이동 */
+      transform: translateX(-3%);
     }
 
     @media (max-width: 1320px) {
-      width: 90%; /* 이미지 섹션 너비 축소 */
-      margin: 0 auto; /* 중앙 정렬 */
+      width: 90%;
+      margin: 0 auto;
     }
   `}
 `;
@@ -577,19 +577,18 @@ const SpeechBubble = styled.div`
   position: absolute;
   background: linear-gradient(45deg, #2580ff, #6e5cff, #b5a1ff);
   border-radius: 1rem;
-  padding: 0.8rem 1rem; /* 패딩 상하 줄임 */
+  padding: 0.8rem 1rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   font-weight: 400;
   z-index: 25;
   transition: all 0.2s ease;
 
-  /* 안경 이미지 바로 위에 위치 */
   top: 55%;
   bottom: auto;
   transform: translateY(-100%);
   width: auto;
-  min-width: 320px; /* 최소 너비 설정하여 텍스트가 한줄로 나오도록 */
+  min-width: 320px;
   height: auto;
 
   animation: speechBubbleFloat 2s infinite ease-in-out alternate;
@@ -604,8 +603,6 @@ const SpeechBubble = styled.div`
       box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     }
   }
-
-  /* 말풍선 꼬리 추가 */
 
   &::after {
     content: "";
@@ -624,11 +621,10 @@ const SpeechBubble = styled.div`
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   }
 
-  /* 작은 화면에서의 스타일 */
   @media (max-width: 1199px) {
     position: absolute;
     top: auto;
-    bottom: 10%; /* 더 아래로 내림 */
+    bottom: 10%;
     transform: translateX(-50%);
     left: 50%;
     min-width: 280px;
@@ -656,7 +652,7 @@ const SpeechBubble = styled.div`
   }
 
   @media (max-width: 768px) {
-    bottom: 5%; /* 모바일에서 더 아래로 */
+    bottom: 5%;
     padding: 0.8rem 1.5rem;
     min-width: 240px;
     max-width: 240px;
@@ -670,7 +666,7 @@ const SpeechBubbleText = styled.p`
   font-weight: 500;
   color: white;
   text-align: center;
-  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  overflow: hidden;
   line-height: 1.2;
 `;
 
@@ -747,16 +743,16 @@ const ImageCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 95%; // 모바일에서 너비를 늘려 작아지지 않도록 조정
-    min-width: 280px; // 최소 너비 설정
+    width: 95%;
+    min-width: 280px;
   }
 
   @media (min-width: 769px) and (max-width: 1199px) {
-    width: 480px; // 태블릿 크기에서의 너비 조정
+    width: 480px;
   }
 
   @media (min-width: 1200px) {
-    width: 780px; // 데스크탑에서의 너비 유지
+    width: 780px;
   }
 `;
 
@@ -777,7 +773,6 @@ const OverlayImage = styled.img`
   bottom: -15%;
   transform: translateX(-50%) translateY(10%);
 
-  /* 두둥실 애니메이션 추가 */
   animation: floatOverlay 2.5s ease-in-out infinite alternate;
 
   @media (max-width: 1320px) {

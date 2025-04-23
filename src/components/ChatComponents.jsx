@@ -30,7 +30,7 @@ export const ChatHistory = ({
                 <div
                   key={j}
                   dangerouslySetInnerHTML={{
-                    __html: formatTextContent(c.text, t), // ✅ t 넘김
+                    __html: formatTextContent(c.text, t),
                   }}
                 />
               ) : (
@@ -49,7 +49,7 @@ export const ChatHistory = ({
         <ChatBubble $user={false} $animated={true}>
           <div
             dangerouslySetInnerHTML={{
-              __html: formatTextContent(typingContent, t), // ✅ t 넘김
+              __html: formatTextContent(typingContent, t),
             }}
           />
         </ChatBubble>
@@ -88,7 +88,7 @@ export const ChatInput = ({
         onChange={onChange}
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
         disabled={disabled || isLoading}
-        maxLength={100} // ✅ 100자로 제한
+        maxLength={100}
       />
 
       <SendButton
@@ -105,7 +105,6 @@ export const ErrorPopup = ({ message }) => {
   return message ? <Popup>{message}</Popup> : null;
 };
 
-// 스타일 컴포넌트
 const bubbleInRight = keyframes`
   0% {
     opacity: 0;
@@ -238,12 +237,12 @@ const PresetButton = styled.button`
 const ChatBox = styled.div`
   display: flex;
   gap: 6px;
-  align-items: stretch; // ✅ 양쪽 높이 맞춤
+  align-items: stretch;
 `;
 
 const Input = styled.input`
   flex: 1;
-  min-height: 3.2em; /* 두 줄 이상 여유 */
+  min-height: 3.2em;
   padding: 12px;
   border-radius: 8px;
   border: 0.5px solid #ccc;
@@ -276,7 +275,7 @@ const SendButton = styled.button`
   }
 
   &:disabled {
-    background: linear-gradient(45deg, #ccc, #aaa); /* 흐릿한 그라디언트 */
+    background: linear-gradient(45deg, #ccc, #aaa);
     color: #666;
     cursor: not-allowed;
   }
