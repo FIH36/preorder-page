@@ -325,7 +325,7 @@ const DimmedLayer = styled.div`
   width: 100%;
   height: 100%;
   background: white;
-  opacity: 0.9;
+  opacity: 0.85;
   border-radius: 24px;
   z-index: 9;
 `;
@@ -345,7 +345,7 @@ const ComingSoonOverlay = styled.div`
   span {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #0c0c0c;
+    color: #ff0000;
 
     @media (max-width: 768px) {
       font-size: 1.3rem;

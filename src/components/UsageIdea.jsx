@@ -1,13 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import React, {useEffect, useRef, useState} from "react";
-import {Autoplay} from "swiper/modules";
-import {Swiper, SwiperSlide} from "swiper/react";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import "swiper/css";
-import {useI18n} from '../hooks/useI18n.js';
-import {useI18nContext} from '../contexts/I18nContext.jsx';
-
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useI18nContext } from "../contexts/I18nContext.jsx";
+import { useI18n } from "../hooks/useI18n.js";
 
 const cardData = [
   {
@@ -105,7 +104,8 @@ function UsageIdea() {
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
             <MainTitle>
-              {t.ai_title}<br/>
+              {t.ai_title}
+              <br />
               {t.ai_subtitle}
             </MainTitle>
           </motion.div>
@@ -125,6 +125,7 @@ function UsageIdea() {
             <Image src="/UsageIdea.webp" alt="Glasses" />
           </ImageWrapper>
         </motion.div>
+        <ImageDescription>{t.ai_description}</ImageDescription>
       </LeftSection>
 
       <RightSection>
@@ -168,7 +169,7 @@ function UsageIdea() {
                   <VideoWrapper isActive={index === activeIndex}>
                     <Video
                       ref={(el) => (videoRefs.current[index] = el)}
-                      src={`/${card.video.replace('.mp4', `_${lang}.mp4`)}`}
+                      src={`/${card.video.replace(".mp4", `_${lang}.mp4`)}`}
                       muted
                       loop
                       playsInline
@@ -197,7 +198,7 @@ const SectionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   color: black;
-  height: 100vh;
+  // height: 100vh;
   padding: 7rem 0 5rem 0;
   margin: 0 auto;
   background-color: white;
@@ -269,6 +270,12 @@ const Image = styled.img`
   @media (max-width: 768px) {
     margin-bottom: 1rem;
   }
+`;
+
+const ImageDescription = styled.div`
+  font-size: 10px;
+  margint-bottom: 3rem;
+  color: #999;
 `;
 
 const RightSection = styled.div`
@@ -347,30 +354,29 @@ const GradientOverlayBottom = styled.div`
 `;
 
 const StyledSwiper = styled(Swiper)`
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    position: relative;
-    
-    touch-action: pan-y;
-    
-    overscroll-behavior: contain;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: relative;
 
-    .swiper-wrapper {
-        align-items: center;
-        transition-timing-function: ease-out;
-    }
+  touch-action: pan-y;
 
-    .swiper-slide {
-        transition: all 0.4s ease-out;
-        overflow: visible;
-    }
+  overscroll-behavior: contain;
 
-    .swiper-slide-active {
-        z-index: 5;
-    }
+  .swiper-wrapper {
+    align-items: center;
+    transition-timing-function: ease-out;
+  }
+
+  .swiper-slide {
+    transition: all 0.4s ease-out;
+    overflow: visible;
+  }
+
+  .swiper-slide-active {
+    z-index: 5;
+  }
 `;
-
 
 const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;

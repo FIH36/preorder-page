@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { useI18nContext } from "../contexts/I18nContext.jsx";
@@ -27,17 +28,22 @@ export default function MainBanner({ isActive, scrollY }) {
     }
   };
 
+  const isMobile = window.innerWidth <= 768;
+
   return (
     <BannerWrapper ref={bannerRef} id="main-banner" onClick={toggleMute}>
       <Header>
-        <LangSwitcher>
-          <FlagButton onClick={() => changeLang("ko")} selected={lang === "ko"}>
-            🇰🇷
-          </FlagButton>
-          <FlagButton onClick={() => changeLang("en")} selected={lang === "en"}>
-            🇺🇸
-          </FlagButton>
-        </LangSwitcher>
+        <LangSelectWrapper>
+          <LangSelect value={lang} onChange={(e) => changeLang(e.target.value)}>
+            <option value="ko">{isMobile ? "🇰🇷" : "🇰🇷 한국어"}</option>
+            <option value="en">{isMobile ? "🇺🇸" : "🇺🇸 English"}</option>
+            <option value="zh">{isMobile ? "🇨🇳" : "🇨🇳 中文"}</option>
+            <option value="de">{isMobile ? "🇩🇪" : "🇩🇪 Deutsch"}</option>
+            <option value="es">{isMobile ? "🇪🇸" : "🇪🇸 Español"}</option>
+          </LangSelect>
+          <ChevronDownIcon />
+        </LangSelectWrapper>
+
         <img
           src="/AInoon-logo.svg"
           alt="Logo"
@@ -213,4 +219,53 @@ const FlagButton = styled.button`
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
+`;
+const LangSelectWrapper = styled.div`
+  position: absolute;
+  right: 1rem;
+  top: 1.2rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+`;
+
+const LangSelect = styled.select`
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  padding-right: 1rem;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  option {
+    color: black;
+  }
+
+  @media (max-width: 768px) {
+    option {
+      font-size: 0;
+    }
+
+    option::before {
+      content: attr(value);
+      font-size: 16px;
+    }
+  }
+`;
+
+const ChevronDownIcon = styled(ChevronDown)`
+  color: white;
+  width: 16px;
+  height: 16px;
+  margin-left: 0.1rem;
+  pointer-events: none;
 `;

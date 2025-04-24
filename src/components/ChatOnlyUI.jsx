@@ -1,4 +1,4 @@
-// ChatUI.jsx
+// ChatOnlyUI.jsx
 import styled from "@emotion/styled";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,7 +9,7 @@ import {
   ErrorPopup,
   HelperText,
   PresetQuestionList,
-} from "./ChatComponents";
+} from "./ChatComponents.jsx";
 
 // 이미지 및 질문 데이터
 const imageOptions = [
@@ -45,7 +45,7 @@ const MAX_QUESTIONS = 10;
 const STORAGE_KEY = "daily-question-count";
 const DATE_KEY = "daily-question-date";
 
-export default function ChatUI() {
+export default function ChatOnlyUI() {
   const { t, loading, lang } = useI18n(); // 컴포넌트 상단에서 한 번만!
   const [question, setQuestion] = useState("");
   const [imageIndex, setImageIndex] = useState(0);
@@ -515,7 +515,7 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   padding: 5rem 0;
   position: relative;
   background-color: white;
