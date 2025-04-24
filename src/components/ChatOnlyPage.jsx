@@ -27,7 +27,6 @@ export default function ChatOnlyPage() {
 
 const FullScreenWrapper = styled.div`
   width: 100%;
-
   overflow-x: hidden;
   overflow-y: auto;
   margin: 0;
