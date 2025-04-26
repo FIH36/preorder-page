@@ -109,7 +109,7 @@ const products = [
     price: "229,000원",
     salePrice: "270,000원",
     description: "purchase_browline_black_description",
-    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EB%B8%94%EB%9E%99/385/category/78/display/1/",
+    link: "https://stepearth.store/surl/O/385?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]&utm_term=AInoonHP_half_black&utm_content=AInoonHP_half_black",
   },
   {
     image: "/PreOrder_02.webp",
@@ -117,7 +117,7 @@ const products = [
     price: "229,000원",
     salePrice: "270,000원",
     description: "purchase_browline_bgrey_description",
-    link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%ED%95%98%EA%B8%88%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/386/category/78/display/1/",
+    link: "https://stepearth.store/surl/O/386?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]ey&utm_term=AInoonHP_half_grey&utm_content=AInoonHP_half_grey",
   },
   {
     image: "/PreOrder_03.webp",

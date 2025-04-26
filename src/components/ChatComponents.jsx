@@ -186,7 +186,7 @@ const ChatBubble = styled.div`
   white-space: pre-wrap;
   line-height: 1.4;
   animation: ${(props) =>
-      props.$animated ? (props.$user ? bubbleInRight : bubbleInLeft) : "none"}
+    props.$animated ? (props.$user ? bubbleInRight : bubbleInLeft) : "none"}
     0.3s ease-out forwards;
   transform-origin: ${(props) =>
     props.$user ? "bottom right" : "bottom left"};
@@ -238,11 +238,17 @@ const ChatBox = styled.div`
   display: flex;
   gap: 6px;
   align-items: stretch;
+  width: 100%;
+
+  @media (max-width: 380px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const Input = styled.input`
-  flex: 1;
-  min-height: 3.2em;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 12px;
   border-radius: 8px;
   border: 0.5px solid #ccc;
@@ -269,15 +275,21 @@ const SendButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+  white-space: nowrap;
 
   &:hover {
-    filter: brightness(1.1); /* 살짝 밝게 */
+    filter: brightness(1.1);
   }
 
   &:disabled {
     background: linear-gradient(45deg, #ccc, #aaa);
     color: #666;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 380px) {
+    width: 100%;
+    min-height: 2.25rem;
   }
 `;
 
