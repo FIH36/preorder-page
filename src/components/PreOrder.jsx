@@ -67,7 +67,7 @@ export default function PreOrder() {
                           textDecorationColor: "red",
                         }}
                       >
-                        {product.salePrice}
+                        {t[product.price]}
                       </div>
                     </div>
                     <div style={{ flexDirection: "row" }}>
@@ -78,9 +78,9 @@ export default function PreOrder() {
                           letterSpacing: "-1px",
                         }}
                       >
-                        15%
+                        {t.purchase_percent}
                       </span>{" "}
-                      {product.price}
+                      {t[product.salePrice]}
                     </div>
                   </Price>
                 </TextGroup>
@@ -106,32 +106,32 @@ const products = [
   {
     image: "/PreOrder_01.webp",
     title: "purchase_browline_black",
-    price: "229,000원",
-    salePrice: "270,000원",
+    price: "purchase_regular_browline_black",
+    salePrice: "purchase_saleprice_browline_black",
     description: "purchase_browline_black_description",
     link: "https://stepearth.store/surl/O/385?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]&utm_term=AInoonHP_half_black&utm_content=AInoonHP_half_black",
   },
   {
     image: "/PreOrder_02.webp",
     title: "purchase_browline_grey",
-    price: "229,000원",
-    salePrice: "270,000원",
+    price: "purchase_regular_browline_grey",
+    salePrice: "purchase_saleprice_browline_grey",
     description: "purchase_browline_bgrey_description",
     link: "https://stepearth.store/surl/O/386?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]ey&utm_term=AInoonHP_half_grey&utm_content=AInoonHP_half_grey",
   },
   {
     image: "/PreOrder_03.webp",
     title: "purchase_horn_black",
-    price: "246,000원",
-    salePrice: "290,000원",
+    price: "purchase_regular_horn_black",
+    salePrice: "purchase_saleprice_horn_black",
     description: "purchase_horn_black_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EB%B8%94%EB%9E%99/387/category/78/display/1/",
   },
   {
     image: "/PreOrder_04.webp",
     title: "purchase_horn_grey",
-    price: "246,000원",
-    salePrice: "290,000원",
+    price: "purchase_regular_horn_grey",
+    salePrice: "purchase_saleprice_horn_grey",
     description: "purchase_horn_grey_description",
     link: "https://stepearth.store/product/%EC%97%90%EC%9D%B4%EC%95%84%EC%9D%B4%EB%88%88ainoon%EB%BF%94%ED%85%8C%EA%B7%B8%EB%A0%88%EC%9D%B4/388/category/78/display/1/",
   },

@@ -95,7 +95,10 @@ export default function Home() {
   }, [visibleProducts]);
 
   const handleBuyNow = () => {
-    window.open("https://stepearth.store/surl/O/799?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]AInoonHP_floating_button&utm_content=AInoonHP_floating_button", "_blank");
+    window.open(
+      "https://stepearth.store/surl/O/799?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]AInoonHP_floating_button&utm_content=AInoonHP_floating_button",
+      "_blank"
+    );
   };
 
   const UsageVideoSection = () => {
@@ -167,10 +170,11 @@ export default function Home() {
         </SectionsContainer>
 
         <img
-          src={`/FooterImage_${lang}.webp`}
+          src={isKorea ? "/FooterImage_ko.webp" : "/FooterImage_en.webp"}
           alt="착용샷"
           style={{ width: "100%" }}
         />
+
         <Footer />
 
         <BuyNowBannerContainer>
