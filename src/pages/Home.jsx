@@ -170,7 +170,7 @@ export default function Home() {
         </SectionsContainer>
 
         <img
-          src={isKorea ? "/FooterImage_ko.webp" : "/FooterImage_en.webp"}
+          src={lang === "ko" ? "/FooterImage_ko.webp" : "/FooterImage_en.webp"}
           alt="착용샷"
           style={{ width: "100%" }}
         />
