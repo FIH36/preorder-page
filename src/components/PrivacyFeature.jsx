@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import {motion} from "framer-motion";
-import {useI18n} from '../hooks/useI18n.js';
+import { motion } from "framer-motion";
+import { useI18n } from '../hooks/useI18n.js';
 
 export default function PrivacyFeature() {
   const { t, loading } = useI18n();
@@ -218,6 +218,8 @@ const InfoCard = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   min-height: 12rem;
+  word-break: keep-all; /* or break-word */
+  overflow-wrap: break-word;
 
   @media (max-width: 1024px) {
     width: calc(50% - 0.75rem);

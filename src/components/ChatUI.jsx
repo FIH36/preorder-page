@@ -154,10 +154,22 @@ If the question is clearly unrelated to the image or asks about facts that canno
         followUp: `Here is an image and a related question. If you determine that the question is relevant to the image, respond with a clear, creative, and friendly answer based on facts—within 200 characters. Consider the question relevant if any of the following apply: The question directly refers to people, objects, background, or text visible in the image. The question is based on information that can reasonably be inferred from the image (e.g., weather, season, mood, situation, activity, or location). The question asks for descriptions, recommendations, or evaluations of key elements in the image (e.g., clothing, food, scenery). The question includes explicit references to the image, such as “this photo,” “this scene,” or “this outfit.” If at least one of these conditions is met, generate an answer.
 If the question is clearly unrelated to the image or asks about facts that cannot reasonably be inferred from it, respond with: “The question doesn’t seem related to the image. Feel free to ask about the image if you're curious!” Do not state whether the question is “relevant” or “not relevant” in your response. If it’s relevant, just go ahead and answer.`,
       },
+      zh: {
+        first: `这是一个图片和相关问题。如果你认为问题与图像有关，请基于事实在200个汉字以内进行有创意、清晰、友好的回答。以下任一情况即视为“有关”：1. 问题直接询问图中人物、物体、背景或文字；2. 问题基于图像可合理推断的信息（如天气、季节、氛围、场景、活动、地点等）；3. 问题请求描述、推荐或评价图中主要元素（如服饰、食物、风景等）；4. 问题中出现了“这张照片”、“这个场景”、“这件衣服”等明确指向图像的表述。如果问题显然与图像无关，或仅询问无法从图像推断的外部事实，则仅回复：“这个问题似乎与图片无关。如果你对图片有疑问，请告诉我！”不要说明“有关”或“无关”，如有关直接作答。`,
+        followUp: `这是一个图片和相关问题。请判断问题是否与图像有关，如有关，则基于事实在200个汉字内给出有创意、清晰、友好的回答（判断标准同上）。如无关，仅回复：“这个问题似乎与图片无关。如果你对图片有疑问，请告诉我！”不要说明判断结果，只给出回答。`,
+      },
+      de: {
+        first: `Hier ist ein Bild mit einer dazugehörigen Frage. Wenn die Frage mit dem Bild zusammenhängt, antworte bitte kreativ, klar und freundlich auf Faktenbasis – maximal 200 Zeichen. Die Frage gilt als relevant, wenn sie sich direkt auf Personen, Objekte, Hintergründe oder Texte im Bild bezieht; oder auf Informationen, die vernünftigerweise aus dem Bild abgeleitet werden können (z. B. Wetter, Jahreszeit, Stimmung, Ort); oder wenn sie nach Empfehlungen oder Beschreibungen von Hauptelementen im Bild fragt (z. B. Kleidung, Essen, Landschaft). Wenn die Frage eindeutig nichts mit dem Bild zu tun hat oder externe Informationen erfragt, die nicht ableitbar sind, antworte einfach mit: „Die Frage scheint nichts mit dem Bild zu tun zu haben. Frag mich gerne etwas zum Bild!“ Kein Hinweis auf „relevant“ oder „nicht relevant“, einfach direkt antworten.`,
+        followUp: `Hier ist ein weiteres Bild mit einer Frage. Wenn die Frage relevant ist, antworte bitte kreativ, klar und freundlich auf Faktenbasis – maximal 200 Zeichen. Ansonsten verwende dieselbe Standardantwort wie oben.`,
+      },
+      es: {
+        first: `Aquí tienes una imagen y una pregunta. Si consideras que la pregunta está relacionada con la imagen, responde de manera creativa, clara y amable, basada en hechos, con un máximo de 200 caracteres. Considera que está relacionada si: 1. Se refiere directamente a personas, objetos, fondos o texto de la imagen; 2. Se basa en inferencias razonables de la imagen (como clima, temporada, ambiente, situación, actividad o lugar); 3. Pide descripciones, recomendaciones o evaluaciones de elementos clave de la imagen (ropa, comida, paisaje); 4. Menciona expresamente la imagen ("esta foto", "esta escena", etc.). Si no está relacionada o pregunta sobre hechos externos no inferibles, responde: “La pregunta no parece estar relacionada con la imagen. ¡Si tienes curiosidad sobre la imagen, pregúntame!” No menciones si es relevante o no, simplemente responde.`,
+        followUp: `Aquí tienes otra imagen con una pregunta. Si está relacionada, responde como se indicó anteriormente. Si no, utiliza la misma respuesta estándar.`,
+      },
     };
 
     // ✅ lang 안전하게 처리
-    const safeLang = ["ko", "en"].includes(lang) ? lang : "ko";
+    const safeLang = ["ko", "en", "zh", "de", "es"].includes(lang) ? lang : "ko";
     const prompt = isFirst
       ? promptMap[safeLang].first
       : promptMap[safeLang].followUp;
@@ -227,10 +239,18 @@ If the question is clearly unrelated to the image or asks about facts that canno
         assistantText = null;
       }
 
+      const unrelatedResponses = [
+        "앞선 대화와 관련 없는 질문처럼 보여요",
+        "이미지와 질문이 관련 없어 보여요",
+        "The question doesn't seem related",
+        "这个问题似乎与图片无关",
+        "Die Frage scheint nichts mit dem Bild zu tun zu haben",
+        "La pregunta no parece estar relacionada con la imagen",
+      ];
+
       const isUnrelated =
         assistantText &&
-        (assistantText.includes("앞선 대화와 관련 없는 질문처럼 보여요") ||
-          assistantText.includes("The question doesn't seem related"));
+        unrelatedResponses.some((phrase) => assistantText.includes(phrase));
 
       const nextHistory = isUnrelated
         ? [...currentHistory]
@@ -733,9 +753,9 @@ const ImageCard = styled.div`
   &:hover {
     opacity: 1;
     box-shadow: ${(props) =>
-      props.$isActive
-        ? "0 8px 24px rgba(0, 0, 0, 0.2)"
-        : "0 6px 16px rgba(0, 0, 0, 0.15)"};
+    props.$isActive
+      ? "0 8px 24px rgba(0, 0, 0, 0.2)"
+      : "0 6px 16px rgba(0, 0, 0, 0.15)"};
 
     img {
       transform: scale(1.03);

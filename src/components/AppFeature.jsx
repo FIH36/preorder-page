@@ -1,16 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import {motion} from "framer-motion";
-import {useI18n} from '../hooks/useI18n.js';
+import { motion } from "framer-motion";
+import { useI18n } from '../hooks/useI18n.js';
+import { useI18nContext } from "../contexts/I18nContext.jsx";
 
 export default function AppFeature() {
   const { t, loading } = useI18n();
+  const { lang } = useI18nContext();
+
   const fadeInUp = (delay = 0) => ({
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 0 },
     transition: { duration: 1, ease: "easeOut", delay },
     viewport: { once: true },
   });
+
+  const isKorean = lang?.startsWith("ko");
+  const imageSrc = isKorean
+    ? "/AppFeature_01_ko.webp"
+    : "/AppFeature_01_en.webp";
 
   return (
     <SectionWrapper>
@@ -44,24 +52,24 @@ export default function AppFeature() {
             <img src="/googleplay_badge.webp" alt="Get it on Google Play" />
           </DownloadButtons>
           {/*<ButtonSection>*/}
-            {/*<div*/}
-            {/*  style={{*/}
-            {/*    fontSize: "1.1rem",*/}
-            {/*    display: "flex",*/}
-            {/*    alignItems: "center",*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  <img*/}
-            {/*    src="/AInoon-logo.svg"*/}
-            {/*    alt="AInoon"*/}
-            {/*    style={{*/}
-            {/*      filter: "invert(1)",*/}
-            {/*      height: "20px",*/}
-            {/*      marginRight: "0.75rem",*/}
-            {/*    }}*/}
-            {/*  />{" "}*/}
-            {/*  App*/}
-            {/*</div>*/}
+          {/*<div*/}
+          {/*  style={{*/}
+          {/*    fontSize: "1.1rem",*/}
+          {/*    display: "flex",*/}
+          {/*    alignItems: "center",*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <img*/}
+          {/*    src="/AInoon-logo.svg"*/}
+          {/*    alt="AInoon"*/}
+          {/*    style={{*/}
+          {/*      filter: "invert(1)",*/}
+          {/*      height: "20px",*/}
+          {/*      marginRight: "0.75rem",*/}
+          {/*    }}*/}
+          {/*  />{" "}*/}
+          {/*  App*/}
+          {/*</div>*/}
           {/*</ButtonSection>*/}
         </FeatureBlock>
         <div
@@ -73,13 +81,12 @@ export default function AppFeature() {
         >
           <VideoBox as={motion.div} {...fadeInUp(1.2)}>
             <img
-              src="/AppFeature_01.webp"
+              src={imageSrc}
               alt="App Feature Animation"
               style={{
                 width: "100%",
                 height: "100%",
-                borderRadius: "1rem",
-                objectFit: "cover",
+                objectFit: "contain",
               }}
             />
           </VideoBox>
@@ -124,7 +131,6 @@ const VideoBox = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    aspect-ratio: 3 / 4;
   }
 `;
 

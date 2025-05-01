@@ -20,6 +20,13 @@ export default function MainBanner({ isActive, scrollY }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
+
   const toggleMute = () => {
     const newMuted = !isMuted;
     setIsMuted(newMuted);
@@ -33,7 +40,7 @@ export default function MainBanner({ isActive, scrollY }) {
   return (
     <BannerWrapper ref={bannerRef} id="main-banner" onClick={toggleMute}>
       <Header>
-        <LangSelectWrapper>
+        <LangSelectWrapper onClick={(e) => e.stopPropagation()}>
           <LangSelect value={lang} onChange={(e) => changeLang(e.target.value)}>
             <option value="ko">{isMobile ? "🇰🇷" : "🇰🇷 한국어"}</option>
             <option value="en">{isMobile ? "🇺🇸" : "🇺🇸 English"}</option>
