@@ -96,7 +96,7 @@ export default function Home() {
 
   const handleBuyNow = () => {
     window.open(
-      "https://stepearth.store/surl/O/799?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]AInoonHP_floating_button&utm_content=AInoonHP_floating_button",
+      "https://stepearth.store/surl/O/800?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]AInoonHP_floating_button&utm_content=AInoonHP_floating_button",
       "_blank"
     );
   };

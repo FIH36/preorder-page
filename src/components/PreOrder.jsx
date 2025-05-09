@@ -109,7 +109,7 @@ const products = [
     price: "purchase_regular_browline_black",
     salePrice: "purchase_saleprice_browline_black",
     description: "purchase_browline_black_description",
-    link: "https://stepearth.store/surl/O/385?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]&utm_term=AInoonHP_half_black&utm_content=AInoonHP_half_black",
+    link: "https://stepearth.store/surl/O/800?utm_source=AInoonHP&utm_medium=botton_click&utm_c%5B%E2%80%A6%5D&utm_term=AInoonHP_half_black&utm_content=AInoonHP_half_black",
   },
   {
     image: "/PreOrder_02.webp",
@@ -117,7 +117,7 @@ const products = [
     price: "purchase_regular_browline_grey",
     salePrice: "purchase_saleprice_browline_grey",
     description: "purchase_browline_bgrey_description",
-    link: "https://stepearth.store/surl/O/386?utm_source=AInoonHP&utm_medium=botton_click&utm_c[…]ey&utm_term=AInoonHP_half_grey&utm_content=AInoonHP_half_grey",
+    link: "https://stepearth.store/surl/O/800?utm_source=AInoonHP&utm_medium=botton_click&utm_c%5B%E2%80%A6%5Dey&utm_term=AInoonHP_half_grey&utm_content=AInoonHP_half_grey",
   },
   {
     image: "/PreOrder_03.webp",
