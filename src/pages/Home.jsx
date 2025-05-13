@@ -139,7 +139,6 @@ export default function Home() {
 
   return (
     <>
-      {isKorea && <PopupBanner />}
       {!introDone && (
         <IntroSection>
           <LogoWrapper>
