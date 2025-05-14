@@ -22,6 +22,7 @@ const countryToLangMap = {
   ES: "es",
   MX: "es",
   ZA: "es",
+  JP: "ja",
 };
 
 export const I18nProvider = ({ children }) => {
@@ -34,6 +35,7 @@ export const I18nProvider = ({ children }) => {
     if (browserLang.startsWith("zh")) return "zh";
     if (browserLang.startsWith("de")) return "de";
     if (browserLang.startsWith("es")) return "es";
+    if (browserLang.startsWith("ja")) return "ja";
     return "en";
   };
 

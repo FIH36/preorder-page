@@ -20,6 +20,7 @@ export const useI18n = () => {
         "zh_text",
         "de_text",
         "es_text",
+        "ja_text",
       ];
       const { data, error } = await supabase
         .from("i18n_strings")

@@ -26,7 +26,6 @@ export default function MainBanner({ isActive, scrollY }) {
     }
   }, [isMuted]);
 
-
   const toggleMute = () => {
     const newMuted = !isMuted;
     setIsMuted(newMuted);
@@ -45,6 +44,7 @@ export default function MainBanner({ isActive, scrollY }) {
             <option value="ko">{isMobile ? "🇰🇷" : "🇰🇷 한국어"}</option>
             <option value="en">{isMobile ? "🇺🇸" : "🇺🇸 English"}</option>
             <option value="zh">{isMobile ? "🇨🇳" : "🇨🇳 中文"}</option>
+            <option value="ja">{isMobile ? "🇯🇵" : "🇯🇵 日本語"}</option>
             <option value="de">{isMobile ? "🇩🇪" : "🇩🇪 Deutsch"}</option>
             <option value="es">{isMobile ? "🇪🇸" : "🇪🇸 Español"}</option>
           </LangSelect>
