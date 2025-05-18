@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import styled from "@emotion/styled";
-import {FiBatteryCharging, FiCamera, FiEye, FiFeather, FiMic, FiVolume2, FiZap,} from "react-icons/fi";
-import {useI18n} from '../hooks/useI18n.js';
+import { FiBatteryCharging, FiCamera, FiEye, FiFeather, FiMic, FiVolume2, FiZap, } from "react-icons/fi";
+import { useI18n } from '../hooks/useI18n.js';
 
 const FEATURE_CONTENTS = [
   {
@@ -133,4 +133,7 @@ const Subtitle = styled.p`
   color: #909294;
   line-height: 1.4;
   margin: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 `;

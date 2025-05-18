@@ -733,9 +733,9 @@ const ImageCard = styled.div`
   &:hover {
     opacity: 1;
     box-shadow: ${(props) =>
-      props.$isActive
-        ? "0 8px 24px rgba(0, 0, 0, 0.2)"
-        : "0 6px 16px rgba(0, 0, 0, 0.15)"};
+    props.$isActive
+      ? "0 8px 24px rgba(0, 0, 0, 0.2)"
+      : "0 6px 16px rgba(0, 0, 0, 0.15)"};
 
     img {
       transform: scale(1.03);
@@ -847,7 +847,7 @@ const StyledChatContainer = styled.div`
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   padding: 24px;
-  top: 20px;
+  top: 120px;
   position: relative;
 
   &::before {
@@ -874,6 +874,7 @@ const StyledChatContainer = styled.div`
     max-height: none;
     height: auto;
     overflow-y: visible;
+    top: 20px;
   }
 `;
 
