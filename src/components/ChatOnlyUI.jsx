@@ -515,7 +515,7 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 5rem 0;
   position: relative;
   background-color: white;
@@ -733,9 +733,9 @@ const ImageCard = styled.div`
   &:hover {
     opacity: 1;
     box-shadow: ${(props) =>
-    props.$isActive
-      ? "0 8px 24px rgba(0, 0, 0, 0.2)"
-      : "0 6px 16px rgba(0, 0, 0, 0.15)"};
+      props.$isActive
+        ? "0 8px 24px rgba(0, 0, 0, 0.2)"
+        : "0 6px 16px rgba(0, 0, 0, 0.15)"};
 
     img {
       transform: scale(1.03);
