@@ -3,10 +3,31 @@ import styled from "@emotion/styled";
 import { ChevronDown } from "lucide-react";
 import { useI18nContext } from "../contexts/I18nContext.jsx";
 import ChatOnlyUI from "./ChatOnlyUI.jsx";
+import { useEffect } from "react";
 
 export default function ChatOnlyPage() {
   const { lang, changeLang } = useI18nContext();
   const isMobile = window.innerWidth <= 768;
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage(
+        { type: 'IFRAME_HEIGHT', height },
+        'https://t5fopekllmfgt0sw-75045765378.shopifypreview.com'
+      );
+    });
+    resizeObserver.observe(document.body);
+    // 초기 높이 전송
+    const initialHeight = document.body.scrollHeight;
+    window.parent.postMessage(
+      { type: 'IFRAME_HEIGHT', height: initialHeight },
+      'https://t5fopekllmfgt0sw-75045765378.shopifypreview.com'
+    );
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   return (
     <FullScreenWrapper>
