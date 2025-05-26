@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { ChevronDown } from "lucide-react";
+import { useEffect } from "react";
 import { useI18nContext } from "../contexts/I18nContext.jsx";
 import ChatOnlyUI from "./ChatOnlyUI.jsx";
-import { useEffect } from "react";
 
 export default function ChatOnlyPage() {
   const { lang, changeLang } = useI18nContext();
@@ -13,16 +13,16 @@ export default function ChatOnlyPage() {
     const resizeObserver = new ResizeObserver(() => {
       const height = document.body.scrollHeight;
       window.parent.postMessage(
-        { type: 'IFRAME_HEIGHT', height },
-        'https://t5fopekllmfgt0sw-75045765378.shopifypreview.com'
+        { type: "IFRAME_HEIGHT", height },
+        "https://vtcdj74cvij4yee1-75045765378.shopifypreview.com"
       );
     });
     resizeObserver.observe(document.body);
     // 초기 높이 전송
     const initialHeight = document.body.scrollHeight;
     window.parent.postMessage(
-      { type: 'IFRAME_HEIGHT', height: initialHeight },
-      'https://t5fopekllmfgt0sw-75045765378.shopifypreview.com'
+      { type: "IFRAME_HEIGHT", height: initialHeight },
+      "https://vtcdj74cvij4yee1-75045765378.shopifypreview.com"
     );
     return () => {
       resizeObserver.disconnect();
