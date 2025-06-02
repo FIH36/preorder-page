@@ -14,7 +14,7 @@ export default function ChatOnlyPage() {
       const height = documentDivIdRoot?.scrollHeight;
       window.parent.postMessage(
         { type: "IFRAME_HEIGHT", height },
-        "http://localhost:5500",
+        "https://4gouuererljyi0gm-75045765378.shopifypreview.com",
       );
     });
 
@@ -24,7 +24,7 @@ export default function ChatOnlyPage() {
     const initialHeight = documentDivIdRoot?.scrollHeight;
     window.parent.postMessage(
       { type: "IFRAME_HEIGHT", height: initialHeight },
-      "http://localhost:5500",
+      "https://4gouuererljyi0gm-75045765378.shopifypreview.com",
     );
 
     return () => {
