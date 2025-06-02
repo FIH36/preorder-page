@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
@@ -10,20 +9,24 @@ export default function ChatOnlyPage() {
   const isMobile = window.innerWidth <= 768;
 
   useEffect(() => {
+    const documentDivIdRoot = document.getElementById("root");
     const resizeObserver = new ResizeObserver(() => {
-      const height = document.body.scrollHeight;
+      const height = documentDivIdRoot?.scrollHeight;
       window.parent.postMessage(
         { type: "IFRAME_HEIGHT", height },
-        "https://vtcdj74cvij4yee1-75045765378.shopifypreview.com"
+        "http://localhost:5500",
       );
     });
-    resizeObserver.observe(document.body);
+
+    resizeObserver.observe(documentDivIdRoot ?? document.body);
+
     // 초기 높이 전송
-    const initialHeight = document.body.scrollHeight;
+    const initialHeight = documentDivIdRoot?.scrollHeight;
     window.parent.postMessage(
       { type: "IFRAME_HEIGHT", height: initialHeight },
-      "https://vtcdj74cvij4yee1-75045765378.shopifypreview.com"
+      "http://localhost:5500",
     );
+
     return () => {
       resizeObserver.disconnect();
     };
