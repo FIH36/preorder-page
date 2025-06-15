@@ -1,6 +1,6 @@
-import { keyframes } from "@emotion/react";
+// ChatComponents.jsx
 import styled from "@emotion/styled";
-import React from "react";
+import { keyframes } from "@emotion/react";
 import { useI18n } from "../hooks/useI18n.js";
 
 const formatTextContent = (text) => {
@@ -13,7 +13,7 @@ export const ChatHistory = ({
   typingContent,
   chatHistoryRef,
 }) => {
-  const { t, loading } = useI18n();
+  const { t } = useI18n();
   return (
     <ChatHistoryContainer ref={chatHistoryRef}>
       {messages.length === 0 ? (

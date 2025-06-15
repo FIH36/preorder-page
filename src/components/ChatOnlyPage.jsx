@@ -1,7 +1,8 @@
+// ChatOnlyPage.jsx
 import styled from "@emotion/styled";
-import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import { useI18nContext } from "../contexts/I18nContext.jsx";
+import { ChevronDown } from "lucide-react";
 import ChatOnlyUI from "./ChatOnlyUI.jsx";
 
 export default function ChatOnlyPage() {
@@ -16,6 +17,10 @@ export default function ChatOnlyPage() {
         { type: "IFRAME_HEIGHT", height },
         "https://seerslab.myshopify.com/"
       );
+      window.parent.postMessage(
+        { type: "IFRAME_HEIGHT", height },
+        "https://seerslab-shop-1.myshopify.com/"
+      );
     });
 
     resizeObserver.observe(documentDivIdRoot ?? document.body);
@@ -26,11 +31,15 @@ export default function ChatOnlyPage() {
       { type: "IFRAME_HEIGHT", height: initialHeight },
       "https://seerslab.myshopify.com/"
     );
+    window.parent.postMessage(
+      { type: "IFRAME_HEIGHT", height: initialHeight },
+      "https://seerslab-shop-1.myshopify.com/"
+    );
 
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+}, []);
 
   return (
     <FullScreenWrapper>
